@@ -1,0 +1,243 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1484590668098010}
+  m_IsPrefabParent: 1
+--- !u!1 &1484590668098010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4955564141428858}
+  - component: {fileID: 114456027743781486}
+  - component: {fileID: 114533159070827434}
+  - component: {fileID: 114325269397910718}
+  - component: {fileID: 114326491072824742}
+  - component: {fileID: 114295918808128100}
+  - component: {fileID: 114959862930609394}
+  - component: {fileID: 114572837376234102}
+  m_Layer: 0
+  m_Name: PlayerManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4955564141428858
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_LocalRotation: {x: 0.94688755, y: 0.038510364, z: 0.11723379, w: 0.2969466}
+  m_LocalPosition: {x: -5.3630543, y: 3.8227673, z: 0.8538461}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114295918808128100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4f6cbdc0d8f744494e53dea3284d12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadingCanvas: {fileID: 1301299752167142, guid: b92dbe16c7aefb842ad5310e50028f39,
+    type: 2}
+  PlayerPrefab: {fileID: 1456635847797362, guid: 5a40ff99f06804b4ea7b22e0519cfa86,
+    type: 2}
+  WolfPrefab: {fileID: 1436841928396856, guid: b8da00c25dffb9c449b878e85f72b9d6, type: 2}
+  EnemyPrefab: {fileID: 1674477994480102, guid: 4310f933e459d40eba78e2258e8644d2,
+    type: 2}
+  Wolf: {fileID: 0}
+  AnimalState: 010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  AnimalVector3:
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  - {x: 228.96558, y: 22.482536, z: 42.36}
+  - {x: 230.27, y: 22.482536, z: 42.36}
+  - {x: 229.66, y: 22.482536, z: 44.56}
+  AnimalQuaternion: []
+  EnemyState: 0100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  EnemyVector3:
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  - {x: 234.83334, y: 22.31197, z: 46.5}
+  - {x: 229.50002, y: 22.478638, z: 49}
+  EnemyQuaternion: []
+  PlayerState: Human
+  PlayerVector3: {x: 232.58014, y: 22.42437, z: 41.471558}
+  PlayerQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  LoadingSlider: {fileID: 114988964450077230, guid: b92dbe16c7aefb842ad5310e50028f39,
+    type: 2}
+  LoadSelectedData: 
+--- !u!114 &114325269397910718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837e3cf1b17976343a94ddef28087f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HpB: {fileID: 0}
+  HpW: {fileID: 0}
+  HpR: {fileID: 0}
+  FaceB: {fileID: 0}
+  FaceW: {fileID: 0}
+  FaceR: {fileID: 0}
+  BlinkTime: 0
+  PineHpMax: 0
+  PineHpNow: 0
+  WolfHpMax: 0
+  WolfHpNow: 0
+  BearHpMax: 0
+  BearHpNow: 0
+  DeerHpMax: 0
+  DeerHpNow: 0
+  Blink: 0
+--- !u!114 &114326491072824742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4ca038614a1ca45ad5d0d758298e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Wolf:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Enemy:
+  - {fileID: 0}
+  - {fileID: 0}
+  filename: C:/Users/user/AppData/LocalLow/Animism/Soul/Save/GameData1.sav
+--- !u!114 &114456027743781486
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ad59b4be6926d40bc617ee2a3654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114533159070827434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf339d66a254304ab40c7951db95094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseCanvas: {fileID: 0}
+  Manu1: {fileID: 0}
+  Manu2: {fileID: 0}
+  SaveButton: {fileID: 0}
+  FadeIn: {fileID: 0}
+  time: 1
+--- !u!114 &114572837376234102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6748228121876445887f5e7e62d118c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NowType: 
+  PossessType: 
+  NowCharacter: {fileID: 0}
+--- !u!114 &114959862930609394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484590668098010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584097c195a304cbfb6c2798b3616382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
