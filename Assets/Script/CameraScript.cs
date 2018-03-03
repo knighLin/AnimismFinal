@@ -29,7 +29,8 @@ public class CameraScript : MonoBehaviour
     public float PossessStop = 2; //附身鏡頭的秒數
     public bool CanPossess = false;//靈視狀態下才會為true 代表可以附身;
     public bool IsPossessing = false;//附身中為true直到附身結束切回正常狀態才會被重置為false
-
+    public bool CantLeftPossess = false;//靈視不能退出附身
+    public bool CantSoulVison = false;//附身後不能持續按著E進入靈視
 
     // Use this for initialization
     void Start()
@@ -67,13 +68,15 @@ public class CameraScript : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKey(KeyCode.E) && !IsPossessing)//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
+        if (Input.GetKeyUp(KeyCode.E))
+            CantSoulVison = false;
+        if (Input.GetKey(KeyCode.E) && !IsPossessing&&!CantSoulVison)//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
             CameraState = "SoulVision";
 
     }
     public void ResetValue()//重置一些前進後退中用到的值 以防下次進入其他模式出問題
     {
-
+        CantLeftPossess = false;
         CanPossess = false;//不能附身
         IsPossessing = false;//可以進入靈視
         FowardAndBackTime = 0;//前進後退的計時為0
@@ -114,7 +117,7 @@ public class CameraScript : MonoBehaviour
         if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit))
         {
             int HitTag = hit.collider.gameObject.layer;//撞到的物件的layer
-            if (HitTag != 9 && HitTag != 11&&HitTag!=8)//9為player 11為ragdoll 8為CanPossess
+            if (HitTag != 9 && HitTag != 11&&HitTag!=8&& HitTag != 10)//9為player 11為ragdoll 8為CanPossess 10為武器
             {
                 RedressVector = NormalPosition - hit.point;//如果撞到物件 設一個向量為 撞到的位置和原來鏡頭位置之差
                 transform.position = NormalPosition - RedressVector;//減掉位置差 讓鏡頭移動到撞到的位置 其實值等於 hit.point即可 只是變數留著可以做變化 先不做優化
@@ -133,6 +136,8 @@ public class CameraScript : MonoBehaviour
     }
     public void SoulVision()//鏡頭前進為靈視狀態
     {
+        CantLeftPossess = true;
+        NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
         if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
             CameraState = "SoulVisionOver";
         if (FowardAndBackTime < FowardStop)//0.25秒移動到到指定位置
@@ -145,7 +150,6 @@ public class CameraScript : MonoBehaviour
         }
         else if (FowardAndBackTime >= FowardStop)//到指定位置後開啟靈視效果和準心 並可以進入附身
         {
-            NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
             FowardAndBackTime = FowardStop;
             CameraNowPosition = MoveEnd.transform.position;
             transform.position = MoveEnd.transform.position;

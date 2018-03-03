@@ -64,7 +64,7 @@ public class ButtonScript : MonoBehaviour
             case "Data1":
                 if (this.tag == "LoadData")
                 {
-                    if (File.Exists(@"C:\Users\user\AppData\LocalLow\Animism\Soul\Save\" + "Data1" + ".sav"))
+                    if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1" + ".sav"))
                     {
                         ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "Data1";
                         Fade = true;
@@ -78,7 +78,7 @@ public class ButtonScript : MonoBehaviour
             case "Data2":
                 if (this.tag == "LoadData")
                 {
-                    if (File.Exists(@"C:\Users\user\AppData\LocalLow\Animism\Soul\Save\" + "Data2" + ".sav"))
+                    if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2" + ".sav"))
                     {
                         ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "Data2";
                         Fade = true;
@@ -92,7 +92,7 @@ public class ButtonScript : MonoBehaviour
             case "Data3":
                 if (this.tag == "LoadData")
                 {
-                    if (File.Exists(@"C:\Users\user\AppData\LocalLow\Animism\Soul\Save\" + "Data3" + ".sav"))
+                    if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
                     {
                         ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "Data3";
                         Fade = true;

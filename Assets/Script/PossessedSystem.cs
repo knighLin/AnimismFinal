@@ -97,7 +97,7 @@ public class PossessedSystem : MonoBehaviour
         */
 
 
-        if ((Input.GetKeyUp(KeyCode.Q) || joycontroller.leftpossessed == true) && AttachedBody != null && !CameraScript.IsPossessing)//解除附身
+        if ((Input.GetKeyUp(KeyCode.Q) || joycontroller.leftpossessed == true) && AttachedBody != null && !CameraScript.IsPossessing&& !CameraScript.CantLeftPossess)//解除附身
         {
             LifedPossessed();//離開附身物
             //animalHealth.CancelLink();//解除與附身物的血條連動
@@ -109,6 +109,7 @@ public class PossessedSystem : MonoBehaviour
 
         if (ChooseRightObject)//如果點到可附身物件
         {
+            CameraScript.CantSoulVison=true;//附身後不能持續按著E進入靈視
             playerMovement.enabled = false;//附身不能動
             CameraScript.PossessTarget = hit.collider.gameObject.transform.parent.gameObject;
             ChooseRightObject = false;//重置

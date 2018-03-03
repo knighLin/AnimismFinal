@@ -63,7 +63,7 @@ public class LoadData : MonoBehaviour {
         {
             LoadSelectedData = "NewGame";//測試用
             StreamWriter streamWriter = File.CreateText(Application.persistentDataPath + @"\Save\NewGame.sav");
-            streamWriter.Write("spyWmyJSqjGq+Otk8NxMux4BVoibDvNZmOVkIUOQD6OwwAeDpjZnv/yfyHmO843kuhRN9Nzox/CPnSwQSMW8kvfrUMyi/YVtVR4ckWtqJlkgDpik5YL1hox+GEu6kBAUs0/ji4gKUtGugNTRZumLqAJ1vRwN9QnSzmSW1yh0mcjJBQUEXJvSlsiBNLNJADvdA+B6kb+jwl37WgmlgvVd2puNg+z1tbubcZ8N7MmgkHDvfFNdk0uWmY4IsfoSRlbve4INqRyOssGiqvKrzc3OYrgB5rzhqgcn+H0kfcRNDFWuHbrcKLzRTnBxjYIDkpn7ZqezFTMU4UhPYZGyFIQEaPAHMszQK/lHyEoybGKT4J5S/Ly0ptysECaZEJAE8ObB2MJvbR3gXH6FWezwAVtQdv69tvGeShYMS7Jnbn1NPvZ3RTo/hwTkhEVoHg7E/XS/cmdJzGNkSClk4hhmGVE9T/5xOarCpAxSjemloY583CMQjTJ6jKEX6N3hp10k6EDAMmJSQ8K4RDm0JxoOnv+aLUdDhKngZEdr5TNv2yD8yjWhngyvlDbWsCMmja6owjGxYGN7syrCNtsrnPn4RZfNRxuHe9qDEcVoHENwQ++SqR05Ngm5CUXGOJ0GBOL26YezZGZYInWi+X2b4u9bE0M2qWdBQA2PkEG8qbR6FP06FZ2noF4jHC7dR4Ocg87/MpnwLiUJn46J4g3LUXWK6WIjAfAHMszQK/lHyEoybGKT4J5S/Ly0ptysECaZEJAE8ObB2MJvbR3gXH6FWezwAVtQdv69tvGeShYMS7Jnbn1NPvZ3RTo/hwTkhEVoHg7E/XS/cmdJzGNkSClk4hhmGVE9T/5xOarCpAxSjemloY583CMQjTJ6jKEX6N3hp10k6EDAMmJSQ8K4RDm0JxoOnv+aLRf7Al1XOErx7nXmwCkrGnklhtntoaZU/H7CIf2ULEMpJLBDEOL9uBijddSt3hkPJ1z6Xd8Dd6qc+8+YgSTdqxruc87GWKwhDNm4asrI5PixJuMWlLuPWUT7YYy5RbeVLJOWSwmIccmNnfzM00reYHxeDbpBoxXmaTfmV5yswgEZ1kxi6Rg00ptNlNqRWAq5uwNZOEMQK8baIkofRFAvxUfX3unIu1+cSa7NzZD2oBWdkO/7Gw9jc89mc/yHKfkcI8+M6DSkd1bhzH3PHXHDIbM=");
+            streamWriter.Write("OvJdSpMhdZWQ3sVZRtJBkssZq54mypOWJbWzq5ir2cZ/aMMFzt71JDJSi+lOW0z9YTG9w4Rc/rdIFtdr/HG8WzNeLH3A5Gf03Iu/rqonrEqy2g09WJZGatSeOHP9nI5NQxV2em/IVE13xOkAnzpE3sElxiCsox5Kesaay9cXk++Ej9ZufWIuZYRBi/1/Z1AZ0rI5bHxnBlar1CpBuNWdahWtGCOC50X0cEEC/ZEzjuRn6C0Y7DyrAEY9qHmy+pBAbk1W5fz780aXAZ3YSa4Duag/1tn/eriQhRsEQpnl8LUbgc0C5Le1HEo3SSauQ55Q7k1zohRTgogw4Uf1Tj3dR5PKgpyOSkG7IbbgZdGwsRacGSQboAc7ELNvj6FLXXRehMZ/cv74wDbP6l9o1JRmXjIf/7dWGHvT5H7T/+txOZUuJQmfjoniDctRdYrpYiMB8AcyzNAr+UfISjJsYpPgnlL8vLSm3KwQJpkQkATw5sHYwm9tHeBcfoVZ7PABW1B2/r228Z5KFgxLsmdufU0+9lef5cvKny4M1WSZJ4NmIM0kxTzOVaxsM1aRMYqhhYeapsI5Eo3q4j2P08MgvihoxbnQ1W5/mA/ep1jegje2A5yJlxjqz/t/jw2Ol7jhY0PCcIumFsYGWDrvEOZmPF1FjEqLWp0a+6aYZU1HOWzS64PW1toIupZmNNCJpOP/6pQ7V2GLozq+Ll3teYXHWcm1xflUsC1V5duHEL4jeLPFJQzKpc3vdMYWBuicIAnVTy98iM4XnBY+d3UV90CjsYxBTsUOLo11VOum1Cgp34uhac0YKZA97QrF2eF7pqDaGyooYeDmulmEq85RKqMWcEBkVA==");
             streamWriter.Close();
         }
         SaveData.Data Load = (SaveData.Data)IOHelper.GetData(Application.persistentDataPath+ @"\Save\"+ LoadSelectedData + ".sav", typeof(SaveData.Data));
@@ -76,39 +76,44 @@ public class LoadData : MonoBehaviour {
 
         Instantiate(PlayerPrefab, PlayerVector3, PlayerQuaternion).name = "Pine";
         Debug.Log("讀取了派恩的位置,座標為" + PlayerVector3);
-        for (int A =0 ; A< Load.WolfState.Count; A++)     //讀取動物數據
+        if (Load.WolfState.Count > 0)
         {
-            WolfState.Add(Load.WolfState[A]);           //讀取動物狀態
-            WolfVector3.Add(Load.WolfVector3[A]);       //讀取動物座標
-            WolfQuaternion.Add(Load.WolfQuaternion[A]); //讀取動物旋轉角度
-            if (WolfState[A]==1)                          //如果動物活著(WolfState=1)才生成
+            for (int A = 0; A < Load.WolfState.Count; A++)     //讀取動物數據
             {
-                Instantiate(WolfPrefab, WolfVector3[A], WolfQuaternion[A]).name="Wolf"+A;
-                Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
-            }
-            if (WolfState[A] == 2)                        //如果動物被附身(WolfState=2)生成後把主角掛在狼身上
-            {
-                Wolf = Instantiate(WolfPrefab, GameObject.Find("Pine").transform.position, Quaternion.identity);
-                GameObject.Find("Pine").transform.parent = Wolf.transform;
-                GameObject.Find("Pine").SetActive(false);
-                Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
-            }
-            //Debug.Log(D1.WolfVector3[A]);
-            //Debug.Log("讀" + WolfVector3[A]);
-        }
-
-        for (int E = 0; E < Load.EnemyState.Count; E++)   //讀取敵人數據
-        {
-            EnemyState.Add(Load.EnemyState[E]);           //讀取敵人狀態
-            EnemyVector3.Add(Load.EnemyVector3[E]);       //讀取敵人座標
-            EnemyQuaternion.Add(Load.EnemyQuaternion[E]); //讀取敵人旋轉角度
-            if (EnemyState[E] == 1)                       //如果敵人活著(EnemyState=1)才生成
-            {
-                Instantiate(EnemyPrefab, EnemyVector3[E], EnemyQuaternion[E]).name = "Enemy" + E;
-                Debug.Log("讀取了第" + (E + 1) + "個敵人," + "狀態為" + EnemyState[E] + ",座標為" + EnemyVector3[E]);
+                WolfState.Add(Load.WolfState[A]);           //讀取動物狀態
+                WolfVector3.Add(Load.WolfVector3[A]);       //讀取動物座標
+                WolfQuaternion.Add(Load.WolfQuaternion[A]); //讀取動物旋轉角度
+                if (WolfState[A] == 1)                          //如果動物活著(WolfState=1)才生成
+                {
+                    Instantiate(WolfPrefab, WolfVector3[A], WolfQuaternion[A]).name = "Wolf" + A;
+                    Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
+                }
+                if (WolfState[A] == 2)                        //如果動物被附身(WolfState=2)生成後把主角掛在狼身上
+                {
+                    Wolf = Instantiate(WolfPrefab, GameObject.Find("Pine").transform.position, Quaternion.identity);
+                    GameObject.Find("Pine").transform.parent = Wolf.transform;
+                    GameObject.Find("Pine").SetActive(false);
+                    Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
+                }
+                //Debug.Log(D1.WolfVector3[A]);
+                //Debug.Log("讀" + WolfVector3[A]);
             }
         }
 
+        if (Load.EnemyState.Count > 0)
+        {
+            for (int E = 0; E < Load.EnemyState.Count; E++)   //讀取敵人數據
+            {
+                EnemyState.Add(Load.EnemyState[E]);           //讀取敵人狀態
+                EnemyVector3.Add(Load.EnemyVector3[E]);       //讀取敵人座標
+                EnemyQuaternion.Add(Load.EnemyQuaternion[E]); //讀取敵人旋轉角度
+                if (EnemyState[E] == 1)                       //如果敵人活著(EnemyState=1)才生成
+                {
+                    Instantiate(EnemyPrefab, EnemyVector3[E], EnemyQuaternion[E]).name = "Enemy" + E;
+                    Debug.Log("讀取了第" + (E + 1) + "個敵人," + "狀態為" + EnemyState[E] + ",座標為" + EnemyVector3[E]);
+                }
+            }
+        }
 
 
     }
