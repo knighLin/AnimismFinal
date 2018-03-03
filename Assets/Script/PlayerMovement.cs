@@ -159,9 +159,10 @@ public class PlayerMovement : MonoBehaviour
             Mathf.Repeat(
                 m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
         float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-        if (m_IsGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) || joycontroller.joyjump == true)
         {
             m_Animator.SetFloat("JumpLeg", jumpLeg);
+            m_Animator.SetTrigger("m_Jump");
         }
 
         // 这边的方法允许我们在inspector视图中调整动画的速率，他会因为根运动影响移动的速度  
