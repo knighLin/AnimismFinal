@@ -8,7 +8,7 @@ public class CameraScript : MonoBehaviour
     private PossessedSystem PossessedSystem;
     private PlayerManager playerManager;
     public GameObject PossessTarget;
-    public GameObject SoulVisionEffect, PossessEffect, Crosshairs, SoulPower;
+    public GameObject SoulVisionEffect, PossessEffect, Crosshairs;
     public GameObject NowCharacter;
     public GameObject MoveEnd, PlayerView;
     public Transform[] AttachedBodyChildren;
@@ -35,11 +35,9 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
-        SoulPower= GameObject.Find("SoulPower");
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         SoulVisionEffect.SetActive(false);//開始時靈視關閉
         PossessEffect.SetActive(false);//開始時附身鏡頭關閉
-        SoulPower.SetActive(false);//開始時靈視特效關閉
         Crosshairs.SetActive(false);//開始時準心關閉
         CameraState = "NormalState";//初始狀態為正常狀態
         AttachedBodyChildren = new Transform[3];//只抓前四個物件(包含本身)
@@ -75,7 +73,7 @@ public class CameraScript : MonoBehaviour
     }
     public void ResetValue()//重置一些前進後退中用到的值 以防下次進入其他模式出問題
     {
-        SoulPower.SetActive(false);
+
         CanPossess = false;//不能附身
         IsPossessing = false;//可以進入靈視
         FowardAndBackTime = 0;//前進後退的計時為0
@@ -139,7 +137,6 @@ public class CameraScript : MonoBehaviour
             CameraState = "SoulVisionOver";
         if (FowardAndBackTime < FowardStop)//0.25秒移動到到指定位置
         {
-            SoulPower.SetActive(true);
             FowardAndBackTime += Time.deltaTime;
             VectorMoveDistance = MoveEnd.transform.position - NormalPosition;//距離為終點減正常位置
             Move = VectorMoveDistance * Time.deltaTime * 5;
@@ -159,7 +156,6 @@ public class CameraScript : MonoBehaviour
     }
     public void SoulVisionOver()//鏡頭後退為正常狀態
     {
-        SoulPower.SetActive(false);
         SoulVisionEffect.SetActive(false);
         Crosshairs.SetActive(false);
         CanPossess = false;

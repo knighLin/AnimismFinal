@@ -28,7 +28,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent nav;
 
     //判斷主角
-    public Transform Target;
+    private Transform Target;
     private float EnemyToPlayerDis;//主角跟敵人的距離
 
     //巡邏範圍計算變數
@@ -56,6 +56,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        Target = GameObject.FindGameObjectWithTag("Player").transform;
         ThinkState();
         TargetInRange();
         if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步

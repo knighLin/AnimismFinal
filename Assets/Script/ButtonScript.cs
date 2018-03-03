@@ -109,6 +109,7 @@ public class ButtonScript : MonoBehaviour
             case "ReturnHomepage":
                 if (Time.timeScale == 0)//如果暫停狀態下回到主畫面則讓時間恢復
                     Time.timeScale = 1;
+                if (GameObject.Find("ChooseSaveData")!=null)
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().DestroyThis();
                 Application.LoadLevelAsync("HomePage");
                 break;

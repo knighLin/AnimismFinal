@@ -44,8 +44,8 @@ public class SaveData : MonoBehaviour
         Debug.Log("主角狀態為" + Save.PlayerState);
         if (GameObject.FindGameObjectsWithTag("WolfMaster")[0] != null)//抓現在所有狼
             Wolf = GameObject.FindGameObjectsWithTag("WolfMaster");
-        if (GameObject.FindGameObjectsWithTag("Enemy1")[0] != null) //抓現在所有敵人
-            Enemy = GameObject.FindGameObjectsWithTag("Enemy1");
+        if (GameObject.FindGameObjectsWithTag("Enemy")[0] != null) //抓現在所有敵人
+            Enemy = GameObject.FindGameObjectsWithTag("Enemy");
         Save.WolfState = new List<int> { };                       //創新的List用來存數值
         Save.WolfVector3 = new List<Vector3> { };                 //創新的List用來存數值
         Save.WolfQuaternion = new List<Quaternion> { };           //創新的List用來存數值

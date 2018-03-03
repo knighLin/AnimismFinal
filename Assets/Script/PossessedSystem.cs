@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using HighlightingSystem;
+
 using UnityEngine;
 
 public class PossessedSystem : MonoBehaviour
@@ -172,7 +172,7 @@ public class PossessedSystem : MonoBehaviour
         {
             if (AttachedBody != null && OnPossessed == true)//如果先前有附身物，而且正在附身
             {
-                AttachedBody.tag = Possessor.tag;
+                AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
                 Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
                 AttachedBody.GetComponent<PlayerMovement>().enabled = false;
                 AttachedBody.GetComponent<PossessedSystem>().enabled = false;
