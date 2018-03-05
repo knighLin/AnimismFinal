@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        value = GameObject.Find("PlayerManager").GetComponent<TypeValue>();
+        value = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
         m_OrigGroundCheckDistance = m_GroundCheckDistance;//保存一下地面检查值 
     }
 
@@ -72,8 +72,8 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         //讀取輸入
-        float h = Input.GetAxis("Horizontal") - Input.GetAxis("joy5");
-        float v = Input.GetAxis("Vertical") - Input.GetAxis("joy6");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
       
         //計算移動方向傳遞給角色
         if (m_Cam != null)
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
             moveDirection = v * Vector3.forward + h * Vector3.right;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)|| joycontroller.joyfast == true)
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("R2Run"))
         {//當按下shift，有跑步動作
             _Speed = value.RunSpeed;
         }
@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         {
             m_Rigidbody.velocity = transform.forward * move.z * _Speed;
             // 确定当前是否能跳  ：
-            if (Input.GetKeyDown(KeyCode.Space)|| joycontroller.joyjump == true)
+            if (Input.GetKeyDown(KeyCode.Space))//|| joycontroller.joyjump == true)
             { // jump!
                 // m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
                 m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
@@ -159,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
             Mathf.Repeat(
                 m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
         float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-        if (Input.GetKeyDown(KeyCode.Space) || joycontroller.joyjump == true)
+        if (Input.GetKeyDown(KeyCode.Space) )//|| joycontroller.joyjump == true)
         {
             m_Animator.SetFloat("JumpLeg", jumpLeg);
             m_Animator.SetTrigger("m_Jump");

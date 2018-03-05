@@ -40,6 +40,11 @@ public class AnimalHealth : MonoBehaviour {
        // }
     }
 
+    public void Hurt(float Amount)
+    {
+        currentHealth -= Amount;//扣血
+    }
+
     public void LinkHP()
     {
        // Debug.Log(PossessedSystem.AttachedBody + ":" + currentHealth);

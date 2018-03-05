@@ -42,7 +42,7 @@ public class Pause : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;//鎖滑鼠標
             Cursor.visible = false;
         }
-        if (Input.GetKeyDown(KeyCode.Escape)|| Input.GetButtonDown("joy17"))
+        if (Input.GetButtonDown("OptionsCancel"))
         {
             if (!IsPause)
             {

@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemyNormalAtk : MonoBehaviour
 {
 	//call other class
-	private PlayerHealth PlayerHealth;
-
+	private PlayerHealth playerHealth;
+    private AnimalHealth animalHealth;
 	private TypeValue value;
 
 	//private GameObject gameManager;
-	private GameObject gameManager;
+	private GameObject playerManager;
 	private GameObject Player;//Find Atk Target
 
 	//Animator
@@ -24,15 +24,9 @@ public class EnemyNormalAtk : MonoBehaviour
 	void Awake ()
 	{
 		//set class var
-		Player = GameObject.Find ("Player");
-		gameManager = GameObject.Find ("GameManager");
-        PlayerHealth = Player.GetComponent <PlayerHealth> ();
-		
-		value = gameManager.GetComponent<TypeValue> ();
-
+		value = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue> ();
 		//set Animator
 		animator = GetComponent<Animator> ();
-
 		//set WeaponCollider
 		weaponCollider.enabled = false;
 		Physics.IgnoreCollision (GetComponent<Collider>(),weaponCollider);//讓兩個物體不會產生碰撞
@@ -40,11 +34,8 @@ public class EnemyNormalAtk : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)//當進入範圍的物件為主角///只後要做範圍的距離判斷，改變敵人攻擊方式
 	{
-		//animator.SetTrigger ("hit");//EnemyBeAtk
-		Debug.Log ("EnemyDamage");
-
-		if (other.gameObject == Player) {
-			/*Debug.Log ("Player");
+		if (other.tag == "Player") {
+            /*Debug.Log ("Player");
 			//playerInRange = true;
 			timer += Time.deltaTime;
 			//Debug.Log (timer);
@@ -53,24 +44,39 @@ public class EnemyNormalAtk : MonoBehaviour
 				Attack ();
 				timer = 0;
 			}*/
-			Attack ();
-			Debug.Log ("PlayerBeatk");
+            if (PossessedSystem.OnPossessed && PossessedSystem.AttachedBody == other.gameObject)
+            {
+                animalHealth = other.GetComponent<AnimalHealth>();
+            }
+            else
+            {
+                playerHealth = other.GetComponent<PlayerHealth>();
+            }
+            Attack ();
 		}
-
 	}
-
-
+    
 	public void Attack ()
 	{
-		if (PlayerHealth.currentHealth > 0) {//當主角的還有血量時
-            
-            var damage = (EnemyAtk - value.PlayerDef) * Random.Range(0.9f, 1.1f);
-            damage = Mathf.Round(damage);
-            PlayerHealth.Hurt (damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血
-
-            
-
+        if (PossessedSystem.OnPossessed == true)
+        {
+            if (animalHealth.currentHealth > 0)
+            {//當主角的還有血量時
+                var damage = (EnemyAtk - value.PlayerDef) * Random.Range(0.9f, 1.1f);
+                damage = Mathf.Round(damage);
+                animalHealth.Hurt(damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血
+            }
         }
+        else
+        {
+            if (playerHealth.currentHealth > 0)
+            {//當主角的還有血量時
+                var damage = (EnemyAtk - value.PlayerDef) * Random.Range(0.9f, 1.1f);
+                damage = Mathf.Round(damage);
+                playerHealth.Hurt(damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血
+            }
+        }
+      
 
 	}
 	public void OnAttackTrigger()//避免走路時碰到武器，觸發事件，所以只有攻擊時，才開啟觸發

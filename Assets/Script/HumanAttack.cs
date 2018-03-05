@@ -18,7 +18,7 @@ public class HumanAttack : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip attack;
 
-   
+    private float timer = 0;
 
     void Awake()
     {
@@ -26,17 +26,17 @@ public class HumanAttack : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         //set WeaponCollider
-        //weaponCollider.enabled = false;
-        Physics.IgnoreCollision(myselfCollider, weaponCollider);//讓兩個物體不會產生碰撞
+        weaponCollider.enabled = false;
+       // Physics.IgnoreCollision(myselfCollider, weaponCollider);//讓兩個物體不會產生碰撞
     }
 
     private void Update()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.GetButtonDown("Fire1")))//Attack
+        if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("SquareAttack") && weaponCollider.enabled == false)//Attack
         {
             animator.SetTrigger("Attack");
             animator.SetInteger("Render", AttackRender());
-            audioSource.PlayOneShot(attack);
+            //StartCoroutine(AttackColliderClose());
         }
     }
 
@@ -45,15 +45,21 @@ public class HumanAttack : MonoBehaviour
         int AttackCount = Random.Range(0, 2);
         return AttackCount;
     }
-     //void OnAttackTrigger()//避免走路時碰到武器，觸發事件，所以只有攻擊時，才開啟觸發
-    //{
-    //    weaponCollider.enabled = true;
-    //}
 
-    //public void OnDisableAttackTrigger()
-    //{
-    //    weaponCollider.enabled = false;
+     IEnumerator AttackColliderClose()
+    {
+        yield return new WaitForSeconds(1f);
+        weaponCollider.enabled = false;
+        StopCoroutine(AttackColliderClose());
+    }
 
-    //}
+    void WeaponColliderOpen()
+    {
+        weaponCollider.enabled = true;
+    }
 
+    void WeaponColliderClose()
+    {
+        weaponCollider.enabled = false;
+    }
 }

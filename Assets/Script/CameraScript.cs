@@ -10,33 +10,34 @@ public class CameraScript : MonoBehaviour
     public GameObject PossessTarget;
     public GameObject SoulVisionEffect, PossessEffect, Crosshairs;
     public GameObject NowCharacter;
-    public GameObject MoveEnd, PlayerView;
+    public GameObject MoveEnd, PlayerView,Normal003;
     public Transform[] AttachedBodyChildren;
-    public Quaternion RotationEuler;
-    public Quaternion SaveRotationEuler;
     public Vector3 NormalPosition;//鏡頭正常位置
-    public Vector3 RedressVector = Vector3.zero;
-    public Vector3 Move;//鏡頭"每次"前進/後退的距離
-    public Vector3 VectorMoveDistance;//鏡頭總共要前進的距離
-    public Vector3 CameraNowPosition;//鏡頭前進完要後退的位置 用來測量要後退多少距離
+    private Vector3 RedressVector = Vector3.zero;
+    private Vector3 Move;//鏡頭"每次"前進/後退的距離
+    private Vector3 VectorMoveDistance;//鏡頭總共要前進的距離
+    private Vector3 CameraNowPosition;//鏡頭前進完要後退的位置 用來測量要後退多少距離
+    private Vector3 FixedPosition;//固定視角後的座標
+    private Quaternion RotationEuler;
     public string CameraState;//鏡頭狀態
     public float rotX;
     public float rotY;
-    public float sensitivity = 30f;//靈敏度
-    public float FowardAndBackTime;//鏡頭前進/後退計時
-    public float FowardStop = 0.2f; //鏡頭前進的秒數
-    public float PossessTime; //附身鏡頭計時
-    public float PossessStop = 2; //附身鏡頭的秒數
+    private float sensitivity = 30f;//靈敏度
+    private float FowardAndBackTime;//鏡頭前進/後退計時
+    private float FowardStop = 0.2f; //鏡頭前進的秒數
+    private float PossessTime; //附身鏡頭計時
+    private float PossessStop = 2; //附身鏡頭的秒數
     public bool CanPossess = false;//靈視狀態下才會為true 代表可以附身;
     public bool IsPossessing = false;//附身中為true直到附身結束切回正常狀態才會被重置為false
     public bool CantLeftPossess = false;//靈視不能退出附身
     public bool CantSoulVison = false;//附身後不能持續按著E進入靈視
+    public bool FixedVison = false;//固定視角
 
     // Use this for initialization
     void Start()
     {
         PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
-        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
         SoulVisionEffect.SetActive(false);//開始時靈視關閉
         PossessEffect.SetActive(false);//開始時附身鏡頭關閉
         Crosshairs.SetActive(false);//開始時準心關閉
@@ -50,8 +51,8 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!IsPossessing) CameraRotate();//如果不是附身模式讓鏡頭可以轉
-        NormalPosition = RotationEuler * new Vector3(0, 0, -3f) + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
+        if (!IsPossessing&&!FixedVison) CameraRotate();//如果不是附身模式讓鏡頭可以轉
+        NormalPosition = RotationEuler * Normal003.transform.localPosition + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
         switch (CameraState)
         {
             case "NormalState":
@@ -68,9 +69,20 @@ public class CameraScript : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetButton("L2") && Input.GetButton("R2Run"))//同時按著R2L2 視角固定不能轉
+            FixedVison = true;
+        else
+        {
+            if (FixedVison)
+            {
+                rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
+                rotY = transform.eulerAngles.x;
+                FixedVison = false;
+            }
+        }
+        if (Input.GetButtonUp("L1SoulVison"))
             CantSoulVison = false;
-        if (Input.GetKey(KeyCode.E) && !IsPossessing&&!CantSoulVison)//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
+        if (Input.GetButton("L1SoulVison") && !IsPossessing&&!CantSoulVison)//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
             CameraState = "SoulVision";
 
     }
@@ -89,16 +101,16 @@ public class CameraScript : MonoBehaviour
             //讀取滑鼠的X、Y軸移動訊息
             rotX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             rotY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-            rotX -= Input.GetAxis("joy3") * sensitivity * Time.deltaTime * 5;
-            rotY -= Input.GetAxis("joy4") * sensitivity * Time.deltaTime * 5;
+            rotX -= Input.GetAxis("SoulVisonHorizontal") * sensitivity * Time.deltaTime * 5;
+            rotY -= Input.GetAxis("SoulVisonVertical") * sensitivity * Time.deltaTime * 5;
         }
         else if (Time.timeScale == 0.5f)
         {
             //讀取滑鼠的X、Y軸移動訊息
             rotX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime * 2;
             rotY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime * 2;
-            rotX -= Input.GetAxis("joy3") * sensitivity * Time.deltaTime * 10;
-            rotY -= Input.GetAxis("joy4") * sensitivity * Time.deltaTime * 10;
+            rotX -= Input.GetAxis("SoulVisonHorizontal") * sensitivity * Time.deltaTime * 10;
+            rotY -= Input.GetAxis("SoulVisonVertical") * sensitivity * Time.deltaTime * 10;
         }
         //保證X在360度以內
         if (rotX > 360) rotX -= 360;
@@ -114,7 +126,7 @@ public class CameraScript : MonoBehaviour
         ResetValue();//只要進入正常模式 就重置一些參數
         //鏡頭穿牆處理
         RaycastHit hit;
-        if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit))
+        if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit)&&!FixedVison)
         {
             int HitTag = hit.collider.gameObject.layer;//撞到的物件的layer
             if (HitTag != 9 && HitTag != 11&&HitTag!=8&& HitTag != 10)//9為player 11為ragdoll 8為CanPossess 10為武器
@@ -130,8 +142,17 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
-            transform.position = NormalPosition;//如果沒撞到物件 座標為正常位置
-            //Debug.DrawLine(PlayerView.transform.position, transform.position, Color.green);
+            if (FixedVison)
+            {
+                transform.rotation = NowCharacter.transform.rotation;
+                transform.position = transform.rotation*Normal003.transform.localPosition + PlayerView.transform.position;
+                FixedPosition = transform.position;
+                rotX = transform.eulerAngles.y;
+                rotY = transform.eulerAngles.x;
+            }
+            else
+                transform.position = NormalPosition;//如果沒撞到物件 座標為正常位置
+
         }
     }
     public void SoulVision()//鏡頭前進為靈視狀態
@@ -143,7 +164,10 @@ public class CameraScript : MonoBehaviour
         if (FowardAndBackTime < FowardStop)//0.25秒移動到到指定位置
         {
             FowardAndBackTime += Time.deltaTime;
-            VectorMoveDistance = MoveEnd.transform.position - NormalPosition;//距離為終點減正常位置
+            if (FixedVison)
+                VectorMoveDistance = MoveEnd.transform.position - FixedPosition;//如果在固定視角模式，距離為終點減固定視角位置
+            else
+                VectorMoveDistance = MoveEnd.transform.position - NormalPosition;//距離為終點減正常位置
             Move = VectorMoveDistance * Time.deltaTime * 5;
             transform.position += Move;
             CameraNowPosition = transform.position;
@@ -166,7 +190,10 @@ public class CameraScript : MonoBehaviour
         if (FowardAndBackTime > 0)//從移動到的位置退回正常位置
         {
             FowardAndBackTime -= Time.deltaTime;
-            VectorMoveDistance = NormalPosition - CameraNowPosition;//距離為正常位置減當前位置
+            if (FixedVison)
+                VectorMoveDistance = FixedPosition - CameraNowPosition;//如果在固定視角模式，距離為固定視角位置減當前位置
+            else
+                VectorMoveDistance = NormalPosition - CameraNowPosition;//距離為正常位置減當前位置
             Move = VectorMoveDistance * Time.deltaTime * 5;
             transform.position += Move;
         }
@@ -178,7 +205,7 @@ public class CameraScript : MonoBehaviour
     public void GettingPossess()
     {
         SoulVisionEffect.SetActive(false);
-
+        AttachedBodyChildren = PossessTarget.GetComponentsInChildren<Transform>();
         if (PossessTime < 0.2)//鏡頭回到正常的位置
         {
             PossessTime += Time.deltaTime;
@@ -194,7 +221,7 @@ public class CameraScript : MonoBehaviour
             if (PossessTime >= 0.6 && PossessTime < 0.8)
             {
                 PossessEffect.SetActive(true);
-                VectorMoveDistance = PossessTarget.transform.position - NormalPosition;//距離為終點減正常位置
+                VectorMoveDistance = AttachedBodyChildren[2].transform.position - PlayerView.transform.position;//距離為終點減正常位置
                 Move = VectorMoveDistance * Time.deltaTime * 3;
                 transform.position += Move;
                 CameraNowPosition = transform.position;

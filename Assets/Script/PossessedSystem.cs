@@ -97,7 +97,7 @@ public class PossessedSystem : MonoBehaviour
         */
 
 
-        if ((Input.GetKeyUp(KeyCode.Q) || joycontroller.leftpossessed == true) && AttachedBody != null && !CameraScript.IsPossessing&& !CameraScript.CantLeftPossess)//解除附身
+        if ((Input.GetKeyUp(KeyCode.Q) || Input.GetButtonDown("Triangel")) && AttachedBody != null && !CameraScript.IsPossessing&& !CameraScript.CantLeftPossess)//解除附身
         {
             LifedPossessed();//離開附身物
             //animalHealth.CancelLink();//解除與附身物的血條連動
@@ -119,12 +119,15 @@ public class PossessedSystem : MonoBehaviour
             CameraScript.IsPossessing = true;//正在附身模式
             CameraScript.CameraState = "GettingPossess";//轉為附身模式
         }
-        else if (((Input.GetMouseButtonDown(1) || Input.GetButtonDown("joy12")) && PossessedSystem.PossessedCol.enabled == true))
+        else if (((Input.GetMouseButtonDown(1) || Input.GetButtonDown("MushroomPossess")) && PossessedSystem.PossessedCol.enabled == true))
         {
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out hit, 10, PossessedLayerMask);
+            Physics.Raycast(ray, out hit, 15, PossessedLayerMask);
+            Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 1f, true);
             for (int i = 0; i < RangeObject.Count; i++)
             {
+                
                 //if (!hit.collider.CompareTag("Player"))//如果是自己本身不執行
                 //{
                 if (hit.collider == RangeObject[i])//當點擊的物件是附身範圍裡的物件時
