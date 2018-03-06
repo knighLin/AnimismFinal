@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class HPcontroller : MonoBehaviour
 {
-
-
     private PlayerHealth PlayerHealth;
     private AnimalHealth AnimalHealth;
     private PlayerManager playerManager;
@@ -22,9 +20,9 @@ public class HPcontroller : MonoBehaviour
 
 
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        PlayerHealth = GameObject.Find("Pine").GetComponent<PlayerHealth>();
+       // PlayerHealth = GameObject.Find("Pine").GetComponent<PlayerHealth>();
         Blink = false;
-        CharacterSwitch();
+      //  CharacterSwitch();
     }
 
     // Update is called once per frame

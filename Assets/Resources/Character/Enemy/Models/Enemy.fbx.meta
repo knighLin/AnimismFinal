@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 0cdad0a72a710b544a91a7c5f9c66f44
+timeCreated: 1519917384
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Armor
+    100002: Barrel
+    100004: Body
+    100006: Body 1
+    100008: Clothes
+    100010: Clothes02
+    100012: //RootNode
+    100014: Enemy
+    100016: Eyes
+    100018: Gloves
+    100020: Gun
+    100022: Hair
+    100024: Helmet
+    100026: HelmetFeather
+    100028: Pants
+    100030: Part01
+    100032: Part02
+    100034: Part03
+    100036: Skirt
+    100038: SkirtArmor
+    100040: transform1
+    100042: Trigger
+    400000: Armor
+    400002: Barrel
+    400004: Body
+    400006: Body 1
+    400008: Clothes
+    400010: Clothes02
+    400012: Enemy
+    400014: //RootNode
+    400016: Eyes
+    400018: Gloves
+    400020: Gun
+    400022: Hair
+    400024: Helmet
+    400026: HelmetFeather
+    400028: Pants
+    400030: Part01
+    400032: Part02
+    400034: Part03
+    400036: Skirt
+    400038: SkirtArmor
+    400040: transform1
+    400042: Trigger
+    2300000: Armor
+    2300002: Barrel
+    2300004: Body
+    2300006: Body 1
+    2300008: Clothes
+    2300010: Clothes02
+    2300012: Eyes
+    2300014: Gloves
+    2300016: Hair
+    2300018: Helmet
+    2300020: HelmetFeather
+    2300022: Pants
+    2300024: Part01
+    2300026: Part02
+    2300028: Part03
+    2300030: Skirt
+    2300032: SkirtArmor
+    2300034: Trigger
+    3300000: Armor
+    3300002: Barrel
+    3300004: Body
+    3300006: Body 1
+    3300008: Clothes
+    3300010: Clothes02
+    3300012: Eyes
+    3300014: Gloves
+    3300016: Hair
+    3300018: Helmet
+    3300020: HelmetFeather
+    3300022: Pants
+    3300024: Part01
+    3300026: Part02
+    3300028: Part03
+    3300030: Skirt
+    3300032: SkirtArmor
+    3300034: Trigger
+    4300000: Body
+    4300002: Pants
+    4300004: Clothes
+    4300006: Clothes02
+    4300008: Gloves
+    4300010: Armor
+    4300012: Helmet
+    4300014: SkirtArmor
+    4300016: Skirt
+    4300018: Hair
+    4300020: HelmetFeather
+    4300022: Eyes
+    4300024: Body
+    4300026: Barrel
+    4300028: Trigger
+    4300030: Part01
+    4300032: Part02
+    4300034: Part03
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body1
+    second: {fileID: 2100000, guid: 1facb747db5569842b18e50bd806db13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Equipment
+    second: {fileID: 2100000, guid: 90a6c3c2cc20d71488767206750aa728, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Equipment2
+    second: {fileID: 2100000, guid: e33ce356e8a0f8a448f87bc82c11eb2f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Equipment3
+    second: {fileID: 2100000, guid: 859d6d360ebaa1642b4582f6711a5db4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes1
+    second: {fileID: 2100000, guid: 0b5d422219449ba4b9c84fa04e9027f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gun1
+    second: {fileID: 2100000, guid: 4153658ee18d3a141bcad80726274ee2, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -53,6 +53,12 @@ public class HumanAttack : MonoBehaviour
         StopCoroutine(AttackColliderClose());
     }
 
+    void WeaponSound()
+    {
+        audioSource.PlayOneShot(attack);
+
+    }
+
     void WeaponColliderOpen()
     {
         weaponCollider.enabled = true;

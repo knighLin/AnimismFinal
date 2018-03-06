@@ -28,12 +28,12 @@ public class CameraScript : MonoBehaviour
     private float PossessTime; //附身鏡頭計時
     private float PossessStop = 2; //附身鏡頭的秒數
     public bool CanPossess = false;//靈視狀態下才會為true 代表可以附身;
-    public bool CanLockAnimal = false;//可以鎖定動物
+    public bool LockingAnimal = false;//鎖定動物中
     public bool IsPossessing = false;//附身中為true直到附身結束切回正常狀態才會被重置為false
     public bool CantLeftPossess = false;//靈視不能退出附身
     public bool CantSoulVison = false;//附身後不能持續按著E進入靈視
     public bool FixedVison = false;//固定視角
-
+    public bool IsSoulVision = false;
 
     // Use this for initialization
     void Start()
@@ -52,17 +52,23 @@ public class CameraScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (!IsPossessing&&!FixedVison) CameraRotate();//如果不是附身模式讓鏡頭可以轉
+        if (!IsPossessing&&!FixedVison&&!LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
         NormalPosition = RotationEuler * Normal003.transform.localPosition + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
         switch (CameraState)
         {
             case "NormalState":
                 NormalState();
                 break;
+            case "EnterSoulVision":
+                EnterSoulVision();
+                break;
             case "SoulVision":
                 SoulVision();
+                break;
+            case "SoulVisionLocking":
+                SoulVisionLocking();
                 break;
             case "SoulVisionOver":
                 SoulVisionOver();
@@ -85,15 +91,26 @@ public class CameraScript : MonoBehaviour
         }
         if (Input.GetButtonUp("L1SoulVison"))
             CantSoulVison = false;
-        if (Input.GetButton("L1SoulVison") && !IsPossessing&&!CantSoulVison)//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
-            CameraState = "SoulVision";
+        if (Input.GetButton("L1SoulVison") && !IsPossessing && !CantSoulVison )//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
+        {
+            if (IsSoulVision)
+                CameraState = "SoulVision";
+            else if (LockingAnimal)
+                CameraState = "SoulVisionLocking";
+            else
+                CameraState = "EnterSoulVision";
+        }
+
 
     }
     public void ResetValue()//重置一些前進後退中用到的值 以防下次進入其他模式出問題
     {
+        FixedVison = false;
+        CameraLocking.Player = null;
+        IsSoulVision = false;
         CantLeftPossess = false;
         CanPossess = false;//不能附身
-        CanLockAnimal = false;
+        LockingAnimal = false;
         IsPossessing = false;//可以進入靈視
         FowardAndBackTime = 0;//前進後退的計時為0
         PossessTime = 0;//前進後退的計時為0
@@ -146,7 +163,7 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
-            if (FixedVison)
+            if (FixedVison==true)
             {
                 transform.rotation = NowCharacter.transform.rotation;
                 transform.position = transform.rotation*Normal003.transform.localPosition + PlayerView.transform.position;
@@ -155,14 +172,15 @@ public class CameraScript : MonoBehaviour
                 rotY = transform.eulerAngles.x;
             }
             else
+            {
                 transform.position = NormalPosition;//如果沒撞到物件 座標為正常位置
-
+            }
         }
     }
-    public void SoulVision()//鏡頭前進為靈視狀態
+    public void EnterSoulVision()//鏡頭前進為靈視狀態
     {
         CantLeftPossess = true;
-        //NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
+        NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
         if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
             CameraState = "SoulVisionOver";
         if (FowardAndBackTime < FowardStop)//0.25秒移動到到指定位置
@@ -179,20 +197,63 @@ public class CameraScript : MonoBehaviour
         else if (FowardAndBackTime >= FowardStop)//到指定位置後開啟靈視效果和準心 並可以進入附身
         {
             FowardAndBackTime = FowardStop;
+            IsSoulVision = true;
+        }
+    }
+    public void SoulVision()//靈視
+    {
+        NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
+        if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
+            CameraState = "SoulVisionOver";
+        if (PossessedSystem.RangeObject.Count > 0&&Input.GetButtonDown("CircleLockingAnimal"))
+        {
+            LockingAnimal = true;
+            CameraLocking.LockingAnimals();
+            transform.rotation = CameraLocking.CameraRotation;
+            transform.position = transform.rotation * (Normal003.transform.localPosition + new Vector3(0, -0.2f, 3)) + MoveEnd.transform.position;
+            CameraNowPosition = transform.position;
+            rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
+            rotY = transform.eulerAngles.x;
+            IsSoulVision = false;//換成鎖定
+
+        }
+        else
+        {
             CameraNowPosition = MoveEnd.transform.position;
             transform.position = MoveEnd.transform.position;
             SoulVisionEffect.SetActive(true);
             Crosshairs.SetActive(true);
             CanPossess = true;
-            CanLockAnimal = true;
         }
     }
+    public void SoulVisionLocking()//靈視鎖定狀態
+    {
+        if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
+            CameraState = "SoulVisionOver";
+        if (Input.GetAxis("SoulVisonHorizontal") > 0.01f || Input.GetAxis("SoulVisonVertical") > 0.01f)
+        {
+            LockingAnimal = false;
+            CameraLocking.Player = null;
+            IsSoulVision = true;//換成靈視
+        }
+        else if (Input.GetButtonDown("CircleLockingAnimal"))
+        {
+            CameraLocking.LockingAnimals();
+            transform.rotation = CameraLocking.CameraRotation;
+            transform.position = transform.rotation * (Normal003.transform.localPosition+new Vector3(0, -0.2f, 3)) + MoveEnd.transform.position;
+            CameraNowPosition = transform.position;
+            rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
+            rotY = transform.eulerAngles.x;
+        }
+    }   
     public void SoulVisionOver()//鏡頭後退為正常狀態
     {
+        CameraLocking.Player = null;
+        IsSoulVision = false;
         SoulVisionEffect.SetActive(false);
         Crosshairs.SetActive(false);
         CanPossess = false;
-        CanLockAnimal = false;
+        LockingAnimal = false;
         if (FowardAndBackTime > 0)//從移動到的位置退回正常位置
         {
             FowardAndBackTime -= Time.deltaTime;
@@ -214,10 +275,20 @@ public class CameraScript : MonoBehaviour
         AttachedBodyChildren = PossessTarget.GetComponentsInChildren<Transform>();
         if (PossessTime < 0.2)//鏡頭回到正常的位置
         {
-            PossessTime += Time.deltaTime;
-            VectorMoveDistance = NormalPosition - transform.position;
-            Move = VectorMoveDistance * Time.deltaTime * 5;
-            transform.position += Move;
+            if (LockingAnimal)
+            {
+                PossessTime += Time.deltaTime;
+                VectorMoveDistance = transform.rotation * Normal003.transform.localPosition + PlayerView.transform.position - transform.position;
+                Move = VectorMoveDistance * Time.deltaTime * 5;
+                transform.position += Move;
+            }
+            else
+            { 
+                PossessTime += Time.deltaTime;
+                VectorMoveDistance = NormalPosition - transform.position;
+                Move = VectorMoveDistance * Time.deltaTime * 5;
+                transform.position += Move;
+            }
         }
         else if (PossessTime >= 0.2 && PossessTime < 0.8)
         {
@@ -226,11 +297,24 @@ public class CameraScript : MonoBehaviour
 
             if (PossessTime >= 0.6 && PossessTime < 0.8)
             {
-                PossessEffect.SetActive(true);
-                VectorMoveDistance = AttachedBodyChildren[2].transform.position - PlayerView.transform.position;//距離為終點減正常位置
-                Move = VectorMoveDistance * Time.deltaTime * 3;
-                transform.position += Move;
-                CameraNowPosition = transform.position;
+                if (LockingAnimal)
+                {
+                    PossessEffect.SetActive(true);
+                    VectorMoveDistance = transform.rotation * Normal003.transform.localPosition + AttachedBodyChildren[2].transform.position - transform.rotation * Normal003.transform.localPosition - PlayerView.transform.position;//距離為終點減正常位置
+                    Move = VectorMoveDistance * Time.deltaTime * 3;
+                    transform.position += Move;
+                    CameraNowPosition = transform.position;
+                }
+                else
+                {
+                    PossessEffect.SetActive(true);
+                    VectorMoveDistance = AttachedBodyChildren[2].transform.position - PlayerView.transform.position;//距離為終點減正常位置
+                    Move = VectorMoveDistance * Time.deltaTime * 3;
+                    transform.position += Move;
+                    CameraNowPosition = transform.position;
+                }
+
+               
             }
         }
         else if (PossessTime >= 0.8)
@@ -246,12 +330,14 @@ public class CameraScript : MonoBehaviour
         switch (playerManager.PossessType)
         {
             case "Human":
+                PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
                 NowCharacter = GameObject.Find("Pine");
                 PlayerView = GameObject.Find("FirstPersonCamPoint");
                 MoveEnd = GameObject.Find("CamMoveEndPoint");
                 break;
             case "WolfMaster":
                 NowCharacter = PossessTarget;
+                PossessedSystem = PossessTarget.GetComponent<PossessedSystem>();
                 AttachedBodyChildren = PossessedSystem.AttachedBody.GetComponentsInChildren<Transform>();
                 PlayerView = AttachedBodyChildren[2].transform.gameObject;
                 MoveEnd = AttachedBodyChildren[1].transform.gameObject;

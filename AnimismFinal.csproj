@@ -306,6 +306,7 @@
     <Compile Include="Assets\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
+    <Compile Include="Assets\Script\AnimalAttack.cs" />
     <Compile Include="Assets\Script\AnimalHealth.cs" />
     <Compile Include="Assets\Script\AttackHit.cs" />
     <Compile Include="Assets\Script\BearAttack.cs" />
@@ -319,6 +320,7 @@
     <Compile Include="Assets\Script\EnemyNormalAtk.cs" />
     <Compile Include="Assets\Script\EnemyPosition.cs" />
     <Compile Include="Assets\Script\EnemyShoot.cs" />
+    <Compile Include="Assets\Script\Health.cs" />
     <Compile Include="Assets\Script\HPcontroller.cs" />
     <Compile Include="Assets\Script\HumanAttack.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
@@ -337,10 +339,8 @@
     <Compile Include="Assets\Script\Save&amp;LoadData\LoadData.cs" />
     <Compile Include="Assets\Script\Save&amp;LoadData\SaveData.cs" />
     <Compile Include="Assets\Script\TypeValue.cs" />
-    <Compile Include="Assets\Script\WolfAttack.cs" />
     <Compile Include="Assets\Script\WolfGuardsAi.cs" />
     <Compile Include="Assets\Script\WolfGuardsAttack.cs" />
-    <Compile Include="Assets\sound.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\EnemyPauseModel\ToonSoldiers_demo.txt" />

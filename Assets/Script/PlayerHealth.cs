@@ -26,7 +26,6 @@ public class PlayerHealth : MonoBehaviour {
 
     void Awake()
 	{
-
         playerMovement = GetComponent<PlayerMovement>();
         ragdollBehavior = GetComponent<RagdollBehavior>();
         // possessedSystem = GetComponent<PossessedSystem>();

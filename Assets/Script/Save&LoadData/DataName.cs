@@ -33,7 +33,7 @@ public class DataName : MonoBehaviour {
         }
         else
         {
-            TextName.fontSize = 51;
+            TextName.fontSize = 45;
             TextName.text = "空的存檔";
             if (Delet != null)
                 Delet.SetActive(false);

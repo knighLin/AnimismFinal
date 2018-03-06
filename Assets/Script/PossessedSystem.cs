@@ -26,25 +26,21 @@ public class PossessedSystem : MonoBehaviour
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         CameraScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
-
+        //Possessor = GameObject.Find("Pine");
     }
-    private void Start()
-    {
-        if (!Possessor)
-            Possessor = GameObject.Find("Pine");
-    }
+    //private void Start()
+    //{
+    //    if (!Possessor)
+    //        Possessor = GameObject.Find("Pine");
+    //}
     private void OnEnable()//當打開程式，呼叫當前正開啟的物件的附身範圍和移動
     {
-        if (!Possessor)
-            Possessor = GameObject.Find("Pine");
+        //if (!Possessor)
+        //    Possessor = GameObject.Find("Pine");
         playerMovement = GetComponent<PlayerMovement>();
         PossessedCol = GetComponent<SphereCollider>();
     }
-    //private void OnDisable()
-    //{
-    //    playerMovement = null;
-    //    PossessedCol = null;
-    //}
+   
     private void Update()
     {
         if (CameraScript.CanPossess)//打開附身系統
@@ -185,7 +181,6 @@ public class PossessedSystem : MonoBehaviour
             Possessor.tag = hit.collider.tag;//將目前人的tag轉為附身後動物的
             AttachedBody = hit.collider.gameObject.transform.parent.gameObject;//讓新的附身物等於AttachedBody
             playerManager.NowCharacter = AttachedBody;
-            // AttachedBody = hit.collider.gameObject;//點擊到的附身物等於AttachedBody
             playerManager.PossessType = AttachedBody.tag;
             switch (AttachedBody.transform.tag)
             {//將附身物的標籤傳到管理者，方便變換動物數值
@@ -205,9 +200,12 @@ public class PossessedSystem : MonoBehaviour
             PossessedCol.enabled = false;//關掉當前附身範圍
             Possessor.transform.parent = AttachedBody.transform;//將附身者變為被附身物的子物件
             Possessor.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            AttachedBody.GetComponent<PlayerMovement>().enabled = true;//打開附身者的移動和附身
-            AttachedBody.GetComponent<PossessedSystem>().enabled = true;
-            AttachedBody.GetComponent<PossessedSystem>().Possessor = Possessor;
+
+            AttachedBody.GetComponent<PlayerMovement>().enabled = true;//打開動物的移動和附身
+            AttachedBody.GetComponent<PossessedSystem>().enabled = true;//打開動物的附身系統
+            AttachedBody.GetComponent<AnimalAttack>().enabled = true;//動物的攻擊
+            //AttachedBody.GetComponent<PossessedSystem>().Possessor = Possessor;//將動物身上的Possessor改成人
+            AttachedBody.GetComponent<Health>().enabled = true;
             Possessor.SetActive(false);//關掉人型態的任何事
             OnPossessed = true;//已附身
             
@@ -219,12 +217,6 @@ public class PossessedSystem : MonoBehaviour
             {
                 WolfCount = 0;
             }
-
-            //附身後抓取附身動物的HP腳本，將動物血量跟主角血量做連動
-            //animalHealth = AttachedBody.GetComponent<AnimalHealth>();
-            //animalHealth.LinkHP();
-
-
         }
     }
 
@@ -245,25 +237,26 @@ public class PossessedSystem : MonoBehaviour
 
     public void LifedPossessed()//解除變身
     {
-
         Possessor.transform.parent = null;//將玩家物件分離出被附身物
         Possessor.transform.position = new Vector3(AttachedBody.transform.position.x + 1.5f, transform.position.y + 0.5f, AttachedBody.transform.position.z + 1.5f);
         //將被附身物與人的位置分離
+        //關閉動物所有程式
         AttachedBody.GetComponent<PlayerMovement>().enabled = false;
         AttachedBody.GetComponent<PossessedSystem>().enabled = false;
+        AttachedBody.GetComponent<AnimalAttack>().enabled = true;
+        AttachedBody.GetComponent<Health>().enabled = true;
+        AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
+
         Possessor.GetComponent<PlayerMovement>().enabled = true;
         Possessor.tag = "Player";//將型態變回Human
         Possessor.SetActive(true);//打開人型態的任何事
         playerManager.TurnType("Human", AttachedBody.tag);//將標籤傳至管理者，變換數值
-        AttachedBody.tag = playerManager.PossessType;//還tag給動物
         AttachedBody = null;//解除附身後清除附身物，防止解除附身後按Ｑ還有反應
         OnPossessed = false;//取消附身
         playerManager.NowCharacter = Possessor;
         playerManager.PossessType = "Human";
         CameraScript.LoadCharacterPosition();
         HPcontroller.CharacterSwitch();
-
-
     }
 }
 
