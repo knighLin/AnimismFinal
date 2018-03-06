@@ -14,7 +14,7 @@ public class PossessedSystem : MonoBehaviour
     public static SphereCollider PossessedCol;//附身範圍
     public LayerMask PossessedLayerMask;//可被附身物的階層
     public static int WolfCount;//狼的連續附身次數
-    private List<Collider> RangeObject = new List<Collider>();//範圍附身物
+    public List<Collider> RangeObject = new List<Collider>();//範圍附身物
     public GameObject Possessor;//人的型態
     private RaycastHit hit;//點擊的動物物件
     private string PreviousTag;//附身前的標籤

@@ -248,7 +248,6 @@
     <Compile Include="Assets\AnimFollow\Scripts\TestScripts\BulletHitInfo_AF.cs" />
     <Compile Include="Assets\AnimFollow\Scripts\TestScripts\ragdollHitByBullet_AF.cs" />
     <Compile Include="Assets\AnimFollow\Scripts\TestScripts\ShootStuff_AF.cs" />
-    <Compile Include="Assets\CameraLocking.cs" />
     <Compile Include="Assets\Plug-in\Addons\CameraPathCreator\DEMO\CPC_DEMO_UpDown.cs" />
     <Compile Include="Assets\Plug-in\Addons\CameraPathCreator\Scripts\CPC_CameraPath.cs" />
     <Compile Include="Assets\Plug-in\CameraEffect\ScreenSpaceSSS\CP_SSSSS\CP_SSSSS_Main.cs" />
@@ -313,6 +312,7 @@
     <Compile Include="Assets\Script\Bullet.cs" />
     <Compile Include="Assets\Script\ButtonScript.cs" />
     <Compile Include="Assets\Script\CameraAspect.cs" />
+    <Compile Include="Assets\Script\CameraLocking.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
     <Compile Include="Assets\Script\EnemyAI.cs" />
     <Compile Include="Assets\Script\EnemyHealth.cs" />

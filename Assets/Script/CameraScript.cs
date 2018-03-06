@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-
+    private CameraLocking CameraLocking;
     private PossessedSystem PossessedSystem;
     private PlayerManager playerManager;
     public GameObject PossessTarget;
@@ -28,14 +28,17 @@ public class CameraScript : MonoBehaviour
     private float PossessTime; //附身鏡頭計時
     private float PossessStop = 2; //附身鏡頭的秒數
     public bool CanPossess = false;//靈視狀態下才會為true 代表可以附身;
+    public bool CanLockAnimal = false;//可以鎖定動物
     public bool IsPossessing = false;//附身中為true直到附身結束切回正常狀態才會被重置為false
     public bool CantLeftPossess = false;//靈視不能退出附身
     public bool CantSoulVison = false;//附身後不能持續按著E進入靈視
     public bool FixedVison = false;//固定視角
 
+
     // Use this for initialization
     void Start()
     {
+        CameraLocking = GetComponent<CameraLocking>();
         PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
         playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
         SoulVisionEffect.SetActive(false);//開始時靈視關閉
@@ -90,6 +93,7 @@ public class CameraScript : MonoBehaviour
     {
         CantLeftPossess = false;
         CanPossess = false;//不能附身
+        CanLockAnimal = false;
         IsPossessing = false;//可以進入靈視
         FowardAndBackTime = 0;//前進後退的計時為0
         PossessTime = 0;//前進後退的計時為0
@@ -158,7 +162,7 @@ public class CameraScript : MonoBehaviour
     public void SoulVision()//鏡頭前進為靈視狀態
     {
         CantLeftPossess = true;
-        NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
+        //NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
         if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
             CameraState = "SoulVisionOver";
         if (FowardAndBackTime < FowardStop)//0.25秒移動到到指定位置
@@ -180,6 +184,7 @@ public class CameraScript : MonoBehaviour
             SoulVisionEffect.SetActive(true);
             Crosshairs.SetActive(true);
             CanPossess = true;
+            CanLockAnimal = true;
         }
     }
     public void SoulVisionOver()//鏡頭後退為正常狀態
@@ -187,6 +192,7 @@ public class CameraScript : MonoBehaviour
         SoulVisionEffect.SetActive(false);
         Crosshairs.SetActive(false);
         CanPossess = false;
+        CanLockAnimal = false;
         if (FowardAndBackTime > 0)//從移動到的位置退回正常位置
         {
             FowardAndBackTime -= Time.deltaTime;
