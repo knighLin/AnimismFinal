@@ -42,9 +42,9 @@ public class SaveData : MonoBehaviour
         //儲存檔案
         Save.PlayerState = GameObject.Find("PlayerManager").GetComponent<PlayerManager>().NowType;
         Debug.Log("主角狀態為" + Save.PlayerState);
-        if (GameObject.FindGameObjectsWithTag("WolfMaster")[0] != null)//抓現在所有狼
+        if (GameObject.FindGameObjectsWithTag("WolfMaster") != null)//抓現在所有狼
             Wolf = GameObject.FindGameObjectsWithTag("WolfMaster");
-        if (GameObject.FindGameObjectsWithTag("Enemy")[0] != null) //抓現在所有敵人
+        if (GameObject.FindGameObjectsWithTag("Enemy") != null) //抓現在所有敵人
             Enemy = GameObject.FindGameObjectsWithTag("Enemy");
         Save.WolfState = new List<int> { };                       //創新的List用來存數值
         Save.WolfVector3 = new List<Vector3> { };                 //創新的List用來存數值
