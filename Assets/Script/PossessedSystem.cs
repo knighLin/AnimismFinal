@@ -21,22 +21,27 @@ public class PossessedSystem : MonoBehaviour
     public bool ChooseRightObject;
     private bool clear = true;
 
+    //audio
+    private AudioSource audioSource;
+    public AudioClip HumanSurgery;
+    public AudioClip WolfSurgery;
     private void Awake()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         CameraScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
-        //Possessor = GameObject.Find("Pine");
+        audioSource = GetComponent<AudioSource>();
+       // Possessor = GameObject.Find("Pine");
     }
-    //private void Start()
-    //{
-    //    if (!Possessor)
-    //        Possessor = GameObject.Find("Pine");
-    //}
+    private void Start()
+    {
+        if (!Possessor)
+            Possessor = GameObject.Find("Pine");
+    }
     private void OnEnable()//當打開程式，呼叫當前正開啟的物件的附身範圍和移動
     {
-        //if (!Possessor)
-        //    Possessor = GameObject.Find("Pine");
+        if (!Possessor)
+            Possessor = GameObject.Find("Pine");
         playerMovement = GetComponent<PlayerMovement>();
         PossessedCol = GetComponent<SphereCollider>();
     }
@@ -52,6 +57,15 @@ public class PossessedSystem : MonoBehaviour
                 //清掉之前範圍的動物物件和Highlight
                 RangeObject.Clear();
                 clear = false;
+                if (Possessor.tag == "Player")//判斷目前形體，播放不同附身的音效
+                {
+                    audioSource.PlayOneShot(HumanSurgery);
+                }
+                else if (Possessor.tag == "Wolf")
+                {
+                    audioSource.PlayOneShot(WolfSurgery);
+
+                }
             }
 
 
@@ -72,27 +86,7 @@ public class PossessedSystem : MonoBehaviour
                 Time.timeScale = 1f;//如果有變慢 才取消慢動作
                                     //joycontroller.joypossessed = false; //搖桿
         }
-        /*if (Input.GetKeyUp(KeyCode.E))//開啟附身系統只清一次，播放一次動畫
-        {
-            PossessedCol.enabled = !PossessedCol.enabled;
-            if (PossessedCol.enabled == true)
-            {
-                RangeObject.Clear();//清掉之前範圍的動物物件
-                playerMovement.enabled = false;
-                PossessedCol.enabled = true;
-                Time.timeScale = 0.5f;//如果時間正常則遊戲慢動作
-            }
-            else
-            {
-                playerMovement.enabled = true;
-                Time.timeScale = 1f;//如果有變慢 才取消慢動作
-
-            }
-        }
-        MouseChoosePossessed();
-        */
-
-
+       
         if ((Input.GetKeyUp(KeyCode.Q) || Input.GetButtonDown("Triangel")) && AttachedBody != null && !CameraScript.IsPossessing&& !CameraScript.CantLeftPossess)//解除附身
         {
             LifedPossessed();//離開附身物
@@ -102,7 +96,6 @@ public class PossessedSystem : MonoBehaviour
 
     public void MouseChoosePossessed()//滑鼠點擊附身物
     {
-
         if (ChooseRightObject)//如果點到可附身物件
         {
             CameraScript.CantSoulVison=true;//附身後不能持續按著E進入靈視
@@ -120,7 +113,7 @@ public class PossessedSystem : MonoBehaviour
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit, 15, PossessedLayerMask);
-            Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 1f, true);
+           // Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 1f, true);
             for (int i = 0; i < RangeObject.Count; i++)
             {
                 
@@ -136,26 +129,6 @@ public class PossessedSystem : MonoBehaviour
                 //}
             }
         }
-        /*
-       if (((Input.GetMouseButtonUp(1) || Input.GetButtonDown("joy12")) && PossessedCol.enabled == true))
-       {
-           Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-           Physics.Raycast(ray, out hit, 10, PossessedLayerMask);
-           Debug.DrawLine(ray.origin, hit.transform.position, Color.green, 0.1f, true);
-           for (int i = 0; i < RangeObject.Count; i++)
-           {
-               if (!hit.collider.gameObject != this.gameObject)//如果是自己本身不執行
-               {
-                   if (hit.collider == RangeObject[i])//當點擊的物件是附身範圍裡的物件時
-                   {
-                       Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 0.1f, true);
-                       EnterPossessed();
-                       Time.timeScale = 1f;//如果有變慢 才取消慢動作
-                   }
-               }
-           }
-       }*/
-
     }
 
     public void InToPossess()
@@ -209,7 +182,7 @@ public class PossessedSystem : MonoBehaviour
             Possessor.SetActive(false);//關掉人型態的任何事
             OnPossessed = true;//已附身
             
-            if (AttachedBody.tag == "Wolf")
+            if (hit.collider.tag == "Wolf")
             {
                 WolfCount++;
             }
@@ -218,6 +191,8 @@ public class PossessedSystem : MonoBehaviour
                 WolfCount = 0;
             }
         }
+        HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        HPcontroller.CharacterHpControll();
     }
 
     void OnTriggerEnter(Collider Object)//送出訊息
@@ -243,8 +218,8 @@ public class PossessedSystem : MonoBehaviour
         //關閉動物所有程式
         AttachedBody.GetComponent<PlayerMovement>().enabled = false;
         AttachedBody.GetComponent<PossessedSystem>().enabled = false;
-        AttachedBody.GetComponent<AnimalAttack>().enabled = true;
-        AttachedBody.GetComponent<Health>().enabled = true;
+        AttachedBody.GetComponent<AnimalAttack>().enabled = false;
+        AttachedBody.GetComponent<Health>().enabled = false;
         AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
 
         Possessor.GetComponent<PlayerMovement>().enabled = true;
@@ -257,6 +232,8 @@ public class PossessedSystem : MonoBehaviour
         playerManager.PossessType = "Human";
         CameraScript.LoadCharacterPosition();
         HPcontroller.CharacterSwitch();
+        HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        HPcontroller.CharacterHpControll();
     }
 }
 

@@ -318,7 +318,6 @@
     <Compile Include="Assets\Script\EnemyAI.cs" />
     <Compile Include="Assets\Script\EnemyHealth.cs" />
     <Compile Include="Assets\Script\EnemyNormalAtk.cs" />
-    <Compile Include="Assets\Script\EnemyPosition.cs" />
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
     <Compile Include="Assets\Script\HPcontroller.cs" />

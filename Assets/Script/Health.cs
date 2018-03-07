@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour {
 
+    private HPcontroller HPcontroller;
     private PlayerMovement playerMovement;//角色的移動
     private RagdollBehavior ragdollBehavior;
     private PossessedSystem possessedSystem;
@@ -17,12 +18,13 @@ public class Health : MonoBehaviour {
     public AudioClip hurt;
 
     private float timer;//開啟ragdoll的時間
-    public CapsuleCollider m_collider;
+    //public CapsuleCollider m_collider;
     private float StoreHumanHealth;
     public static bool CanPossessed;
 
     private void Awake()
     {
+        HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
         possessedSystem = GetComponent<PossessedSystem>();
         currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
         if (this.gameObject == possessedSystem.Possessor)
@@ -77,7 +79,9 @@ public class Health : MonoBehaviour {
             animator.SetTrigger("Hurt");
             
         }
-        audioSource.PlayOneShot(hurt);
+        //audioSource.PlayOneShot(hurt);
+        HPcontroller.CharacterHpControll();
+        HPcontroller.UIBlink();
     }
     
     IEnumerator HurtAnimation()//人用的

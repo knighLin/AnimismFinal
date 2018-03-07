@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HPcontroller : MonoBehaviour
 {
-    private PlayerHealth PlayerHealth;
+    public Health Health;
     private AnimalHealth AnimalHealth;
     private PlayerManager playerManager;
     public Image HpB, HpW, HpR;//腳色血條圖片
@@ -20,7 +20,7 @@ public class HPcontroller : MonoBehaviour
 
 
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-       // PlayerHealth = GameObject.Find("Pine").GetComponent<PlayerHealth>();
+        Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         Blink = false;
       //  CharacterSwitch();
     }
@@ -29,7 +29,7 @@ public class HPcontroller : MonoBehaviour
     void Update()
     {
 
-
+        
 
         if (Blink)//閃爍
             UIBlink();
@@ -72,7 +72,7 @@ public class HPcontroller : MonoBehaviour
             if (BlinkTime % 2 < 1)
             {
                 HpR.sprite = Resources.Load("UI/左上/Hp/HP_WHITE", typeof(Sprite)) as Sprite;
-                switch (playerManager.PossessType)
+                switch (playerManager.NowType)
                 {
                     case "Human":
                         FaceR.sprite = Resources.Load("UI/左上/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
@@ -91,7 +91,7 @@ public class HPcontroller : MonoBehaviour
             else
             {
                 HpR.sprite = Resources.Load("UI/左上/Hp/HP_RED", typeof(Sprite)) as Sprite;
-                switch (playerManager.PossessType)
+                switch (playerManager.NowType)
                 {
                     case "Human":
                         FaceR.sprite = Resources.Load("UI/左上/Pine/PINE_RED", typeof(Sprite)) as Sprite;
@@ -113,25 +113,20 @@ public class HPcontroller : MonoBehaviour
     public void CharacterHpControll()
     {
 
-        switch (playerManager.PossessType)
+        switch (playerManager.NowType)
         {
             case "Human":
-                PineHpMax = PlayerHealth.MaxHealth;
-                PineHpNow = PlayerHealth.currentHealth;
-
-                HpW.fillAmount = (PineHpNow * 0.75f + PineHpMax * 0.25f) / PineHpMax;//(75%當前血量+25%血量最大值)/血量最大值
-                HpR.fillAmount = (PineHpNow * 0.75f + PineHpMax * 0.25f) / PineHpMax;//Ex:當前血20 血量最大值100 為 (20*75%+100*25%)/100 = 0.4
-                break;
+                    PineHpMax = Health.MaxHealth;
+                    PineHpNow = Health.currentHealth;
+                    HpW.fillAmount = (PineHpNow * 0.75f + PineHpMax * 0.25f) / PineHpMax;//(75%當前血量+25%血量最大值)/血量最大值
+                    HpR.fillAmount = (PineHpNow * 0.75f + PineHpMax * 0.25f) / PineHpMax;//Ex:當前血20 血量最大值100 為 (20*75%+100*25%)/100 = 0.4
+                    break;
             case "Wolf":
-                if (PossessedSystem.AttachedBody == this.gameObject)
-                {
-                    AnimalHealth = GameObject.Find("Player/Wolf").GetComponent<AnimalHealth>();
-                    WolfHpMax = AnimalHealth.MaxHealth;
-                    WolfHpNow = AnimalHealth.currentHealth;
-
+                   
+                    WolfHpMax = Health.MaxHealth;
+                    WolfHpNow = Health.currentHealth;
                     HpW.fillAmount = (WolfHpNow * 0.75f + WolfHpMax * 0.25f) / WolfHpMax;
                     HpR.fillAmount = (WolfHpNow * 0.75f + WolfHpMax * 0.25f) / WolfHpMax;
-                }
                 break;
                 //case "Bear":
                 //    AnimalHealth = GameObject.Find("Player/Bear").GetComponent<AnimalHealth>();

@@ -26,22 +26,18 @@ public class EnemyAI : MonoBehaviour
     private int NewState;//思考後的新狀態
     private bool isThink;
     private NavMeshAgent nav;
-
     //判斷主角
     private Transform Target;
     private float EnemyToPlayerDis;//主角跟敵人的距離
-
     //巡邏範圍計算變數
     private Vector3 MovePoint;//要移動的位置
     private Vector3 OriginPoint;//敵人最初位置
     private float PatorlRadius = 15f;//巡邏半徑
-
     //動作宣告
     private Animator animator;
     private float animSpeed;
 
     
-
     void Awake()
     {
         enemyShoot = GetComponentInChildren<EnemyShoot>();
@@ -61,18 +57,18 @@ public class EnemyAI : MonoBehaviour
         TargetInRange();
         if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
          {
-            
             nav.isStopped = true;
-             // isThink = true;//走到巡邏點後再開始思考
-         }
+            animSpeed = nav.desiredVelocity.sqrMagnitude;
+            animator.SetFloat("Speed", animSpeed);
+            // isThink = true;//走到巡邏點後再開始思考
+        }
          else
          {
              //isThink = false;
             nav.isStopped = false;
-             animSpeed = nav.desiredVelocity.sqrMagnitude;
+            animSpeed = nav.desiredVelocity.sqrMagnitude;
             animator.SetFloat("Speed", animSpeed);
          }
-
     }
 
     void ThinkState()
@@ -96,9 +92,7 @@ public class EnemyAI : MonoBehaviour
                         break;
                 }
             }
-
         }
-
     }
 
     Vector3 PatrolPoint()//巡邏半徑內，隨機選一個點
@@ -106,7 +100,6 @@ public class EnemyAI : MonoBehaviour
         MovePoint = new Vector3(Random.Range(OriginPoint.x - PatorlRadius, OriginPoint.x + PatorlRadius), transform.position.y, Random.Range(OriginPoint.z - PatorlRadius, OriginPoint.z + PatorlRadius));
         // Debug.Log("NewPoint" + MovePoint);
         return MovePoint;
-
     }
 
     private void TargetInRange()
@@ -158,7 +151,6 @@ public class EnemyAI : MonoBehaviour
                // Debug.Log("Walk");
                 //isThink = false;
                 nav.SetDestination(PatrolPoint());
-
                 nav.isStopped = false;
                 break;
             case EnemyState.Enemy_Catch:
@@ -185,7 +177,6 @@ public class EnemyAI : MonoBehaviour
                     enemyShoot.DeleteBullet();
                     timer = Time.time;
                 }
-
                 break;
         }
     }

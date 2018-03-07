@@ -14,7 +14,8 @@ public class AnimalAttack : MonoBehaviour
     //Audio
     private AudioSource audioSource;
     public AudioClip attack;
-    
+    public AudioClip summon;//召喚
+
     void Start()
     {
         Anim = GetComponent<Animator>();
@@ -25,7 +26,7 @@ public class AnimalAttack : MonoBehaviour
 
     int AttackRender()
     {
-        int AttackCount = Random.Range(0, 2);
+        int AttackCount = Random.Range(0, 3);
         return AttackCount;
     }
 
@@ -40,14 +41,18 @@ public class AnimalAttack : MonoBehaviour
                 Anim.SetInteger("Render", AttackRender());
             }
 
-            if (Input.GetMouseButtonDown(1) && PossessedSystem.WolfCount >= 1 && PossessedSystem.OnPossessed == true)
+            if (Input.GetMouseButtonDown(1))
             {
-                Vector3 MovePoint = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y, Random.Range(this.transform.position.z - 2, this.transform.position.x + 2));
-                Vector3 MovePoint2 = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y, Random.Range(this.transform.position.z - 2, this.transform.position.x + 2));
-                Instantiate(WolfGuards, MovePoint, Quaternion.identity);
-                Instantiate(WolfGuards, MovePoint2, Quaternion.identity);
-
-                PossessedSystem.WolfCount = 0;
+                if(PossessedSystem.WolfCount >= 1 && PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                {
+                    Anim.SetTrigger("Surgery");
+                    audioSource.PlayOneShot(summon);
+                    Vector3 MovePoint = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
+                    Vector3 MovePoint2 = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
+                    Instantiate(WolfGuards, MovePoint, Quaternion.identity);
+                    Instantiate(WolfGuards, MovePoint2, Quaternion.identity);
+                    PossessedSystem.WolfCount = 0;
+                }
             }
         }
         else if (possessedSystem.Possessor.tag == "Bear")

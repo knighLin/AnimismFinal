@@ -1,0 +1,283 @@
+fileFormatVersion: 2
+guid: ce8be60d9fe7fa146997a1b535ebfe43
+timeCreated: 1520377097
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Enemy_02:Armor
+    100004: Enemy_02:Body
+    100006: Enemy_02:Clothes
+    100008: Enemy_02:Clothes02
+    100010: Enemy_02:Enemy
+    100012: Enemy_02:Eyes
+    100014: Enemy_02:Gloves
+    100016: Enemy_02:Hair
+    100018: Enemy_02:Helmet
+    100020: Enemy_02:HelmetFeather
+    100022: Enemy_02:Pants
+    100024: Enemy_02:Skirt
+    100026: Enemy_02:SkirtArmor
+    100028: head
+    100030: head_top
+    100032: hip
+    100034: L_down_arm
+    100036: L_down_leg
+    100038: L_foot
+    100040: L_hand
+    100042: L_index1
+    100044: L_index2
+    100046: L_index3
+    100048: L_index4
+    100050: L_middle1
+    100052: L_middle2
+    100054: L_middle3
+    100056: L_middle4
+    100058: L_pinky1
+    100060: L_pinky2
+    100062: L_pinky3
+    100064: L_pinky4
+    100066: L_ring1
+    100068: L_ring2
+    100070: L_ring3
+    100072: L_ring4
+    100074: L_shoulder
+    100076: L_thumb1
+    100078: L_thumb2
+    100080: L_thumb3
+    100082: L_thumb4
+    100084: L_toe
+    100086: L_toe_top
+    100088: L_up_arm
+    100090: L_up_leg
+    100092: nek
+    100094: R_down_arm
+    100096: R_down_leg
+    100098: R_foot
+    100100: R_hand
+    100102: R_index1
+    100104: R_index2
+    100106: R_index3
+    100108: R_index4
+    100110: R_middle1
+    100112: R_middle2
+    100114: R_middle3
+    100116: R_middle4
+    100118: R_pinky1
+    100120: R_pinky2
+    100122: R_pinky3
+    100124: R_pinky4
+    100126: R_ring1
+    100128: R_ring2
+    100130: R_ring3
+    100132: R_ring4
+    100134: R_shoulder
+    100136: R_thumb1
+    100138: R_thumb2
+    100140: R_thumb3
+    100142: R_thumb4
+    100144: R_toe
+    100146: R_toe_top
+    100148: R_up_arm
+    100150: R_up_leg
+    100152: spine1
+    100154: spine2
+    100156: spine3
+    400000: //RootNode
+    400002: Enemy_02:Armor
+    400004: Enemy_02:Body
+    400006: Enemy_02:Clothes
+    400008: Enemy_02:Clothes02
+    400010: Enemy_02:Enemy
+    400012: Enemy_02:Eyes
+    400014: Enemy_02:Gloves
+    400016: Enemy_02:Hair
+    400018: Enemy_02:Helmet
+    400020: Enemy_02:HelmetFeather
+    400022: Enemy_02:Pants
+    400024: Enemy_02:Skirt
+    400026: Enemy_02:SkirtArmor
+    400028: head
+    400030: head_top
+    400032: hip
+    400034: L_down_arm
+    400036: L_down_leg
+    400038: L_foot
+    400040: L_hand
+    400042: L_index1
+    400044: L_index2
+    400046: L_index3
+    400048: L_index4
+    400050: L_middle1
+    400052: L_middle2
+    400054: L_middle3
+    400056: L_middle4
+    400058: L_pinky1
+    400060: L_pinky2
+    400062: L_pinky3
+    400064: L_pinky4
+    400066: L_ring1
+    400068: L_ring2
+    400070: L_ring3
+    400072: L_ring4
+    400074: L_shoulder
+    400076: L_thumb1
+    400078: L_thumb2
+    400080: L_thumb3
+    400082: L_thumb4
+    400084: L_toe
+    400086: L_toe_top
+    400088: L_up_arm
+    400090: L_up_leg
+    400092: nek
+    400094: R_down_arm
+    400096: R_down_leg
+    400098: R_foot
+    400100: R_hand
+    400102: R_index1
+    400104: R_index2
+    400106: R_index3
+    400108: R_index4
+    400110: R_middle1
+    400112: R_middle2
+    400114: R_middle3
+    400116: R_middle4
+    400118: R_pinky1
+    400120: R_pinky2
+    400122: R_pinky3
+    400124: R_pinky4
+    400126: R_ring1
+    400128: R_ring2
+    400130: R_ring3
+    400132: R_ring4
+    400134: R_shoulder
+    400136: R_thumb1
+    400138: R_thumb2
+    400140: R_thumb3
+    400142: R_thumb4
+    400144: R_toe
+    400146: R_toe_top
+    400148: R_up_arm
+    400150: R_up_leg
+    400152: spine1
+    400154: spine2
+    400156: spine3
+    4300000: Enemy_02:Body
+    4300002: Enemy_02:Pants
+    4300004: Enemy_02:Clothes
+    4300006: Enemy_02:Clothes02
+    4300008: Enemy_02:Gloves
+    4300010: Enemy_02:Armor
+    4300012: Enemy_02:Helmet
+    4300014: Enemy_02:SkirtArmor
+    4300016: Enemy_02:Skirt
+    4300018: Enemy_02:Hair
+    4300020: Enemy_02:HelmetFeather
+    4300022: Enemy_02:Eyes
+    9500000: //RootNode
+    13700000: Enemy_02:Armor
+    13700002: Enemy_02:Body
+    13700004: Enemy_02:Clothes
+    13700006: Enemy_02:Clothes02
+    13700008: Enemy_02:Eyes
+    13700010: Enemy_02:Gloves
+    13700012: Enemy_02:Hair
+    13700014: Enemy_02:Helmet
+    13700016: Enemy_02:HelmetFeather
+    13700018: Enemy_02:Pants
+    13700020: Enemy_02:Skirt
+    13700022: Enemy_02:SkirtArmor
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Enemy_02_Body1
+    second: {fileID: 2100000, guid: e9879a0fc53d07842a76363587695446, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Enemy_02_Equipment
+    second: {fileID: 2100000, guid: fd6051d63b1304541a908150878ccdc6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Enemy_02_Eyes1
+    second: {fileID: 2100000, guid: cd677b25ecf33c541929122c5a00e6d6, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

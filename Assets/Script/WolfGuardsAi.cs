@@ -29,6 +29,9 @@ public class WolfGuardsAi : MonoBehaviour
         if (Nav.remainingDistance < Nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
             Nav.isStopped = true;
+            Anim.SetFloat("Speed", Nav.desiredVelocity.sqrMagnitude, 0.1f, Time.deltaTime);
+            m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
+            Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
         }
         else
         {
@@ -48,7 +51,6 @@ public class WolfGuardsAi : MonoBehaviour
             enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth.currentHealth > 0)
             {//當Enemy的還有血量時
-
                 transform.LookAt(other.transform);
                 Anim.SetTrigger("Attack");//之後要改誠動畫
             }
