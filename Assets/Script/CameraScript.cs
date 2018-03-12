@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    private pillarSystem pillarSystem;
     private CameraLocking CameraLocking;
     private PossessedSystem PossessedSystem;
     private PlayerManager playerManager;
@@ -22,6 +23,7 @@ public class CameraScript : MonoBehaviour
     public string CameraState;//鏡頭狀態
     public float rotX;
     public float rotY;
+    public int ShakeTime =0;
     private float sensitivity = 30f;//靈敏度
     private float FowardAndBackTime;//鏡頭前進/後退計時
     private float FowardStop = 0.2f; //鏡頭前進的秒數
@@ -34,10 +36,13 @@ public class CameraScript : MonoBehaviour
     public bool CantSoulVison = false;//附身後不能持續按著E進入靈視
     public bool FixedVison = false;//固定視角
     public bool IsSoulVision = false;
+    public bool Backing = false;
+    public bool Shake = false;
 
     // Use this for initialization
     void Start()
     {
+        pillarSystem = GameObject.Find("TotemPole").GetComponent<pillarSystem>();
         CameraLocking = GetComponent<CameraLocking>();
         PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
         playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
@@ -49,12 +54,28 @@ public class CameraScript : MonoBehaviour
         PlayerView = GameObject.Find("FirstPersonCamPoint");
         MoveEnd = GameObject.Find("CamMoveEndPoint");//一開始取正確腳色位置
         NowCharacter = GameObject.Find("Pine");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!IsPossessing&&!FixedVison&&!LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
+        if (Input.GetKey(KeyCode.U))
+            Shake = true;
+        else
+            Shake = false;
+        if (Shake)
+        {
+            if (ShakeTime%2==0)
+            Normal003.transform.localPosition += new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), Random.Range(-0.2f, 0.2f));
+            ShakeTime += 1;
+        }
+        else
+        {
+            Normal003.transform.localPosition = new Vector3(0, 0, -3);
+            ShakeTime = 0;
+        }
+        if (!Backing&&!IsPossessing&&!FixedVison&&!LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
         NormalPosition = RotationEuler * Normal003.transform.localPosition + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
         switch (CameraState)
         {
@@ -105,7 +126,9 @@ public class CameraScript : MonoBehaviour
     }
     public void ResetValue()//重置一些前進後退中用到的值 以防下次進入其他模式出問題
     {
+        if (IsSoulVision|| CanPossess)
         FixedVison = false;
+        Backing = false;
         CameraLocking.Player = null;
         IsSoulVision = false;
         CantLeftPossess = false;
@@ -163,7 +186,7 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
-            if (FixedVison==true)
+            if (FixedVison)
             {
                 transform.rotation = NowCharacter.transform.rotation;
                 transform.position = transform.rotation*Normal003.transform.localPosition + PlayerView.transform.position;
@@ -179,6 +202,7 @@ public class CameraScript : MonoBehaviour
     }
     public void EnterSoulVision()//鏡頭前進為靈視狀態
     {
+        Backing = false;
         CantLeftPossess = true;
         NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
         if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
@@ -186,10 +210,7 @@ public class CameraScript : MonoBehaviour
         if (FowardAndBackTime < FowardStop)//0.25秒移動到到指定位置
         {
             FowardAndBackTime += Time.deltaTime;
-            if (FixedVison)
-                VectorMoveDistance = MoveEnd.transform.position - FixedPosition;//如果在固定視角模式，距離為終點減固定視角位置
-            else
-                VectorMoveDistance = MoveEnd.transform.position - NormalPosition;//距離為終點減正常位置
+            VectorMoveDistance = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position - NormalPosition;//距離為終點減正常位置
             Move = VectorMoveDistance * Time.deltaTime * 5;
             transform.position += Move;
             CameraNowPosition = transform.position;
@@ -202,28 +223,28 @@ public class CameraScript : MonoBehaviour
     }
     public void SoulVision()//靈視
     {
+
         NowCharacter.transform.rotation = Quaternion.Euler(0, rotX, 0);//靈視狀態下腳色轉動
         if (!Input.GetKey(KeyCode.E) && !IsPossessing)//只要在靈視狀態下放開靈視鍵則退出靈視
             CameraState = "SoulVisionOver";
+        CameraNowPosition = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
+        transform.position = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
+        SoulVisionEffect.SetActive(true);
+        Crosshairs.SetActive(true);
+        CanPossess = true;
+        pillarSystem.pillarSystemBool = true;
         if (PossessedSystem.RangeObject.Count > 0&&Input.GetButtonDown("CircleLockingAnimal"))
         {
             LockingAnimal = true;
             CameraLocking.LockingAnimals();
+            transform.position = CameraLocking.CameraRotation * new Vector3(0,-0.2f,0) + MoveEnd.transform.position;
             transform.rotation = CameraLocking.CameraRotation;
-            transform.position = transform.rotation * (Normal003.transform.localPosition + new Vector3(0, -0.2f, 3)) + MoveEnd.transform.position;
             CameraNowPosition = transform.position;
             rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
             rotY = transform.eulerAngles.x;
+            RotationEuler = Quaternion.Euler(rotY, rotX, 0);
             IsSoulVision = false;//換成鎖定
 
-        }
-        else
-        {
-            CameraNowPosition = MoveEnd.transform.position;
-            transform.position = MoveEnd.transform.position;
-            SoulVisionEffect.SetActive(true);
-            Crosshairs.SetActive(true);
-            CanPossess = true;
         }
     }
     public void SoulVisionLocking()//靈視鎖定狀態
@@ -239,15 +260,18 @@ public class CameraScript : MonoBehaviour
         else if (Input.GetButtonDown("CircleLockingAnimal"))
         {
             CameraLocking.LockingAnimals();
+            transform.position = CameraLocking.CameraRotation * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
             transform.rotation = CameraLocking.CameraRotation;
-            transform.position = transform.rotation * (Normal003.transform.localPosition+new Vector3(0, -0.2f, 3)) + MoveEnd.transform.position;
             CameraNowPosition = transform.position;
             rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
             rotY = transform.eulerAngles.x;
+            RotationEuler = Quaternion.Euler(rotY, rotX, 0);
         }
     }   
     public void SoulVisionOver()//鏡頭後退為正常狀態
     {
+        pillarSystem.pillarSystemBool = false;
+        Backing = true ;
         CameraLocking.Player = null;
         IsSoulVision = false;
         SoulVisionEffect.SetActive(false);
@@ -257,10 +281,7 @@ public class CameraScript : MonoBehaviour
         if (FowardAndBackTime > 0)//從移動到的位置退回正常位置
         {
             FowardAndBackTime -= Time.deltaTime;
-            if (FixedVison)
-                VectorMoveDistance = FixedPosition - CameraNowPosition;//如果在固定視角模式，距離為固定視角位置減當前位置
-            else
-                VectorMoveDistance = NormalPosition - CameraNowPosition;//距離為正常位置減當前位置
+            VectorMoveDistance = NormalPosition - CameraNowPosition;//距離為正常位置減當前位置
             Move = VectorMoveDistance * Time.deltaTime * 5;
             transform.position += Move;
         }

@@ -306,8 +306,12 @@
     <Compile Include="Assets\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
+    <Compile Include="Assets\Resources\Environment\TotemPole\Script\pillar1.cs" />
+    <Compile Include="Assets\Resources\Environment\TotemPole\Script\pillarSystem.cs" />
+    <Compile Include="Assets\Resources\Environment\TotemPole\Script\playermove.cs" />
     <Compile Include="Assets\Script\AnimalAttack.cs" />
     <Compile Include="Assets\Script\AnimalHealth.cs" />
+    <Compile Include="Assets\Script\Attack.cs" />
     <Compile Include="Assets\Script\AttackHit.cs" />
     <Compile Include="Assets\Script\BearAttack.cs" />
     <Compile Include="Assets\Script\Bullet.cs" />
@@ -321,7 +325,6 @@
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
     <Compile Include="Assets\Script\HPcontroller.cs" />
-    <Compile Include="Assets\Script\HumanAttack.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
     <Compile Include="Assets\Script\Pause.cs" />
     <Compile Include="Assets\Script\PlayerAttack.cs" />

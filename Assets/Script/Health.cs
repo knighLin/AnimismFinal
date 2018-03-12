@@ -81,7 +81,7 @@ public class Health : MonoBehaviour {
         }
         //audioSource.PlayOneShot(hurt);
         HPcontroller.CharacterHpControll();
-        HPcontroller.UIBlink();
+        HPcontroller.Blink = true;
     }
     
     IEnumerator HurtAnimation()//人用的

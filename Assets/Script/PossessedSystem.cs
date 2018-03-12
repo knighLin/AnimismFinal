@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class PossessedSystem : MonoBehaviour
 {
+    private Attack attack;
     private PlayerMovement playerMovement;
     private PlayerManager playerManager;
     private HPcontroller HPcontroller;
     private CameraScript CameraScript;
+
     public static bool OnPossessed = false;//附身狀態
     public static GameObject AttachedBody;//附身物
     public static SphereCollider PossessedCol;//附身範圍
@@ -21,16 +23,21 @@ public class PossessedSystem : MonoBehaviour
     public bool ChooseRightObject;
     private bool clear = true;
 
+    private Animator animator;
+
     //audio
     private AudioSource audioSource;
     public AudioClip HumanSurgery;
     public AudioClip WolfSurgery;
     private void Awake()
     {
+        attack = GetComponent<Attack>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         CameraScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
+        animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+
        // Possessor = GameObject.Find("Pine");
     }
     private void Start()
@@ -42,8 +49,10 @@ public class PossessedSystem : MonoBehaviour
     {
         if (!Possessor)
             Possessor = GameObject.Find("Pine");
+        attack = GetComponent<Attack>();
         playerMovement = GetComponent<PlayerMovement>();
         PossessedCol = GetComponent<SphereCollider>();
+        animator = GetComponent<Animator>();
     }
    
     private void Update()
@@ -52,8 +61,9 @@ public class PossessedSystem : MonoBehaviour
         {
             if (clear)//開啟附身系統只清一次，播放一次動畫
             {
-                //PlayerMovement.m_Animator.SetTrigger("Surgery");//播放附身動畫
+                animator.SetTrigger("Surgery");//播放附身動畫
                 playerMovement.enabled = false;
+                attack.enabled = false;
                 //清掉之前範圍的動物物件和Highlight
                 RangeObject.Clear();
                 clear = false;
@@ -64,22 +74,20 @@ public class PossessedSystem : MonoBehaviour
                 else if (Possessor.tag == "Wolf")
                 {
                     audioSource.PlayOneShot(WolfSurgery);
-
                 }
             }
-
-
             PossessedCol.enabled = true;
             if (Time.timeScale == 1f)
                 Time.timeScale = 0.5f;//如果時間正常則遊戲慢動作
             MouseChoosePossessed();
-
-
         }
         else
         {
             if (!CameraScript.IsPossessing)//附身不能動
+            {
                 playerMovement.enabled = true;
+                attack.enabled = true;
+            }
             clear = true;//讓下次開啟附身清理範圍物件
             PossessedCol.enabled = false;//附身範圍collider關閉
             if (Time.timeScale == 0.5f)
@@ -164,7 +172,7 @@ public class PossessedSystem : MonoBehaviour
                     playerManager.TurnType("Wolf", PreviousTag);
                     break;
             }
-            AttachedBody.tag = "Player";
+            AttachedBody.tag = "Player";//將目前附身動物tag改成player
             //附身者的位置到新被附身物的位置
             Possessor.transform.position = new Vector3(AttachedBody.transform.position.x,
                                                     AttachedBody.transform.position.y,
@@ -173,11 +181,9 @@ public class PossessedSystem : MonoBehaviour
             PossessedCol.enabled = false;//關掉當前附身範圍
             Possessor.transform.parent = AttachedBody.transform;//將附身者變為被附身物的子物件
             Possessor.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-
             AttachedBody.GetComponent<PlayerMovement>().enabled = true;//打開動物的移動和附身
             AttachedBody.GetComponent<PossessedSystem>().enabled = true;//打開動物的附身系統
-            AttachedBody.GetComponent<AnimalAttack>().enabled = true;//動物的攻擊
-            //AttachedBody.GetComponent<PossessedSystem>().Possessor = Possessor;//將動物身上的Possessor改成人
+            AttachedBody.GetComponent<Attack>().enabled = true;//攻擊
             AttachedBody.GetComponent<Health>().enabled = true;
             Possessor.SetActive(false);//關掉人型態的任何事
             OnPossessed = true;//已附身
@@ -218,7 +224,7 @@ public class PossessedSystem : MonoBehaviour
         //關閉動物所有程式
         AttachedBody.GetComponent<PlayerMovement>().enabled = false;
         AttachedBody.GetComponent<PossessedSystem>().enabled = false;
-        AttachedBody.GetComponent<AnimalAttack>().enabled = false;
+        AttachedBody.GetComponent<Attack>().enabled = false;
         AttachedBody.GetComponent<Health>().enabled = false;
         AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
 
@@ -231,6 +237,7 @@ public class PossessedSystem : MonoBehaviour
         playerManager.NowCharacter = Possessor;
         playerManager.PossessType = "Human";
         CameraScript.LoadCharacterPosition();
+
         HPcontroller.CharacterSwitch();
         HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         HPcontroller.CharacterHpControll();

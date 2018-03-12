@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         {
             m_Rigidbody.velocity = transform.forward * move.z * _Speed;
             // 确定当前是否能跳  ：
-            if (Input.GetKeyDown(KeyCode.Space))//|| joycontroller.joyjump == true)
+            if (Input.GetButtonDown("CrossJump"))
             { // jump!
                 // m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
                 m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
