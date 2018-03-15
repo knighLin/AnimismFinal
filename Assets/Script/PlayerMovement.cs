@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
             // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
         }
     }
-    
+
 
     //固定更新與物理同步調用
     private void FixedUpdate()
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         //讀取輸入
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-      
+
         //計算移動方向傳遞給角色
         if (m_Cam != null)
         {
@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
                 // m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
                 m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
                 m_Animator.SetTrigger("m_Jump");
-                m_IsGrounded = false;    
+                m_IsGrounded = false;
                 m_Animator.applyRootMotion = false;
                 m_GroundCheckDistance = 0.1f;
             }
@@ -129,13 +129,13 @@ public class PlayerMovement : MonoBehaviour
         else
         {//乘數增加重力：
             //Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-            m_Rigidbody.AddForce(Physics.gravity*1.5f);
+            m_Rigidbody.AddForce(Physics.gravity * 1.5f);
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;//上升的时候不判断是否在地面上   
         }
         // 将输入和其他状态传递给动画组件  
         UpdateAnimator(move);
     }
-    
+
     // 更新动画组件 
     void UpdateAnimator(Vector3 move)
     {
@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("CrossJump"))
         {
             m_Animator.SetFloat("JumpLeg", jumpLeg);
-            
+
         }
 
         // 这边的方法允许我们在inspector视图中调整动画的速率，他会因为根运动影响移动的速度  

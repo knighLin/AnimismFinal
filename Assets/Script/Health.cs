@@ -49,7 +49,7 @@ public class Health : MonoBehaviour
     {
         if (currentHealth <= 0 && isDead == false && this.gameObject == possessedSystem.Possessor)
         {
-            StopCoroutine(HurtAnimation());
+            StopCoroutine("HurtAnimation");
             Death();
         }
         if (this.gameObject != possessedSystem.Possessor && currentHealth < MaxHealth * 0.3f)//當動物血量小於30%，分離主角，並扣出主角原本血量的一半
@@ -65,19 +65,23 @@ public class Health : MonoBehaviour
 
     public void Hurt(float Amount)
     {
-        currentHealth -= Amount;//扣血
-        if (this.gameObject == possessedSystem.Possessor)
-        {
-            StartCoroutine(HurtAnimation());
-        }
-        else//動物的
-        {
-            animator.SetTrigger("Hurt");
 
+        if (currentHealth > 0)
+        {
+            currentHealth -= Amount;//扣血
+            if (this.gameObject == possessedSystem.Possessor)
+            {
+                StartCoroutine("HurtAnimation");
+            }
+            else//動物的
+            {
+                animator.SetTrigger("Hurt");
+            }
+            //audioSource.PlayOneShot(hurt);
+            HPcontroller.CharacterHpControll();
+            HPcontroller.Blink = true;
         }
-        //audioSource.PlayOneShot(hurt);
-        HPcontroller.CharacterHpControll();
-        HPcontroller.Blink = true;
+
     }
 
     IEnumerator HurtAnimation()//人用的
@@ -90,7 +94,7 @@ public class Health : MonoBehaviour
             animator.enabled = true;
         }
         ragdollBehavior.ToggleRagdoll(false);
-        StopCoroutine(HurtAnimation());
+        //StopCoroutine(HurtAnimation());
     }
     void Death()
     {
@@ -98,7 +102,7 @@ public class Health : MonoBehaviour
         // m_collider.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        
+
         print("END");
         playerMovement.enabled = false;
         //enabled = false;

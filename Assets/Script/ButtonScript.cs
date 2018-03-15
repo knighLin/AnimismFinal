@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
-    
     public GameObject LoadingCanvas, ChooseSaveData;
     private AsyncOperation _async;
     public AudioSource audioSource;
@@ -23,9 +22,6 @@ public class ButtonScript : MonoBehaviour
             if (time >= 1)
                 time = 1;
             FadeOut.color = new Color(0, 0, 0, time);
-            
-
-
         }
         else if (time >= 1)
         {

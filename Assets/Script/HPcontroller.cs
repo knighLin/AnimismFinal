@@ -105,6 +105,7 @@ public class HPcontroller : MonoBehaviour
     }
     public void CharacterHpControll()
     {
+
         switch (playerManager.NowType)
         {
             case "Human":

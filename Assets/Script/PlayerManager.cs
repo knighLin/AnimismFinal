@@ -8,9 +8,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject NowCharacter;
     private string PreviousType;
     private TypeValue typevalue;
-
-    //GameObject Player;//控制的角色
-
+    
 
     void Awake()
     {
@@ -22,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     {
         NowCharacter = GameObject.Find("Pine");
     }
-
     void Update()
     {
         if (NowType != PreviousType)//如果數值沒有變化就不做數值改變，反之則要
@@ -60,10 +57,6 @@ public class PlayerManager : MonoBehaviour
                 NowType = "Wolf";
                 PreviousType = Previous;
                 break;
-
         }
     }
-
-
-
 }

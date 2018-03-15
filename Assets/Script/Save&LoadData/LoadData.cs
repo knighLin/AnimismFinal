@@ -52,7 +52,8 @@ public class LoadData : MonoBehaviour {
         {
             LoadingSlider.value = _async.progress;
             yield return null;
-        }    
+        }            
+
     }
     public  void SpawnAllObject()
     {
@@ -113,6 +114,8 @@ public class LoadData : MonoBehaviour {
                 }
             }
         }
+
+
     }
 
 }

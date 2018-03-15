@@ -46,13 +46,12 @@ public class Attack : MonoBehaviour
         switch (possessedSystem.Possessor.tag)
         {//判斷是不是可以附身的物件
             case "Player":
-               
                 if (CanAttack)
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
                         CanAttack = false;
-                        animator.SetBool("Attack", true);
+                        animator.SetTrigger("Attack");
                         animator.SetInteger("Render", AttackRender());
                         Invoke("ResetAttackFlag", 1.5f);
                     }
@@ -65,10 +64,10 @@ public class Attack : MonoBehaviour
             case "Wolf":
                 if (CanAttack)
                 {
-                    if (Input.GetButtonDown("SquareAttack") )
+                    if (Input.GetButtonDown("SquareAttack"))
                     {
                         CanAttack = false;
-                        animator.SetBool("Attack", true);
+                        animator.SetTrigger("Attack");
                         animator.SetInteger("Render", AttackRender());
                         Invoke("ResetAttackFlag", 1.2f);
                     }
@@ -78,15 +77,13 @@ public class Attack : MonoBehaviour
                         {
                             animator.SetTrigger("Surgery");
                             audioSource.PlayOneShot(summon);
-                            //Vector3 MovePoint = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
-                            //Vector3 MovePoint2 = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
                             Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
                             Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
                             PossessedSystem.WolfCount = 0;
                         }
                     }
                 }
-                   
+
                 break;
             case "Bear":
             case "Deer":
@@ -115,7 +112,7 @@ public class Attack : MonoBehaviour
     }
     void ResetAttackFlag()
     {
-        animator.SetBool("Attack", false);
+        //animator.SetBool("Attack", false);
         CanAttack = true;
     }
 }

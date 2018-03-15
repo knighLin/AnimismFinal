@@ -36,7 +36,7 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
     private float animSpeed;
 
-    
+
     void Awake()
     {
         enemyShoot = GetComponentInChildren<EnemyShoot>();
@@ -54,17 +54,17 @@ public class EnemyAI : MonoBehaviour
         ThinkState();
         TargetInRange();
         if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
-         {
+        {
             nav.isStopped = true;
             animSpeed = nav.desiredVelocity.sqrMagnitude;
             animator.SetFloat("Speed", animSpeed);
         }
-         else
-         {
+        else
+        {
             nav.isStopped = false;
             animSpeed = nav.desiredVelocity.sqrMagnitude;
             animator.SetFloat("Speed", animSpeed);
-         }
+        }
     }
 
     void ThinkState()
@@ -103,7 +103,7 @@ public class EnemyAI : MonoBehaviour
         if (EnemyToPlayerDis <= 10 && Health.isDead == false)
         {
             isThink = false;//Stop think
-          
+
             if (EnemyToPlayerDis <= 8 && EnemyToPlayerDis >= 3)//小於8大於3的距離射擊
             {
                 SetEnemyState(EnemyState.Enemy_Shooting);
@@ -120,7 +120,7 @@ public class EnemyAI : MonoBehaviour
         else//當距離大於10，敵人重新思考
         {
             isThink = true;
-           // Debug.Log("player out of range");
+            // Debug.Log("player out of range");
             if (enemyState == EnemyState.Enemy_Catch || enemyState == EnemyState.Enemy_Shooting || enemyState == EnemyState.Enemy_NormalAttack)
             {
                 SetEnemyState(EnemyState.Enemy_Idle);
@@ -143,7 +143,7 @@ public class EnemyAI : MonoBehaviour
                 nav.isStopped = true;
                 break;
             case EnemyState.Enemy_Walk:
-               // Debug.Log("Walk");
+                // Debug.Log("Walk");
                 //isThink = false;
                 nav.SetDestination(PatrolPoint());
                 nav.isStopped = false;
@@ -155,13 +155,13 @@ public class EnemyAI : MonoBehaviour
                 nav.SetDestination(Target.position);
                 break;
             case EnemyState.Enemy_NormalAttack:
-               // Debug.Log("Attack");
+                // Debug.Log("Attack");
                 nav.isStopped = true;
                 transform.LookAt(Target.position);
                 //Start attack animation
                 break;
             case EnemyState.Enemy_Shooting:
-               // Debug.Log("Shoot");
+                // Debug.Log("Shoot");
                 transform.LookAt(Target.position);
                 //start shoot animation
                 if (Time.time - timer > 1f)
