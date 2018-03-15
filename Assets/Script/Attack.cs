@@ -10,7 +10,6 @@ public class Attack : MonoBehaviour
     private PossessedSystem possessedSystem;
     //Animator
     private Animator animator;
-    public int HumanAtk = 10;//攻擊力
     public Collider weaponCollider;
     public Collider myselfCollider;
 
@@ -22,8 +21,13 @@ public class Attack : MonoBehaviour
     private float timer = 0;
     private bool CanAttack = true;
     [SerializeField] private Rigidbody WolfGuards;//召喚狼
+    [SerializeField] private Transform SummonPoint1;
+    [SerializeField] private Transform SummonPoint2;
+
+    Rigidbody m_Rigidbody;
     void Awake()
     {
+        m_Rigidbody = GetComponent<Rigidbody>();
         //set Animator
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -42,36 +46,47 @@ public class Attack : MonoBehaviour
         switch (possessedSystem.Possessor.tag)
         {//判斷是不是可以附身的物件
             case "Player":
+               
                 if (CanAttack)
                 {
-                    if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("SquareAttack"))//Attack
+                    if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
                         CanAttack = false;
                         animator.SetBool("Attack", true);
                         animator.SetInteger("Render", AttackRender());
-                        Invoke("ResetAttackFlag", 2f);
+                        Invoke("ResetAttackFlag", 1.5f);
+                    }
+                    if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical")) && Input.GetButtonDown("SquareAttack"))
+                    {
+                        animator.SetTrigger("WalkAttack");
                     }
                 }
                 break;
             case "Wolf":
-                if (Input.GetButtonDown("SquareAttack") && weaponCollider.enabled == false)
+                if (CanAttack)
                 {
-                    animator.SetTrigger("Attack");
-                    animator.SetInteger("Render", AttackRender());
-                }
-                if (Input.GetMouseButtonDown(1))//特殊技
-                {
-                    if (PossessedSystem.WolfCount >= 1 && PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                    if (Input.GetButtonDown("SquareAttack") )
                     {
-                        animator.SetTrigger("Surgery");
-                        audioSource.PlayOneShot(summon);
-                        Vector3 MovePoint = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
-                        Vector3 MovePoint2 = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
-                        Instantiate(WolfGuards, MovePoint, Quaternion.identity);
-                        Instantiate(WolfGuards, MovePoint2, Quaternion.identity);
-                        PossessedSystem.WolfCount = 0;
+                        CanAttack = false;
+                        animator.SetBool("Attack", true);
+                        animator.SetInteger("Render", AttackRender());
+                        Invoke("ResetAttackFlag", 1.2f);
+                    }
+                    if (Input.GetMouseButtonDown(1))//特殊技
+                    {
+                        if (PossessedSystem.WolfCount >= 1 && PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                        {
+                            animator.SetTrigger("Surgery");
+                            audioSource.PlayOneShot(summon);
+                            //Vector3 MovePoint = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
+                            //Vector3 MovePoint2 = new Vector3(Random.Range(this.gameObject.transform.position.x - 2, this.gameObject.transform.position.x + 2), this.gameObject.transform.position.y + 2, Random.Range(this.transform.position.z - 2, this.transform.position.z + 2));
+                            Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
+                            Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
+                            PossessedSystem.WolfCount = 0;
+                        }
                     }
                 }
+                   
                 break;
             case "Bear":
             case "Deer":

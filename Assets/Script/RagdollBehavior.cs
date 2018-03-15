@@ -21,4 +21,11 @@ public class RagdollBehavior : MonoBehaviour {
             allRigids[i].isKinematic = !toggle;
         }
     }
+    public void HurtToggleRagdoll(bool toggle)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            allRigids[i].isKinematic = !toggle;
+        }
+    }
 }

@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     {
         NowCharacter = GameObject.Find("Pine");
     }
+
     void Update()
     {
         if (NowType != PreviousType)//如果數值沒有變化就不做數值改變，反之則要
@@ -31,10 +32,10 @@ public class PlayerManager : MonoBehaviour
                 case "Human":
                     typevalue.HumanVal();
                     break;
-                case "BearMaster":
+                case "Bear":
                     typevalue.BearVal();
                     break;
-                case "WolfMaster":
+                case "Wolf":
                     typevalue.WolfVal();
                     break;
             }

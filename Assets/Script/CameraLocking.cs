@@ -14,12 +14,14 @@ public class CameraLocking : MonoBehaviour
     public float Distance;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         CameraScript = GetComponent<CameraScript>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
     }
     public void LockingEnemy()
@@ -61,7 +63,7 @@ public class CameraLocking : MonoBehaviour
         Vector3 CameraFoward = Animals[LockingAnimalNumber].transform.position - Camera.main.transform.position;
         CameraRotation = Quaternion.LookRotation(CameraFoward);
     }
-    public void LockingAnimals ()
+    public void LockingAnimals()
     {
         if (Player == null)//如果第一次點擊鎖定 抓取現在角色可附身的動物
         {
@@ -84,16 +86,16 @@ public class CameraLocking : MonoBehaviour
                     //    Distance = Vector3.Dot(Vector3.Normalize(Camera.main.transform.position), Vector3.Normalize(Animals[i].transform.position));
                     //    LockingAnimalNumber = i;
                     //}
-                    
+
                 }
             }
-              
+
         }
-        else if (LockingAnimalNumber == PossessedSystem.RangeObject.Count-1)
+        else if (LockingAnimalNumber == PossessedSystem.RangeObject.Count - 1)
             LockingAnimalNumber = 0;
         else
             LockingAnimalNumber += 1;
-        Vector3 PlayerForward = new Vector3 ((Animals[LockingAnimalNumber].transform.position.x - Player.transform.position.x),0,(Animals[LockingAnimalNumber].transform.position.z - Player.transform.position.z));
+        Vector3 PlayerForward = new Vector3((Animals[LockingAnimalNumber].transform.position.x - Player.transform.position.x), 0, (Animals[LockingAnimalNumber].transform.position.z - Player.transform.position.z));
         Quaternion PlayerRotation = Quaternion.LookRotation(PlayerForward);
         Player.transform.rotation = PlayerRotation;
         Camera.main.transform.rotation = PlayerRotation;
@@ -101,5 +103,5 @@ public class CameraLocking : MonoBehaviour
         Vector3 CameraFoward = Animals[LockingAnimalNumber].transform.position - Camera.main.transform.position;
         CameraRotation = Quaternion.LookRotation(CameraFoward);
     }
-    
+
 }

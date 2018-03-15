@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour {
+public class Health : MonoBehaviour
+{
 
     private HPcontroller HPcontroller;
     private PlayerMovement playerMovement;//角色的移動
@@ -24,6 +25,10 @@ public class Health : MonoBehaviour {
 
     private void Awake()
     {
+        possessedSystem = GetComponent<PossessedSystem>();
+        playerMovement = GetComponent<PlayerMovement>();
+        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
         possessedSystem = GetComponent<PossessedSystem>();
         currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
@@ -35,25 +40,16 @@ public class Health : MonoBehaviour {
 
     private void OnEnable()
     {
-        possessedSystem = GetComponent<PossessedSystem>();
-        playerMovement = GetComponent<PlayerMovement>();
-        audioSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
-
         if (this.gameObject != possessedSystem.Possessor)
         {
             StoreHumanHealth = possessedSystem.Possessor.GetComponent<Health>().currentHealth;
         }
     }
-    void Start () {
-		
-	}
-
     void Update()
     {
         if (currentHealth <= 0 && isDead == false && this.gameObject == possessedSystem.Possessor)
         {
-            // StopCoroutine(HurtAnimation());
+            StopCoroutine(HurtAnimation());
             Death();
         }
         if (this.gameObject != possessedSystem.Possessor && currentHealth < MaxHealth * 0.3f)//當動物血量小於30%，分離主角，並扣出主角原本血量的一半
@@ -77,18 +73,18 @@ public class Health : MonoBehaviour {
         else//動物的
         {
             animator.SetTrigger("Hurt");
-            
+
         }
         //audioSource.PlayOneShot(hurt);
         HPcontroller.CharacterHpControll();
         HPcontroller.Blink = true;
     }
-    
+
     IEnumerator HurtAnimation()//人用的
     {
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         if (isDead == false)
         {
             animator.enabled = true;
@@ -100,11 +96,12 @@ public class Health : MonoBehaviour {
     {
         isDead = true;
         // m_collider.enabled = false;
-        ragdollBehavior.ToggleRagdoll(true);
         animator.enabled = false;
+        ragdollBehavior.ToggleRagdoll(true);
+        
         print("END");
         playerMovement.enabled = false;
-        enabled = false;
+        //enabled = false;
         //animator.SetBool("Die",isDead);
         //Destroy(gameObject,4f);
     }

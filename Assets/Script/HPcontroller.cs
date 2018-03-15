@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class HPcontroller : MonoBehaviour
 {
     public Health Health;
-    private AnimalHealth AnimalHealth;
     private PlayerManager playerManager;
     public Image HpB, HpW, HpR;//腳色血條圖片
     public Image FaceB, FaceW, FaceR;//腳色臉圖片
@@ -17,8 +16,6 @@ public class HPcontroller : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         Blink = false;
@@ -28,14 +25,10 @@ public class HPcontroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        
-
         if (Blink)//閃爍
             UIBlink();
         else
             BlinkTime = 0;
-
     }
 
     public void CharacterSwitch()
@@ -112,7 +105,6 @@ public class HPcontroller : MonoBehaviour
     }
     public void CharacterHpControll()
     {
-
         switch (playerManager.NowType)
         {
             case "Human":

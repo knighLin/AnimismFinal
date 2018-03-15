@@ -45,11 +45,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //private void OnDisable()
-    //{
-    //    m_Rigidbody = null;
-    //    m_Animator = null;
-    //}
 
     private void Start()
     {
@@ -65,8 +60,7 @@ public class PlayerMovement : MonoBehaviour
             // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
         }
     }
-
- 
+    
 
     //固定更新與物理同步調用
     private void FixedUpdate()
@@ -99,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
 
         //將所有參數傳遞給角色控制腳本
         PlayerMove(moveDirection);
-        //m_Jump = false;
     }
 
     // 移动！ 
@@ -127,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
             { // jump!
                 // m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
                 m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
+                m_Animator.SetTrigger("m_Jump");
                 m_IsGrounded = false;    
                 m_Animator.applyRootMotion = false;
                 m_GroundCheckDistance = 0.1f;
@@ -135,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {//乘數增加重力：
             //Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-            m_Rigidbody.AddForce(Physics.gravity);
+            m_Rigidbody.AddForce(Physics.gravity*1.5f);
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;//上升的时候不判断是否在地面上   
         }
         // 将输入和其他状态传递给动画组件  
@@ -152,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
         if (!m_IsGrounded)
         {
             m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
+
         }
         // 计算哪只脚是在后面的，所以可以判断跳跃动画中哪只脚先离开地面  
         // 这里的代码依赖于特殊的跑步循环，假设某只脚会在未来的0到0.5秒内超越另一只脚  获取当前是在哪个脚，Repeat相当于取模
@@ -159,10 +154,10 @@ public class PlayerMovement : MonoBehaviour
             Mathf.Repeat(
                 m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
         float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-        if (Input.GetKeyDown(KeyCode.Space) )//|| joycontroller.joyjump == true)
+        if (Input.GetButtonDown("CrossJump"))
         {
             m_Animator.SetFloat("JumpLeg", jumpLeg);
-            m_Animator.SetTrigger("m_Jump");
+            
         }
 
         // 这边的方法允许我们在inspector视图中调整动画的速率，他会因为根运动影响移动的速度  

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    private pillarSystem pillarSystem;
     private CameraLocking CameraLocking;
     private PossessedSystem PossessedSystem;
     private PlayerManager playerManager;
+    private pillarSystem pillarSystem;
     public GameObject PossessTarget;
     public GameObject SoulVisionEffect, PossessEffect, Crosshairs;
     public GameObject NowCharacter;
-    public GameObject MoveEnd, PlayerView,Normal003;
+    public GameObject MoveEnd, PlayerView, Normal003;
     public Transform[] AttachedBodyChildren;
     public Vector3 NormalPosition;//鏡頭正常位置
     private Vector3 RedressVector = Vector3.zero;
@@ -19,11 +19,12 @@ public class CameraScript : MonoBehaviour
     private Vector3 VectorMoveDistance;//鏡頭總共要前進的距離
     private Vector3 CameraNowPosition;//鏡頭前進完要後退的位置 用來測量要後退多少距離
     private Vector3 FixedPosition;//固定視角後的座標
+    private Vector3 PossessEnd;
     private Quaternion RotationEuler;
     public string CameraState;//鏡頭狀態
     public float rotX;
     public float rotY;
-    public int ShakeTime =0;
+    public int ShakeTime = 0;
     private float sensitivity = 30f;//靈敏度
     private float FowardAndBackTime;//鏡頭前進/後退計時
     private float FowardStop = 0.2f; //鏡頭前進的秒數
@@ -54,7 +55,7 @@ public class CameraScript : MonoBehaviour
         PlayerView = GameObject.Find("FirstPersonCamPoint");
         MoveEnd = GameObject.Find("CamMoveEndPoint");//一開始取正確腳色位置
         NowCharacter = GameObject.Find("Pine");
-        
+
     }
 
     // Update is called once per frame
@@ -66,8 +67,8 @@ public class CameraScript : MonoBehaviour
             Shake = false;
         if (Shake)
         {
-            if (ShakeTime%2==0)
-            Normal003.transform.localPosition += new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), Random.Range(-0.2f, 0.2f));
+            if (ShakeTime % 2 == 0)
+                Normal003.transform.localPosition += new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), Random.Range(-0.2f, 0.2f));
             ShakeTime += 1;
         }
         else
@@ -75,10 +76,13 @@ public class CameraScript : MonoBehaviour
             Normal003.transform.localPosition = new Vector3(0, 0, -3);
             ShakeTime = 0;
         }
-        if (!Backing&&!IsPossessing&&!FixedVison&&!LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
+        if (!Backing && !IsPossessing && !FixedVison && !LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
         NormalPosition = RotationEuler * Normal003.transform.localPosition + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
         switch (CameraState)
         {
+            case "PillarState":
+                PillarState();
+                break;
             case "NormalState":
                 NormalState();
                 break;
@@ -112,7 +116,7 @@ public class CameraScript : MonoBehaviour
         }
         if (Input.GetButtonUp("L1SoulVison"))
             CantSoulVison = false;
-        if (Input.GetButton("L1SoulVison") && !IsPossessing && !CantSoulVison )//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
+        if (Input.GetButton("L1SoulVison") && !IsPossessing && !CantSoulVison)//持續按著靈視鍵可以進入靈視 但附身過程或附身後還按著無效(IsPossessing為true)
         {
             if (IsSoulVision)
                 CameraState = "SoulVision";
@@ -124,10 +128,47 @@ public class CameraScript : MonoBehaviour
 
 
     }
+    public void PillarState()
+    {
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && pillarSystem.pillarLevel != 3)
+        {
+            pillarSystem.pillarLevel += 1;
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) && pillarSystem.pillarLevel != 1)
+        {
+
+            pillarSystem.pillarLevel -= 1;
+        }
+        switch (pillarSystem.pillarLevel)
+        {
+            case 3:
+                PlayerView = GameObject.Find("TotemDeerView");
+                break;
+            case 2:
+                PlayerView = GameObject.Find("TotemWolfView");
+                break;
+            case 1:
+                PlayerView = GameObject.Find("TotemBearView");
+                break;
+        }
+        transform.position = PlayerView.transform.position;
+        transform.rotation = PlayerView.transform.rotation;
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)//判斷圖騰柱 進入階層 & 按下旋轉
+        {
+            int pausetime = Random.Range(0, 3);//圖騰柱卡卡的轉不太動的感覺
+            if (pausetime == 1)
+            {
+                pillarSystem.pillarrota1();
+            }
+        }
+        if ((Input.GetButtonDown("Triangel")))
+            PossessedSystem.LifedPossessed();
+    }
     public void ResetValue()//重置一些前進後退中用到的值 以防下次進入其他模式出問題
     {
-        if (IsSoulVision|| CanPossess)
-        FixedVison = false;
+        if (IsSoulVision || CanPossess)
+            FixedVison = false;
         Backing = false;
         CameraLocking.Player = null;
         IsSoulVision = false;
@@ -170,10 +211,10 @@ public class CameraScript : MonoBehaviour
         ResetValue();//只要進入正常模式 就重置一些參數
         //鏡頭穿牆處理
         RaycastHit hit;
-        if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit)&&!FixedVison)
+        if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit) && !FixedVison)
         {
             int HitTag = hit.collider.gameObject.layer;//撞到的物件的layer
-            if (HitTag != 9 && HitTag != 11&&HitTag!=8&& HitTag != 10)//9為player 11為ragdoll 8為CanPossess 10為武器
+            if (HitTag != 9 && HitTag != 11 && HitTag != 8 && HitTag != 10)//9為player 11為ragdoll 8為CanPossess 10為武器
             {
                 RedressVector = NormalPosition - hit.point;//如果撞到物件 設一個向量為 撞到的位置和原來鏡頭位置之差
                 transform.position = NormalPosition - RedressVector;//減掉位置差 讓鏡頭移動到撞到的位置 其實值等於 hit.point即可 只是變數留著可以做變化 先不做優化
@@ -189,7 +230,7 @@ public class CameraScript : MonoBehaviour
             if (FixedVison)
             {
                 transform.rotation = NowCharacter.transform.rotation;
-                transform.position = transform.rotation*Normal003.transform.localPosition + PlayerView.transform.position;
+                transform.position = transform.rotation * Normal003.transform.localPosition + PlayerView.transform.position;
                 FixedPosition = transform.position;
                 rotX = transform.eulerAngles.y;
                 rotY = transform.eulerAngles.x;
@@ -232,12 +273,11 @@ public class CameraScript : MonoBehaviour
         SoulVisionEffect.SetActive(true);
         Crosshairs.SetActive(true);
         CanPossess = true;
-        pillarSystem.pillarSystemBool = true;
-        if (PossessedSystem.RangeObject.Count > 0&&Input.GetButtonDown("CircleLockingAnimal"))
+        if (PossessedSystem.RangeObject.Count > 0 && Input.GetButtonDown("CircleLockingAnimal"))
         {
             LockingAnimal = true;
             CameraLocking.LockingAnimals();
-            transform.position = CameraLocking.CameraRotation * new Vector3(0,-0.2f,0) + MoveEnd.transform.position;
+            transform.position = CameraLocking.CameraRotation * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
             transform.rotation = CameraLocking.CameraRotation;
             CameraNowPosition = transform.position;
             rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
@@ -267,11 +307,10 @@ public class CameraScript : MonoBehaviour
             rotY = transform.eulerAngles.x;
             RotationEuler = Quaternion.Euler(rotY, rotX, 0);
         }
-    }   
+    }
     public void SoulVisionOver()//鏡頭後退為正常狀態
     {
-        pillarSystem.pillarSystemBool = false;
-        Backing = true ;
+        Backing = true;
         CameraLocking.Player = null;
         IsSoulVision = false;
         SoulVisionEffect.SetActive(false);
@@ -293,7 +332,26 @@ public class CameraScript : MonoBehaviour
     public void GettingPossess()
     {
         SoulVisionEffect.SetActive(false);
-        AttachedBodyChildren = PossessTarget.GetComponentsInChildren<Transform>();
+        if (PossessTarget.tag != "Pillar")
+        {
+            AttachedBodyChildren = PossessTarget.GetComponentsInChildren<Transform>();
+            PossessEnd = AttachedBodyChildren[2].transform.position;
+        }
+        else
+        {
+            switch (PossessTarget.name)
+            {
+                case "TotemPole_Deer":
+                    PossessEnd = GameObject.Find("TotemDeerView").transform.position;
+                    break;
+                case "TotemPole_Wolf":
+                    PossessEnd = GameObject.Find("TotemWolfView").transform.position;
+                    break;
+                case "TotemPole_Bear":
+                    PossessEnd = GameObject.Find("TotemBearView").transform.position;
+                    break;
+            }
+        }
         if (PossessTime < 0.2)//鏡頭回到正常的位置
         {
             if (LockingAnimal)
@@ -304,7 +362,7 @@ public class CameraScript : MonoBehaviour
                 transform.position += Move;
             }
             else
-            { 
+            {
                 PossessTime += Time.deltaTime;
                 VectorMoveDistance = NormalPosition - transform.position;
                 Move = VectorMoveDistance * Time.deltaTime * 5;
@@ -321,7 +379,7 @@ public class CameraScript : MonoBehaviour
                 if (LockingAnimal)
                 {
                     PossessEffect.SetActive(true);
-                    VectorMoveDistance = transform.rotation * Normal003.transform.localPosition + AttachedBodyChildren[2].transform.position - transform.rotation * Normal003.transform.localPosition - PlayerView.transform.position;//距離為終點減正常位置
+                    VectorMoveDistance = transform.rotation * Normal003.transform.localPosition + PossessEnd - transform.rotation * Normal003.transform.localPosition - PlayerView.transform.position;//距離為終點減正常位置
                     Move = VectorMoveDistance * Time.deltaTime * 3;
                     transform.position += Move;
                     CameraNowPosition = transform.position;
@@ -329,13 +387,13 @@ public class CameraScript : MonoBehaviour
                 else
                 {
                     PossessEffect.SetActive(true);
-                    VectorMoveDistance = AttachedBodyChildren[2].transform.position - PlayerView.transform.position;//距離為終點減正常位置
+                    VectorMoveDistance = PossessEnd - PlayerView.transform.position;//距離為終點減正常位置
                     Move = VectorMoveDistance * Time.deltaTime * 3;
                     transform.position += Move;
                     CameraNowPosition = transform.position;
                 }
 
-               
+
             }
         }
         else if (PossessTime >= 0.8)
@@ -343,7 +401,6 @@ public class CameraScript : MonoBehaviour
             PossessEffect.SetActive(false);
             PossessedSystem.InToPossess();
             LoadCharacterPosition();//讀取動物鏡頭位置
-            CameraState = "NormalState";
         }
     }
     public void LoadCharacterPosition()
@@ -355,13 +412,32 @@ public class CameraScript : MonoBehaviour
                 NowCharacter = GameObject.Find("Pine");
                 PlayerView = GameObject.Find("FirstPersonCamPoint");
                 MoveEnd = GameObject.Find("CamMoveEndPoint");
+                CameraState = "NormalState";
                 break;
             case "WolfMaster":
                 NowCharacter = PossessTarget;
                 PossessedSystem = PossessTarget.GetComponent<PossessedSystem>();
-                AttachedBodyChildren = PossessedSystem.AttachedBody.GetComponentsInChildren<Transform>();
                 PlayerView = AttachedBodyChildren[2].transform.gameObject;
                 MoveEnd = AttachedBodyChildren[1].transform.gameObject;
+                CameraState = "NormalState";
+                break;
+            case "Pillar":
+                NowCharacter = PossessTarget;
+                switch (pillarSystem.pillarLevel)
+                {
+                    case 3:
+                        PlayerView = GameObject.Find("TotemDeerView");
+                        break;
+                    case 2:
+                        PlayerView = GameObject.Find("TotemWolfView");
+                        break;
+                    case 1:
+                        PlayerView = GameObject.Find("TotemBearView");
+                        break;
+                }
+
+                MoveEnd = null;
+                CameraState = "PillarState";
                 break;
 
         }
