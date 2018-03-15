@@ -65,8 +65,8 @@ public class Health : MonoBehaviour
 
     public void Hurt(float Amount)
     {
-        
-        if(currentHealth > 0)
+
+        if (currentHealth > 0)
         {
             currentHealth -= Amount;//扣血
             if (this.gameObject == possessedSystem.Possessor)
@@ -76,13 +76,12 @@ public class Health : MonoBehaviour
             else//動物的
             {
                 animator.SetTrigger("Hurt");
-
             }
             //audioSource.PlayOneShot(hurt);
             HPcontroller.CharacterHpControll();
             HPcontroller.Blink = true;
         }
-        
+
     }
 
     IEnumerator HurtAnimation()//人用的
@@ -103,7 +102,7 @@ public class Health : MonoBehaviour
         // m_collider.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        
+
         print("END");
         playerMovement.enabled = false;
         //enabled = false;

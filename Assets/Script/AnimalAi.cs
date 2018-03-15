@@ -33,7 +33,7 @@ public class AnimalAi : MonoBehaviour
     {
         //if(this.tag == "WolfMaster")
         //{
-            
+
         //}
     }
     // Update is called once per frame
@@ -122,7 +122,7 @@ public class AnimalAi : MonoBehaviour
                 animator.SetBool("Laying", false);
                 if (LastState == State.Sleep)
                     animator.SetTrigger("SleepToSeat");
-                if(LastState == State.laying)
+                if (LastState == State.laying)
                     animator.SetTrigger("LayingToSeat");
                 animator.SetBool("Seat", true);
                 break;

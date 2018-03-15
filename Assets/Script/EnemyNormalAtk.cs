@@ -16,8 +16,6 @@ public class EnemyNormalAtk : MonoBehaviour
     public Animator animator;
     public float timeBetweenAttacks = 1f;//敵人攻擊的時間間距
     public int EnemyAtk = 10;//敵人攻擊力
-                             //bool playerInRange;//主角是否在範圍裡
-                             //private float timer;//計數到下一次攻擊。
     public Collider weaponCollider;
 
     void Awake()
