@@ -159,7 +159,7 @@ public class PossessedSystem : MonoBehaviour
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
                     AttachedBody.GetComponent<Attack>().enabled = false;
                     AttachedBody.GetComponent<Health>().enabled = false;
-                    AttachedBody.GetComponent<AnimalAi>().enabled = true;
+                    //AttachedBody.GetComponent<AnimalAi>().enabled = true;
                 }
                 PreviousTag = Possessor.tag;//附身後將先前附身的tag存起來
                 Possessor.tag = hit.collider.tag;//將目前人的tag轉為附身後動物的
@@ -182,7 +182,7 @@ public class PossessedSystem : MonoBehaviour
                 PossessedCol.enabled = false;//關掉當前附身範圍
 
                 //Possessor.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                AttachedBody.GetComponent<AnimalAi>().enabled = false;
+                //AttachedBody.GetComponent<AnimalAi>().enabled = false;
                 AttachedBody.GetComponent<PlayerMovement>().enabled = true;//打開動物的移動和附身
                 AttachedBody.GetComponent<PossessedSystem>().enabled = true;//打開動物的附身系統
                 AttachedBody.GetComponent<Attack>().enabled = true;//攻擊
@@ -253,7 +253,7 @@ public class PossessedSystem : MonoBehaviour
             AttachedBody.GetComponent<PossessedSystem>().enabled = false;
             AttachedBody.GetComponent<Attack>().enabled = false;
             AttachedBody.GetComponent<Health>().enabled = false;
-            AttachedBody.GetComponent<AnimalAi>().enabled = true;
+            //AttachedBody.GetComponent<AnimalAi>().enabled = true;
             AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
 
             //Possessor.GetComponent<PlayerMovement>().enabled = true;

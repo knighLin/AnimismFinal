@@ -15,7 +15,7 @@ public class AnimalAi : MonoBehaviour
         Seat
     }
     State m_State;
-    private float ThinkTime = 10f;//思考時間
+    private float ThinkTime = 20f;//思考時間
     private float timer = 0;//變換狀態時間
     private State LastState;
     private int NewState;//思考後的新狀態
@@ -58,18 +58,23 @@ public class AnimalAi : MonoBehaviour
             {
                 case 0:
                     SetEnemyState(State.Idle);
+                    Debug.Log("Idle");
                     break;
                 case 1:
                     SetEnemyState(State.Walk);
+                    Debug.Log("Walk");
                     break;
                 case 2:
                     SetEnemyState(State.Sleep);
+                    Debug.Log("Sleep");
                     break;
                 case 3:
                     SetEnemyState(State.laying);
+                    Debug.Log("laying");
                     break;
                 case 4:
                     SetEnemyState(State.Seat);
+                    Debug.Log("Seat");
                     break;
             }
         }
@@ -81,6 +86,9 @@ public class AnimalAi : MonoBehaviour
         {
             case State.Idle:
                 nav.isStopped = true;
+                animator.SetBool("Sleep", false);
+                animator.SetBool("Seat", false);
+                animator.SetBool("Laying", false);
                 animator.SetBool("Idle", true);
                 animator.SetInteger("IdleCount", Render());
                 break;
