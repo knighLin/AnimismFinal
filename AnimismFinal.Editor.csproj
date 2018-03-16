@@ -288,7 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plug-in\Addons\CameraPathCreator\Scripts\Editor\CPC_CameraPathInspector.cs" />
-    <Compile Include="Assets\Plug-in\CameraEffect\Volumetric Lights\Editor\ImageEffects\TonemappingEditor.cs" />
     <Compile Include="Assets\Plug-in\UBER\Editor\NoKeywordToggleDrawer.cs" />
     <Compile Include="Assets\Plug-in\UBER\Editor\UBER_BakeTanNormalsEditor.cs" />
     <Compile Include="Assets\Plug-in\UBER\Editor\UBER_PostProcessDistanceMap.cs" />
@@ -338,12 +337,6 @@
     <None Include="Assets\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.XML" />
     <None Include="Assets\JsonDotNet\Assemblies\Windows\Newtonsoft.Json.XML" />
     <None Include="Assets\JsonDotNet\link.xml" />
-    <None Include="Assets\Plug-in\CameraEffect\ScreenSpaceSSS\CP_SSSSS\CP_SSSSS_Replacement.shader" />
-    <None Include="Assets\Plug-in\CameraEffect\ScreenSpaceSSS\CP_SSSSS\CP_SSSSS_Shader.shader" />
-    <None Include="Assets\Plug-in\CameraEffect\ScreenSpaceSSS\CP_SSSSS\Readme.txt" />
-    <None Include="Assets\Plug-in\CameraEffect\Volumetric Lights\Shaders\BilateralBlur.shader" />
-    <None Include="Assets\Plug-in\CameraEffect\Volumetric Lights\Shaders\BlitAdd.shader" />
-    <None Include="Assets\Plug-in\CameraEffect\Volumetric Lights\Shaders\VolumetricLight.shader" />
     <None Include="Assets\Plug-in\UBER\Editor\BakeProps.shader" />
     <None Include="Assets\Plug-in\UBER\OpenFootage\_info.txt" />
     <None Include="Assets\Plug-in\UBER\Shaders\Deferred_Lighting\Internal-DeferredShading_UBER.shader" />
@@ -478,7 +471,6 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Resources\Bloom.cginc" />
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\Bloom\Resources\Bloom.shader" />
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\HistogramCompute.compute" />

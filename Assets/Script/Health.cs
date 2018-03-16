@@ -75,6 +75,7 @@ public class Health : MonoBehaviour
             }
             else//動物的
             {
+                audioSource.PlayOneShot(hurt);
                 animator.SetTrigger("Hurt");
             }
             //audioSource.PlayOneShot(hurt);
@@ -86,6 +87,7 @@ public class Health : MonoBehaviour
 
     IEnumerator HurtAnimation()//人用的
     {
+        audioSource.PlayOneShot(hurt);
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         yield return new WaitForSeconds(0.3f);

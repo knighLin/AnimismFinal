@@ -14,7 +14,7 @@ public class BearAttack : MonoBehaviour {
     public float m_MaxChargeTime = 0.75f;//最多填充時間
 
     private float m_CurrentLaunchForce;  
-    private float m_ChargeSpeed;   
+    private float m_ChargeSpeed = 1f;   
 
 	void Awake () {
         

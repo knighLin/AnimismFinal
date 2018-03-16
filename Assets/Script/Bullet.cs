@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
-    private EnemyShoot enemyShoot;
     private TypeValue typeValue;
     private Health health;
 	private float BulletAtk = 10;
@@ -15,9 +14,9 @@ public class Bullet : MonoBehaviour {
 
     void Awake()
 	{
-        enemyShoot = GameObject.FindGameObjectWithTag("Enemy").GetComponentInChildren<EnemyShoot>();
         typeValue = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
         audioSource = GetComponent<AudioSource>();
+        Destroy(this.gameObject, 5f);
     }
 
 	void OnCollisionEnter(Collision Target)

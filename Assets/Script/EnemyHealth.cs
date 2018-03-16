@@ -8,18 +8,15 @@ public class EnemyHealth : MonoBehaviour
     private EnemyAI enemyAI;
 	public float MaxHealth = 100; //最大HP
 	public float currentHealth; //當前HP
-    public CapsuleCollider body;
+    //public CapsuleCollider body;
 	bool isDead;//是否死亡
-                //bool damaged;//受到攻擊
-
+                
     private Animator Anim;
 
     //audio
     private AudioSource audioSource;
     public AudioClip hurt;
-
-
-    private NavMeshAgent nav;
+    
 
     void Awake()
 	{
@@ -27,7 +24,6 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
         audioSource = GetComponent<AudioSource>();
         Anim = GetComponent<Animator>();
-        nav = GetComponent<NavMeshAgent>();
 	}
 
 	public void Hurt(float Amount)
@@ -49,8 +45,8 @@ public class EnemyHealth : MonoBehaviour
 		isDead = true;
         enemyAI.enabled = false;
         Anim.SetBool("Die", isDead);
-        body.direction = 2;
-        body.center = new Vector3(0, 0, 0);
+        //body.direction = 2;
+        //body.center = new Vector3(0, 0, 0);
 		Destroy (gameObject, 4f);
 	}
 

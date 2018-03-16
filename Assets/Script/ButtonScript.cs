@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
@@ -29,7 +30,8 @@ public class ButtonScript : MonoBehaviour
             time = 0;
             Fade = false;
             Debug.Log("LoadSence");
-            Application.LoadLevelAsync("Game");
+            SceneManager.LoadScene("Game");
+            //Application.LoadLevelAsync("Game");
            // LoadSence();
         }
     }
@@ -41,7 +43,7 @@ public class ButtonScript : MonoBehaviour
 
     IEnumerator LoadLevelWithBar(string level)
     {
-        _async = Application.LoadLevelAsync(level);
+        _async = SceneManager.LoadSceneAsync(level);
         while (!_async.isDone)
         {
             LoadingSlider.value = _async.progress;
@@ -107,7 +109,8 @@ public class ButtonScript : MonoBehaviour
                     Time.timeScale = 1;
                 if (GameObject.Find("ChooseSaveData")!=null)
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().DestroyThis();
-                Application.LoadLevelAsync("HomePage");
+                SceneManager.LoadScene("HomePage");
+                //Application.LoadLevelAsync("HomePage");
                 break;
         }
     }

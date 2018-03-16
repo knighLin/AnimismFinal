@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class SaveData : MonoBehaviour
 {
     public GameObject[] Wolf, Enemy;
-    private PossessedSystem PossessedSystem;
+   // private PossessedSystem PossessedSystem;
     private CameraScript CameraScript;
     public string filename;
 
@@ -25,7 +25,7 @@ public class SaveData : MonoBehaviour
 
     void Start()
     {
-        PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
+       // PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
         CameraScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
     }
 

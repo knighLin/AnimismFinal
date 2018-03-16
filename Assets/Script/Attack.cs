@@ -22,11 +22,9 @@ public class Attack : MonoBehaviour
     [SerializeField] private Rigidbody WolfGuards;//召喚狼
     [SerializeField] private Transform SummonPoint1;
     [SerializeField] private Transform SummonPoint2;
-
-    Rigidbody m_Rigidbody;
+    
     void Awake()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
         //set Animator
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -49,14 +47,12 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
+                        this.gameObject.GetComponent<PlayerMovement>().enabled = false; 
+                   
                         CanAttack = false;
                         animator.SetTrigger("Attack");
                         animator.SetInteger("Render", AttackRender());
                         Invoke("ResetAttackFlag", 1.5f);
-                    }
-                    if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical")) && Input.GetButtonDown("SquareAttack"))
-                    {
-                        animator.SetTrigger("WalkAttack");
                     }
                 }
                 break;
@@ -112,6 +108,7 @@ public class Attack : MonoBehaviour
     void ResetAttackFlag()
     {
         //animator.SetBool("Attack", false);
+        this.gameObject.GetComponent<PlayerMovement>().enabled = false;
         CanAttack = true;
     }
 }

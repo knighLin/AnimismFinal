@@ -121,10 +121,15 @@ public class AnimalAi : MonoBehaviour
                 animator.SetBool("Sleep", false);
                 animator.SetBool("Laying", false);
                 if (LastState == State.Sleep)
+                {
                     animator.SetTrigger("SleepToSeat");
+                    animator.SetBool("Seat", true);
+                }
                 if (LastState == State.laying)
+                {
                     animator.SetTrigger("LayingToSeat");
-                animator.SetBool("Seat", true);
+                    animator.SetBool("Seat", true);
+                }
                 break;
         }
         LastState = State;
