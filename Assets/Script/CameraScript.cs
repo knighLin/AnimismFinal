@@ -8,11 +8,11 @@ public class CameraScript : MonoBehaviour
     private PossessedSystem PossessedSystem;
     private PlayerManager playerManager;
     public GameObject PossessTarget;
-    public GameObject SoulVisionEffect, PossessEffect, Crosshairs;
-    public GameObject NowCharacter;
-    public GameObject MoveEnd, PlayerView, Normal003;
-    public Transform[] AttachedBodyChildren;
-    public Vector3 NormalPosition;//鏡頭正常位置
+    [SerializeField] private GameObject SoulVisionEffect, PossessEffect, Crosshairs;
+    [SerializeField] private GameObject NowCharacter, Normal003;
+    public GameObject MoveEnd, PlayerView;
+    private Transform[] AttachedBodyChildren;
+    private Vector3 NormalPosition;//鏡頭正常位置
     private Vector3 RedressVector = Vector3.zero;
     private Vector3 Move;//鏡頭"每次"前進/後退的距離
     private Vector3 VectorMoveDistance;//鏡頭總共要前進的距離
@@ -22,21 +22,21 @@ public class CameraScript : MonoBehaviour
     public string CameraState;//鏡頭狀態
     public float rotX;
     public float rotY;
-    public int ShakeTime = 0;
+    private int ShakeTime = 0;
     private float sensitivity = 30f;//靈敏度
     private float FowardAndBackTime;//鏡頭前進/後退計時
     private float FowardStop = 0.2f; //鏡頭前進的秒數
     private float PossessTime; //附身鏡頭計時
     private float PossessStop = 2; //附身鏡頭的秒數
     public bool CanPossess = false;//靈視狀態下才會為true 代表可以附身;
-    public bool LockingAnimal = false;//鎖定動物中
+    private bool LockingAnimal = false;//鎖定動物中
     public bool IsPossessing = false;//附身中為true直到附身結束切回正常狀態才會被重置為false
     public bool CantLeftPossess = false;//靈視不能退出附身
     public bool CantSoulVison = false;//附身後不能持續按著E進入靈視
-    public bool FixedVison = false;//固定視角
-    public bool IsSoulVision = false;
-    public bool Backing = false;
-    public bool Shake = false;
+    private bool FixedVison = false;//固定視角
+    private bool IsSoulVision = false;
+    private bool Backing = false;
+    private bool Shake = false;
 
     // Use this for initialization
     void Start()
@@ -288,6 +288,11 @@ public class CameraScript : MonoBehaviour
     }
     public void GettingPossess()
     {
+        CantSoulVison = true;//附身後不能持續按著E進入靈視
+        CanPossess = false;//重置
+        PossessEffect.SetActive(false);//重置
+        Crosshairs.SetActive(false);//重置
+        IsPossessing = true;//正在附身模式
         SoulVisionEffect.SetActive(false);
         AttachedBodyChildren = PossessTarget.GetComponentsInChildren<Transform>();
         if (PossessTime < 0.2)//鏡頭回到正常的位置

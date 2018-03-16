@@ -105,14 +105,10 @@ public class PossessedSystem : MonoBehaviour
     {
         if (ChooseRightObject)//如果點到可附身物件
         {
-            CameraScript.CantSoulVison = true;//附身後不能持續按著E進入靈視
+            
             playerMovement.enabled = false;//附身不能動
             CameraScript.PossessTarget = hit.collider.gameObject.transform.parent.gameObject;
             ChooseRightObject = false;//重置
-            CameraScript.CanPossess = false;//重置
-            CameraScript.PossessEffect.SetActive(false);//重置
-            CameraScript.Crosshairs.SetActive(false);//重置
-            CameraScript.IsPossessing = true;//正在附身模式
             CameraScript.CameraState = "GettingPossess";//轉為附身模式
         }
         else if (((Input.GetMouseButtonDown(1) || Input.GetButtonDown("MushroomPossess")) && PossessedSystem.PossessedCol.enabled == true))
