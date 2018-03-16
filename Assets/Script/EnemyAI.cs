@@ -104,11 +104,11 @@ public class EnemyAI : MonoBehaviour
         {
             isThink = false;//Stop think
 
-            if (EnemyToPlayerDis <= 8 && EnemyToPlayerDis >= 3)//小於8大於3的距離射擊
+            if (EnemyToPlayerDis <= 8 && EnemyToPlayerDis >= 2)//小於8大於3的距離射擊
             {
                 SetEnemyState(EnemyState.Enemy_Shooting);
             }
-            else if (EnemyToPlayerDis <= 3)//距離小於3  普通攻擊
+            else if (EnemyToPlayerDis <= 2)//距離小於3  普通攻擊
             {
                 SetEnemyState(EnemyState.Enemy_NormalAttack);//距離在10內追擊主角
             }
@@ -162,13 +162,13 @@ public class EnemyAI : MonoBehaviour
                 break;
             case EnemyState.Enemy_Shooting:
                 // Debug.Log("Shoot");
-                transform.LookAt(Target.position);
+                transform.LookAt(Target.position );
                 //start shoot animation
-                if (Time.time - timer > 1f)
+                if (Time.time - timer > 3f)
                 {
                     animator.SetTrigger("Shoot");
                     enemyShoot.Shooting(Target);
-                    enemyShoot.DeleteBullet();
+                    
                     timer = Time.time;
                 }
                 break;

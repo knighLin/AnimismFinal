@@ -17,8 +17,7 @@ public class Attack : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip attack;
     public AudioClip summon;//召喚
-
-    private float timer = 0;
+    
     private bool CanAttack = true;
     [SerializeField] private Rigidbody WolfGuards;//召喚狼
     [SerializeField] private Transform SummonPoint1;

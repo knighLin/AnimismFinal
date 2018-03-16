@@ -88,7 +88,7 @@ public class Health : MonoBehaviour
     {
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.3f);
         if (isDead == false)
         {
             animator.enabled = true;

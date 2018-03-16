@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
-	private TypeValue typeValue;
+    private EnemyShoot enemyShoot;
+    private TypeValue typeValue;
     private Health health;
 	private float BulletAtk = 10;
 
@@ -14,6 +15,7 @@ public class Bullet : MonoBehaviour {
 
     void Awake()
 	{
+        enemyShoot = GameObject.FindGameObjectWithTag("Enemy").GetComponentInChildren<EnemyShoot>();
         typeValue = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -30,7 +32,13 @@ public class Bullet : MonoBehaviour {
                 damage = Mathf.RoundToInt(damage);
                 audioSource.PlayOneShot(FreshHit);
                 health.Hurt(damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血
-			}
+                DeleteBullet();
+            }
 		}
 	}
+
+     void DeleteBullet()
+    {
+        Destroy(this.gameObject, 0.01f);
+    }
 }

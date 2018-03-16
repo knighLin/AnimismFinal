@@ -22,7 +22,6 @@ public class EnemyShoot : MonoBehaviour {
 
     void Awake()
     {
-       
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -30,14 +29,10 @@ public class EnemyShoot : MonoBehaviour {
     {
         newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         audioSource.PlayOneShot(GunBang);
-        newBullet.AddForce((Target.position - transform.position).normalized * force);
+        newBullet.AddForce((Target.position +Vector3.up - transform.position).normalized * force);
         //newBullet.velocity = Vector3.forward * force;
-
     }
 
 
-    public void DeleteBullet()
-	{
-		Destroy (newBullet.gameObject, 3f);
-	}
+   
 }
