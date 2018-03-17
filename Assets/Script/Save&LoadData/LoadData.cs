@@ -75,7 +75,6 @@ public class LoadData : MonoBehaviour {
         SaveRoty = Load.SaveRoty;
 
         Instantiate(PlayerPrefab, PlayerVector3, PlayerQuaternion).name = "Pine";
-        Debug.Log("讀取了派恩的位置,座標為" + PlayerVector3);
         if (Load.WolfState.Count > 0)
         {
             for (int A = 0; A < Load.WolfState.Count; A++)     //讀取動物數據
@@ -90,16 +89,16 @@ public class LoadData : MonoBehaviour {
                 }
                 if (WolfState[A] == 2)                        //如果動物被附身(WolfState=2)生成後把主角掛在狼身上
                 {
-                    Wolf = Instantiate(WolfPrefab, GameObject.Find("Pine").transform.position, Quaternion.identity);
-                    GameObject.Find("Pine").transform.parent = Wolf.transform;
-                    GameObject.Find("Pine").SetActive(false);
+                    Wolf = Instantiate(WolfPrefab, WolfVector3[A], WolfQuaternion[A]);
+                    GameObject.Find("Pine").GetComponent<PossessedSystem>().Target = Wolf.GetComponentsInChildren<Transform>()[3].gameObject.GetComponent<BoxCollider>();
+                    GameObject.Find("Pine").GetComponent<PossessedSystem>().EnterPossessed();
                     Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
                 }
                 //Debug.Log(D1.WolfVector3[A]);
                 //Debug.Log("讀" + WolfVector3[A]);
             }
         }
-
+        Debug.Log("讀取了派恩的位置,座標為" + PlayerVector3+ ",狀態為"+ PlayerState);
         if (Load.EnemyState.Count > 0)
         {
             for (int E = 0; E < Load.EnemyState.Count; E++)   //讀取敵人數據

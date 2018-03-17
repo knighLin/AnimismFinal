@@ -105,7 +105,7 @@ public class HPcontroller : MonoBehaviour
     }
     public void CharacterHpControll()
     {
-
+        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         switch (playerManager.NowType)
         {
             case "Human":
