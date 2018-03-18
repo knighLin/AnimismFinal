@@ -6,7 +6,7 @@ public class RagdollBehavior : MonoBehaviour {
 
     public Rigidbody[] allRigids;
     
-    public Transform Root;
+    //public Transform Root;
 
     private void Awake()
     {
