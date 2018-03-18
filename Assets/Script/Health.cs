@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-
     private HPcontroller HPcontroller;
     private PlayerMovement playerMovement;//角色的移動
     private RagdollBehavior ragdollBehavior;
@@ -45,43 +44,62 @@ public class Health : MonoBehaviour
             StoreHumanHealth = possessedSystem.Possessor.GetComponent<Health>().currentHealth;
         }
     }
-    void Update()
-    {
-        if (currentHealth <= 0 && isDead == false && this.gameObject == possessedSystem.Possessor)
-        {
-            StopCoroutine("HurtAnimation");
-            Death();
-        }
-        if (this.gameObject != possessedSystem.Possessor && currentHealth < MaxHealth * 0.3f)//當動物血量小於30%，分離主角，並扣出主角原本血量的一半
-        {
-            possessedSystem.LifedPossessed();
-            possessedSystem.Possessor.GetComponent<Health>().currentHealth = StoreHumanHealth * 0.5f;
-            //Debug.Log(StorePlayerHealth);
-            // CanPossessed = false;
-            enabled = false;
-            // HPcontroller.CharacterHpControll();
-        }
-    }
+    //void Update()
+    //{
+        //if (currentHealth <= 0 && isDead == false && this.gameObject == possessedSystem.Possessor)
+        //{
+        //    StopCoroutine("HurtAnimation");
+        //    Death();
+        //}
+        //if (this.gameObject != possessedSystem.Possessor && currentHealth < MaxHealth * 0.3f)//當動物血量小於30%，分離主角，並扣出主角原本血量的一半
+        //{
+        //    possessedSystem.LifedPossessed();
+        //    possessedSystem.Possessor.GetComponent<Health>().currentHealth = StoreHumanHealth * 0.5f;
+        //    //Debug.Log(StorePlayerHealth);
+        //    // CanPossessed = false;
+        //    enabled = false;
+        //    // HPcontroller.CharacterHpControll();
+        //}
+    //}
 
     public void Hurt(float Amount)
     {
-
-        if (currentHealth > 0)
+        if (this.gameObject == possessedSystem.Possessor)
         {
-            currentHealth -= Amount;//扣血
-            if (this.gameObject == possessedSystem.Possessor)
+            if (isDead)// ... no need to take damage so exit the function.
+                return;
+            if (currentHealth > 0)
             {
+                currentHealth -= Amount;//扣血
                 StartCoroutine("HurtAnimation");
             }
-            else//動物的
+            if (currentHealth <= 0.5)
             {
+                StopCoroutine("HurtAnimation");
+                Death();
+            }
+            
+        }
+        else//動物的
+        {
+            if (currentHealth > 0)
+            {
+                currentHealth -= Amount;//扣血
                 audioSource.PlayOneShot(hurt);
                 animator.SetTrigger("Hurt");
             }
-            //audioSource.PlayOneShot(hurt);
-            HPcontroller.CharacterHpControll();
-            HPcontroller.Blink = true;
+            if (currentHealth < MaxHealth * 0.3f)
+            {
+                possessedSystem.LifedPossessed();
+                possessedSystem.Possessor.GetComponent<Health>().currentHealth = StoreHumanHealth * 0.5f;
+                this.gameObject.layer = 12;
+                enabled = false;
+            }
+            
         }
+        //audioSource.PlayOneShot(hurt);
+        HPcontroller.CharacterHpControll();
+        HPcontroller.Blink = true;
 
     }
 
@@ -101,14 +119,8 @@ public class Health : MonoBehaviour
     void Death()
     {
         isDead = true;
-        // m_collider.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-
-        print("END");
         playerMovement.enabled = false;
-        //enabled = false;
-        //animator.SetBool("Die",isDead);
-        //Destroy(gameObject,4f);
     }
 }

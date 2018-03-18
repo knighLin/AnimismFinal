@@ -21,7 +21,27 @@ public class DataName : MonoBehaviour {
 	}
     public void SetDataName()
     {
-        WhitchData = transform.parent.name;
+        switch (transform.parent.name)
+        {
+            case "SaveData1" :
+                WhitchData = "Data1";
+                break;
+            case "LoadData1":
+                WhitchData = "Data1";
+                break;
+            case "SaveData2":
+                WhitchData = "Data2";
+                break;
+            case "LoadData2":
+                WhitchData = "Data2";
+                break;
+            case "SaveData3":
+                WhitchData = "Data3";
+                break;
+            case "LoadData3":
+                WhitchData = "Data3";
+                break;
+        }
         if (File.Exists(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav"))
         {
             TextName.fontSize = 25;

@@ -47,7 +47,7 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
-                        this.gameObject.GetComponent<PlayerMovement>().enabled = false; 
+                       // this.gameObject.GetComponent<PlayerMovement>().enabled = false; 
                    
                         CanAttack = false;
                         animator.SetTrigger("Attack");
@@ -104,11 +104,12 @@ public class Attack : MonoBehaviour
     void WeaponColliderClose()
     {
         weaponCollider.enabled = false;
+        Time.timeScale = 1f;
     }
     void ResetAttackFlag()
     {
         //animator.SetBool("Attack", false);
-        this.gameObject.GetComponent<PlayerMovement>().enabled = false;
+       // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
         CanAttack = true;
     }
 }

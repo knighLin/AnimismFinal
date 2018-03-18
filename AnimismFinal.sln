@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio for Mac
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimismFinal", "AnimismFinal.csproj", "{6FCC8064-A891-A26C-F647-2CA289262EA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimismFinal.Plugins", "AnimismFinal.Plugins.csproj", "{43151757-CBD9-B863-5366-FF795C9CE54B}"

@@ -27,6 +27,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent nav;
     //判斷主角
     private Transform Target;
+    public Transform En_Body;
     private float EnemyToPlayerDis;//主角跟敵人的距離
     //巡邏範圍計算變數
     private Vector3 MovePoint;//要移動的位置
@@ -40,12 +41,12 @@ public class EnemyAI : MonoBehaviour
     void Awake()
     {
         enemyShoot = GetComponentInChildren<EnemyShoot>();
-        //playerHealth = GameObject.Find ("Player").GetComponent<PlayerHealth> ();
         enemyState = EnemyState.Enemy_Idle;//敵人最初狀態
         isThink = true;
         nav = GetComponent<NavMeshAgent>();
         OriginPoint = transform.position;//敵人最初的位置
         animator = GetComponent<Animator>();
+        //nav.updateRotation = false;
     }
 
     void Update()
@@ -58,6 +59,7 @@ public class EnemyAI : MonoBehaviour
             nav.isStopped = true;
             animSpeed = nav.desiredVelocity.sqrMagnitude;
             animator.SetFloat("Speed", animSpeed);
+
         }
         else
         {
@@ -73,7 +75,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (Time.time - timer > EnemyThinkTime)
             {
-                NewState = Random.Range(0, 3);
+                NewState = Random.Range(0, 2);
                 timer = Time.time;
                 switch (NewState)
                 {
@@ -83,9 +85,9 @@ public class EnemyAI : MonoBehaviour
                     case 1:
                         SetEnemyState(EnemyState.Enemy_Walk);
                         break;
-                    case 2:
-                        SetEnemyState(EnemyState.Enemy_Rotation);
-                        break;
+                    //case 2:
+                    //    SetEnemyState(EnemyState.Enemy_Rotation);
+                    //    break;
                 }
             }
         }
@@ -120,7 +122,6 @@ public class EnemyAI : MonoBehaviour
         else//當距離大於10，敵人重新思考
         {
             isThink = true;
-            // Debug.Log("player out of range");
             if (enemyState == EnemyState.Enemy_Catch || enemyState == EnemyState.Enemy_Shooting || enemyState == EnemyState.Enemy_NormalAttack)
             {
                 SetEnemyState(EnemyState.Enemy_Idle);
@@ -135,34 +136,36 @@ public class EnemyAI : MonoBehaviour
         {
             case EnemyState.Enemy_Idle:
                 nav.isStopped = true;
-                //Debug.Log("Idle");
                 break;
-            case EnemyState.Enemy_Rotation:
-                //Debug.Log("Rotation");
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, ((int)Random.Range(1, 4) * 90), 0), Time.deltaTime * 8f);
-                nav.isStopped = true;
-                break;
+            //case EnemyState.Enemy_Rotation:
+            //    //Debug.Log("Rotation");
+            //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, ((int)Random.Range(1, 4) * 90), 0), Time.deltaTime * 8f);
+            //    nav.isStopped = true;
+            //    break;
             case EnemyState.Enemy_Walk:
-                // Debug.Log("Walk");
                 //isThink = false;
+                
                 nav.SetDestination(PatrolPoint());
                 nav.isStopped = false;
+                //animSpeed = nav.desiredVelocity.sqrMagnitude;
+                //animator.SetFloat("Speed", animSpeed);
+                
                 break;
             case EnemyState.Enemy_Catch:
-                //Debug.Log("Catch");
                 nav.isStopped = false;
+                animator.SetTrigger("Catch");
                 transform.LookAt(Target);
+                
                 nav.SetDestination(Target.position);
                 break;
             case EnemyState.Enemy_NormalAttack:
-                // Debug.Log("Attack");
                 nav.isStopped = true;
                 transform.LookAt(Target.position);
                 //Start attack animation
                 break;
             case EnemyState.Enemy_Shooting:
-                // Debug.Log("Shoot");
                 transform.LookAt(Target.position );
+                
                 //start shoot animation
                 if (Time.time - timer > 3f)
                 {

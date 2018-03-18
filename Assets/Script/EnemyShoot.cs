@@ -11,14 +11,6 @@ public class EnemyShoot : MonoBehaviour {
    
     private AudioSource audioSource;
     public AudioClip GunBang;
-    //public Transform Target;
-    /*void Update()
-	{
-		if (Input.GetKeyDown (KeyCode.A)) {
-            Shooting (Target);
-		}
-	}*/
-
 
     void Awake()
     {
@@ -27,6 +19,7 @@ public class EnemyShoot : MonoBehaviour {
 
     public void Shooting(Transform Target)
     {
+        transform.LookAt(Target);
         newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         audioSource.PlayOneShot(GunBang);
         newBullet.AddForce((Target.position +Vector3.up - transform.position).normalized * force);

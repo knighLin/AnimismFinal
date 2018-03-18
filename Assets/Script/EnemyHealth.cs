@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    private RagdollBehavior ragdollBehavior;
     private EnemyAI enemyAI;
 	public float MaxHealth = 100; //最大HP
 	public float currentHealth; //當前HP
@@ -20,6 +21,7 @@ public class EnemyHealth : MonoBehaviour
 
     void Awake()
 	{
+        ragdollBehavior = GetComponent<RagdollBehavior>();
         enemyAI = GetComponent<EnemyAI>();
         currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
         audioSource = GetComponent<AudioSource>();
@@ -28,25 +30,40 @@ public class EnemyHealth : MonoBehaviour
 
 	public void Hurt(float Amount)
 	{
-		if(isDead)// ... no need to take damage so exit the function.
-			return;
-		//damaged = true;
-        audioSource.PlayOneShot(hurt);
-        Anim.SetTrigger("Hurt");
-		currentHealth -= Amount;//扣血
+        if (isDead)// ... no need to take damage so exit the function.
+            return;
+        if (currentHealth > 0)
+        {
+            currentHealth -= Amount;//扣血
+            StartCoroutine("HurtAnimation");
+        }
 		if(currentHealth <= 0)
 		{
 			Death ();
 		}
 	}
 
-	void Death()
+    IEnumerator HurtAnimation()//人用的
+    {
+        audioSource.PlayOneShot(hurt);
+        Anim.enabled = false;
+        ragdollBehavior.ToggleRagdoll(true);
+        yield return new WaitForSeconds(0.3f);
+        if (isDead == false)
+        {
+            Anim.enabled = true;
+        }
+        ragdollBehavior.ToggleRagdoll(false);
+        //StopCoroutine(HurtAnimation());
+    }
+
+    void Death()
 	{
-		isDead = true;
+        StopCoroutine("HurtAnimation");
+        isDead = true;
+        Anim.enabled = false;
+        ragdollBehavior.ToggleRagdoll(true);
         enemyAI.enabled = false;
-        Anim.SetBool("Die", isDead);
-        //body.direction = 2;
-        //body.center = new Vector3(0, 0, 0);
 		Destroy (gameObject, 4f);
 	}
 
