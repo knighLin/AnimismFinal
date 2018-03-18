@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
-    public GameObject LoadingCanvas;
+    public GameObject LoadingCanvas, ChooseSaveData;
     private AsyncOperation _async;
     public AudioSource audioSource;
     public Slider LoadingSlider;
@@ -57,7 +57,7 @@ public class ButtonScript : MonoBehaviour
         switch (this.name)
         {
             case "NewGame":
-                GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "NewGame";
+                ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "NewGame";
                 Fade = true;
                 break;
             case "Yes":
@@ -73,7 +73,7 @@ public class ButtonScript : MonoBehaviour
                         {
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1" + ".sav"))
                             {
-                                GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data1";
+                                ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "Data1";
                                 Fade = true;
                             }
                         }
@@ -88,7 +88,7 @@ public class ButtonScript : MonoBehaviour
                         {
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2" + ".sav"))
                             {
-                                GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data2";
+                                ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "Data2";
                                 Fade = true;
                             }
                         }
@@ -103,7 +103,7 @@ public class ButtonScript : MonoBehaviour
                         {
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
                             {
-                                GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
+                                ChooseSaveData.GetComponent<ChooseSaveData>().SelectedData = "Data3";
                                 Fade = true;
                             }
                         }
