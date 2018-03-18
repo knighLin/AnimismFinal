@@ -69,7 +69,7 @@ public class EnemyHealth : MonoBehaviour
         nav.enabled = false;
         Anim.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         if (isDead == false)
         {
             aim.enabled = true;

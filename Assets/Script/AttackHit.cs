@@ -17,7 +17,7 @@ public class AttackHit : MonoBehaviour
         timer += Time.deltaTime;
         if (other.tag == "Enemy")
         {
-            Time.timeScale = 0.35f;
+           // Time.timeScale = 0.35f;
             Debug.Log("EnemyDamage");
             enemyHealth = other.GetComponent<EnemyHealth>();
             var damage = typeValue.PlayerAtk * Random.Range(0.9f, 1.1f);

@@ -104,7 +104,7 @@ public class Attack : MonoBehaviour
     void WeaponColliderClose()
     {
         weaponCollider.enabled = false;
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
     void ResetAttackFlag()
     {
