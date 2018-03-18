@@ -310,7 +310,9 @@
     <Compile Include="Assets\Script\AttackHit.cs" />
     <Compile Include="Assets\Script\BearAttack.cs" />
     <Compile Include="Assets\Script\Bullet.cs" />
+    <Compile Include="Assets\Script\ButtonDeselect.cs" />
     <Compile Include="Assets\Script\ButtonScript.cs" />
+    <Compile Include="Assets\Script\ButtonSelected.cs" />
     <Compile Include="Assets\Script\CameraAspect.cs" />
     <Compile Include="Assets\Script\CameraLocking.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
@@ -320,6 +322,7 @@
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
     <Compile Include="Assets\Script\HPcontroller.cs" />
+    <Compile Include="Assets\Script\MenuSelect.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
     <Compile Include="Assets\Script\Pause.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />

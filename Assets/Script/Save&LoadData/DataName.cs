@@ -24,7 +24,7 @@ public class DataName : MonoBehaviour {
         WhitchData = transform.parent.name;
         if (File.Exists(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav"))
         {
-            TextName.fontSize = 41;
+            TextName.fontSize = 25;
             DataInfo = new FileInfo(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav");
             Debug.Log(DataInfo.LastWriteTime);
             TextName.text = DataInfo.LastWriteTime.ToString();
@@ -33,7 +33,7 @@ public class DataName : MonoBehaviour {
         }
         else
         {
-            TextName.fontSize = 45;
+            TextName.fontSize = 25;
             TextName.text = "空的存檔";
             if (Delet != null)
                 Delet.SetActive(false);
