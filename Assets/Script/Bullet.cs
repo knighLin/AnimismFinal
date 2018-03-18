@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour {
 	{
         typeValue = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
         audioSource = GetComponent<AudioSource>();
-        Destroy(this.gameObject, 5f);
+       
     }
 
 	void OnCollisionEnter(Collision Target)
@@ -30,14 +30,10 @@ public class Bullet : MonoBehaviour {
                 var damage = (BulletAtk - typeValue.PlayerDef) * Random.Range(0.9f, 1.1f);
                 damage = Mathf.RoundToInt(damage);
                 audioSource.PlayOneShot(FreshHit);
-                health.Hurt(damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血
-                DeleteBullet();
+                health.Hurt(damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血 
             }
-		}
-	}
-
-     void DeleteBullet()
-    {
-        Destroy(this.gameObject, 0.01f);
+        }
+        Destroy(this.gameObject, 0.1f);
     }
+    
 }
