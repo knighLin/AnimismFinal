@@ -15,7 +15,7 @@ public class MenuSelect : MonoBehaviour {
         if (Input.GetAxis("Horizontal") > 0.01f)
         {
             H += Input.GetAxis("Horizontal");
-            if (Mathf.Ceil(H) > 5)
+            if (Mathf.Ceil(H) > 3.5f)
             {
                 switch (this.name)
                 {
@@ -59,7 +59,7 @@ public class MenuSelect : MonoBehaviour {
         else if (Input.GetAxis("Horizontal") <0.01f)
         {
             H += Input.GetAxis("Horizontal");
-            if (Mathf.Ceil(H) < -5)
+            if (Mathf.Ceil(H) < -3.5f)
             {
                 switch (this.name)
                 {
@@ -108,6 +108,7 @@ public class MenuSelect : MonoBehaviour {
     {
         Save.SetActive(true);
         GameObject.Find("Save").GetComponent<Button>().Select();
+        GameObject.Find("SaveSelect").GetComponent<Image>().enabled = true;
     }
     public void SwitchSetting()
     {

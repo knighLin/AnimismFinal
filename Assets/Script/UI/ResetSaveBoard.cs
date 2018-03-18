@@ -9,7 +9,7 @@ public class ResetSaveBoard : MonoBehaviour {
     [SerializeField] private GameObject[] Board;
     public void ResetTheSaveBoard()
     {
-        Select[0].enabled = false;
+        Select[0].enabled = true;
         Select[1].enabled = false;
         Select[2].enabled = false;
         Select[3].enabled = false;

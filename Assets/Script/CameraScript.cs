@@ -207,21 +207,13 @@ public class CameraScript : MonoBehaviour
     }
     public void CameraRotate()//攝影機旋轉
     {
-        if (Time.timeScale == 1)
+        //讀取滑鼠的X、Y軸移動訊息
+        if (Time.timeScale != 0)
         {
-            //讀取滑鼠的X、Y軸移動訊息
-            rotX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-            rotY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-            rotX -= Input.GetAxis("SoulVisonHorizontal") * sensitivity * Time.deltaTime * 5;
-            rotY -= Input.GetAxis("SoulVisonVertical") * sensitivity * Time.deltaTime * 5;
-        }
-        else if (Time.timeScale == 0.5f)
-        {
-            //讀取滑鼠的X、Y軸移動訊息
-            rotX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime * 2;
-            rotY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime * 2;
-            rotX -= Input.GetAxis("SoulVisonHorizontal") * sensitivity * Time.deltaTime * 10;
-            rotY -= Input.GetAxis("SoulVisonVertical") * sensitivity * Time.deltaTime * 10;
+            rotX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime / 2 / Time.timeScale;
+            rotY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime / Time.timeScale;
+            rotX -= Input.GetAxis("SoulVisonHorizontal") * sensitivity * Time.deltaTime * 5 / Time.timeScale;
+            rotY -= Input.GetAxis("SoulVisonVertical") * sensitivity * Time.deltaTime * 5 / Time.timeScale;
         }
         //保證X在360度以內
         if (rotX > 360) rotX -= 360;
@@ -301,7 +293,7 @@ public class CameraScript : MonoBehaviour
         CameraNowPosition = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
         transform.position = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
         CanPossess = true;
-        if (PossessedSystem.RangeObject.Count > 0 && Input.GetButtonDown("CircleLockingAnimal"))
+        if (PossessedSystem.RangeObject.Count > 0 && Input.GetButtonDown("R1Locking"))
         {
             LockingAnimal = true;
             CameraLocking.LockingAnimals();
@@ -325,7 +317,7 @@ public class CameraScript : MonoBehaviour
             CameraLocking.Player = null;
             IsSoulVision = true;//換成靈視
         }
-        else if (Input.GetButtonDown("CircleLockingAnimal"))
+        else if (Input.GetButtonDown("R1Locking"))
         {
             CameraLocking.LockingAnimals();
             transform.position = CameraLocking.CameraRotation * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;

@@ -97,7 +97,7 @@ public class PossessedSystem : MonoBehaviour
                                     //joycontroller.joypossessed = false; //搖桿
         }
 
-        if (Input.GetButtonDown("Triangel") && AttachedBody != null && !CameraScript.IsPossessing && !CameraScript.CantLeftPossess)//解除附身
+        if (Input.GetButtonDown("CircleUnpossess") && AttachedBody != null && !CameraScript.IsPossessing && !CameraScript.CantLeftPossess)//解除附身
         {
             LifedPossessed();//離開附身物
         }
@@ -115,7 +115,7 @@ public class PossessedSystem : MonoBehaviour
             ChooseRightObject = false;//重置
             CameraScript.CameraState = "GettingPossess";//轉為附身模式
         }
-        else if (((Input.GetMouseButtonDown(1) || Input.GetButtonDown("MushroomPossess")) && PossessedSystem.PossessedCol.enabled == true))
+        else if (( Input.GetButtonDown("TriangelAbility") && PossessedSystem.PossessedCol.enabled == true))
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
