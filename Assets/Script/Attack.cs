@@ -47,7 +47,7 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
-                       // this.gameObject.GetComponent<PlayerMovement>().enabled = false; 
+                        this.GetComponent<Rigidbody>().isKinematic = true;
                    
                         CanAttack = false;
                         animator.SetTrigger("Attack");
@@ -109,7 +109,8 @@ public class Attack : MonoBehaviour
     void ResetAttackFlag()
     {
         //animator.SetBool("Attack", false);
-       // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
+        // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
+        this.GetComponent<Rigidbody>().isKinematic = false;
         CanAttack = true;
     }
 }

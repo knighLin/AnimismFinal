@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     //使用其他腳本函數
-    //private PlayerHealth playerHealth;
     private EnemyShoot enemyShoot;
     //狀態變數設定
     public enum EnemyState
@@ -27,7 +26,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent nav;
     //判斷主角
     private Transform Target;
-    public Transform En_Body;
+    private Vector3 EnemyLookRotate;
     private float EnemyToPlayerDis;//主角跟敵人的距離
     //巡邏範圍計算變數
     private Vector3 MovePoint;//要移動的位置
@@ -104,6 +103,8 @@ public class EnemyAI : MonoBehaviour
         EnemyToPlayerDis = Vector3.Distance(transform.position, Target.position);//去判斷跟主角的範圍
         if (EnemyToPlayerDis <= 10 && Health.isDead == false)
         {
+            EnemyLookRotate = new Vector3((Target.transform.position.x - transform.position.x), 0, (Target.transform.position.z - transform.position.z));//Turn to Target
+            transform.rotation = Quaternion.LookRotation(EnemyLookRotate);
             isThink = false;//Stop think
 
             if (EnemyToPlayerDis <= 8 && EnemyToPlayerDis >= 2)//小於8大於3的距離射擊
@@ -136,6 +137,7 @@ public class EnemyAI : MonoBehaviour
         {
             case EnemyState.Enemy_Idle:
                 nav.isStopped = true;
+                animator.SetBool("Catch", false);
                 break;
             //case EnemyState.Enemy_Rotation:
             //    //Debug.Log("Rotation");
@@ -144,28 +146,23 @@ public class EnemyAI : MonoBehaviour
             //    break;
             case EnemyState.Enemy_Walk:
                 //isThink = false;
-                
                 nav.SetDestination(PatrolPoint());
                 nav.isStopped = false;
-                //animSpeed = nav.desiredVelocity.sqrMagnitude;
-                //animator.SetFloat("Speed", animSpeed);
-                
+                animator.SetBool("Catch", false);
+
                 break;
             case EnemyState.Enemy_Catch:
                 nav.isStopped = false;
-                animator.SetTrigger("Catch");
-                transform.LookAt(Target);
-                
+                animator.SetBool("Catch",true);
                 nav.SetDestination(Target.position);
                 break;
             case EnemyState.Enemy_NormalAttack:
+                animator.SetBool("Catch", false);
                 nav.isStopped = true;
-                transform.LookAt(Target.position);
                 //Start attack animation
                 break;
             case EnemyState.Enemy_Shooting:
-                transform.LookAt(Target.position );
-                
+                animator.SetBool("Catch", false);
                 //start shoot animation
                 if (Time.time - timer > 3f)
                 {

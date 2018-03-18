@@ -15,7 +15,11 @@ public class MenuSelect : MonoBehaviour {
         if (Input.GetAxis("Horizontal") > 0.01f)
         {
             H += Input.GetAxis("Horizontal");
+<<<<<<< HEAD:Assets/Script/UI/MenuSelect.cs
             if (Mathf.Ceil(H) > 3.5f)
+=======
+            if (Mathf.Ceil(H) > 4)
+>>>>>>> origin/master2:Assets/Script/MenuSelect.cs
             {
                 switch (this.name)
                 {
@@ -59,7 +63,11 @@ public class MenuSelect : MonoBehaviour {
         else if (Input.GetAxis("Horizontal") <0.01f)
         {
             H += Input.GetAxis("Horizontal");
+<<<<<<< HEAD:Assets/Script/UI/MenuSelect.cs
             if (Mathf.Ceil(H) < -3.5f)
+=======
+            if (Mathf.Ceil(H) < -4)
+>>>>>>> origin/master2:Assets/Script/MenuSelect.cs
             {
                 switch (this.name)
                 {
