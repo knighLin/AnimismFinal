@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Pause : MonoBehaviour {
 
-    public GameObject PauseCanvas, Quest, Save, Setting, Options;
-    public Button SaveButton;
+    public GameObject PauseCanvas;
+    public Button Quest;
     public Image FadeIn;
     public float time=1;
     private bool Fade;
@@ -58,17 +58,12 @@ public class Pause : MonoBehaviour {
     {
         //Instantiate(canvasPrefab, Vector2.zero, Quaternion.identity).name= "PauseCanvas";
         PauseCanvas.SetActive(true);
-        Quest.SetActive(true);
+        Quest.Select();
         Time.timeScale = 0f;
         IsPause = true;
-        SaveButton.Select();//讓暫停畫面跳出就選擇第一個按鈕;
     }
     public void DestroyPauseCanvas()
     {
-        Quest.GetComponent<MenuSelect>().CloseQuest();//全關下次開起來才會正常
-        Save.GetComponent<MenuSelect>().CloseSave();
-        Setting.GetComponent<MenuSelect>().CloseSetting();
-        Options.GetComponent<MenuSelect>().CloseOptions();
         PauseCanvas.SetActive(false);
         Time.timeScale = 1;
         IsPause = false;

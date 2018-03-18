@@ -184,11 +184,8 @@
     <Reference Include="UnityEngine.WindModule">
       <HintPath>Library\UnityAssemblies\UnityEngine.WindModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
@@ -196,11 +193,14 @@
     <Reference Include="nunit.framework">
       <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Timeline">
       <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
       <HintPath>Library\UnityAssemblies\UnityEngine.GoogleAudioSpatializer.dll</HintPath>
@@ -490,7 +490,6 @@
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
     <Compile Include="Assets\Script\HPcontroller.cs" />
-    <Compile Include="Assets\Script\MenuSelect.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />
@@ -509,6 +508,7 @@
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
     <Compile Include="Assets\Script\UI\DataClick.cs" />
+    <Compile Include="Assets\Script\UI\MenuSelect.cs" />
     <Compile Include="Assets\Script\UI\Pause.cs" />
     <Compile Include="Assets\Script\UI\ResetSaveBoard.cs" />
     <Compile Include="Assets\Script\WolfGuardsAi.cs" />
