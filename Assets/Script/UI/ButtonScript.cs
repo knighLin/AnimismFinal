@@ -23,7 +23,7 @@ public class ButtonScript : MonoBehaviour
         { 
             if  (time < 1)
             {
-                time += Time.deltaTime * 0.8f;
+                time += 0.05f;
                 if (time >= 1)
                     time = 1;
                 Fade.color = new Color(0, 0, 0, time);
@@ -33,6 +33,8 @@ public class ButtonScript : MonoBehaviour
                 //AudioFadeOut(audioSource, time);
                 time = 0;
                 FadeIn = false;
+                if (Time.timeScale == 0)//如果暫停狀態下回到主畫面則讓時間恢復
+                    Time.timeScale = 1;
                 Debug.Log("LoadSence");
                 SceneManager.LoadScene("Game");
                 //Application.LoadLevelAsync("Game");
@@ -43,7 +45,7 @@ public class ButtonScript : MonoBehaviour
         {
             if (time < 1)
             {
-                time += Time.deltaTime * 0.8f;
+                time += 0.05f;
                 if (time >= 1)
                     time = 1;
                 Fade.color = new Color(0, 0, 0,time);
@@ -124,6 +126,7 @@ public class ButtonScript : MonoBehaviour
                         {
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
                             {
+                                Debug.Log("1");
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
                                 FadeIn = true;
                             }

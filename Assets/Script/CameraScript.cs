@@ -168,7 +168,7 @@ public class CameraScript : MonoBehaviour
                 pillarSystem.pillarrota1();
             }
         }
-        if ((Input.GetButtonDown("Triangel")))
+        if ((Input.GetButtonDown("CircleUnpossess")))
             PossessedSystem.LifedPossessed();
     }
     public void CameraSetActive(int Set)
@@ -301,7 +301,7 @@ public class CameraScript : MonoBehaviour
         CameraNowPosition = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
         transform.position = RotationEuler * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
         CanPossess = true;
-        if (PossessedSystem.RangeObject.Count > 0 && Input.GetButtonDown("CircleLockingAnimal"))
+        if (PossessedSystem.RangeObject.Count > 0 && Input.GetButtonDown("R1Locking"))
         {
             LockingAnimal = true;
             CameraLocking.LockingAnimals();
@@ -325,7 +325,7 @@ public class CameraScript : MonoBehaviour
             CameraLocking.Player = null;
             IsSoulVision = true;//換成靈視
         }
-        else if (Input.GetButtonDown("CircleLockingAnimal"))
+        else if (Input.GetButtonDown("R1Locking"))
         {
             CameraLocking.LockingAnimals();
             transform.position = CameraLocking.CameraRotation * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;

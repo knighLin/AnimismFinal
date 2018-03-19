@@ -8,7 +8,7 @@ public class Pause : MonoBehaviour {
     public GameObject PauseCanvas,Menu;
     public Button Quest;
     public Image FadeIn;
-    public float time=1;
+    public float time=0;
     private float CanvasTime=0;
     private Vector3 CanvasDistance= new Vector3 (-650,0,0);
     private bool Fade, CanvasMove,Show;
@@ -55,17 +55,20 @@ public class Pause : MonoBehaviour {
                 }
             }
         }
-        if (Fade && time <=1&& time>0)
+        if (Fade)
         {
-            time -= Time.deltaTime * 0.8f;
-            if (time <= 0)
-                time = 0;
-            FadeIn.color = new Color(0, 0, 0, time);
-        }
-        else if (time <=0)
-        {
-            time = 0;
-            Fade = false;
+            if (time < 1)
+            {
+                FadeIn.color = new Color(0, 0, 0, 1 - time);
+                time += 0.05f;
+                if (time >= 1)
+                    time = 1;
+            }
+            else if (time >= 1)
+            {
+                time = 1;
+                Fade = false;
+            }
         }
 
         if (IsPause)
