@@ -509,7 +509,7 @@
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
     <Compile Include="Assets\Script\UI\DataClick.cs" />
-    <Compile Include="Assets\Script\UI\MenuSelect.cs" />
+    <Compile Include="Assets\Script\UI\MenuSelect2.cs" />
     <Compile Include="Assets\Script\UI\Pause.cs" />
     <Compile Include="Assets\Script\UI\ResetSaveBoard.cs" />
     <Compile Include="Assets\Script\WolfGuardsAi.cs" />
