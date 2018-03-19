@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
+    [SerializeField] private GameObject Success;
     public GameObject LoadingCanvas;
     private AsyncOperation _async;
     public AudioSource audioSource;
@@ -84,6 +85,16 @@ public class ButtonScript : MonoBehaviour
                 FadeIn = true;
                 break;
             case "Yes":
+                switch (SaveOrLoad)
+                {
+                    case 1:
+                        Success.GetComponent<Image>().sprite = Resources.Load("UI/Menu/c_save_success_w", typeof(Sprite)) as Sprite;
+                        break;
+                    case 2:
+                        Success.GetComponent<Image>().sprite = Resources.Load("UI/Menu/c_load_success_w", typeof(Sprite)) as Sprite;
+                        break;
+
+                }
                 switch (YesChooseData)
                 {
                     case 1:
@@ -126,7 +137,6 @@ public class ButtonScript : MonoBehaviour
                         {
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
                             {
-                                Debug.Log("1");
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
                                 FadeIn = true;
                             }

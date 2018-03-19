@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MenuSelect : MonoBehaviour
 {
-    [SerializeField] private GameObject Quest, Save, Setting, Options;
+    [SerializeField] private GameObject Quest, Save, Setting, Options,Music,Sound;
     public string NowSelectMenu;
     // Use this for initialization
 
@@ -27,6 +27,10 @@ public class MenuSelect : MonoBehaviour
                             GameObject.Find("ChooseBoard").SetActive(false);
                             GameObject.Find("YesSelect").GetComponent<Image>().enabled = false;
                             GameObject.Find("NoSelect").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Data1Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Data2Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("SaveData1").GetComponent<Button>().Select();
                         }
                         else
                         {
@@ -34,6 +38,8 @@ public class MenuSelect : MonoBehaviour
                             GameObject.Find("Data1Select").GetComponent<Image>().enabled = false;
                             GameObject.Find("Data2Select").GetComponent<Image>().enabled = false;
                             GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Save").GetComponent<Image>().sprite = Resources.Load("UI/Menu/c_save_B", typeof(Sprite)) as Sprite;
+                            GameObject.Find("Save").GetComponent<Image>().SetNativeSize();
                             GameObject.Find("Save").GetComponent<Button>().Select();
                         }
                     }
@@ -44,6 +50,10 @@ public class MenuSelect : MonoBehaviour
                             GameObject.Find("ChooseBoard").SetActive(false);
                             GameObject.Find("YesSelect").GetComponent<Image>().enabled = false;
                             GameObject.Find("NoSelect").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Data1Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Data2Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("LoadData1").GetComponent<Button>().Select();
                         }
                         else
                         {
@@ -51,6 +61,8 @@ public class MenuSelect : MonoBehaviour
                             GameObject.Find("Data1Select").GetComponent<Image>().enabled = false;
                             GameObject.Find("Data2Select").GetComponent<Image>().enabled = false;
                             GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
+                            GameObject.Find("Load").GetComponent<Image>().sprite = Resources.Load("UI/Menu/c_load_B", typeof(Sprite)) as Sprite;
+                            GameObject.Find("Load").GetComponent<Image>().SetNativeSize();
                             GameObject.Find("Load").GetComponent<Button>().Select();
                         }
                     }
@@ -61,13 +73,18 @@ public class MenuSelect : MonoBehaviour
                         GameObject.Find("B_Save").GetComponent<Button>().Select();
                     }
                     break;
+                //以下Setting
                 case "Setting":
                     if (GameObject.Find("MusicBarSelect").GetComponent<Image>().enabled)
                     {
+                        GameObject.Find("Music").GetComponent<Image>().sprite = Resources.Load("UI/Menu/d_music_B", typeof(Sprite)) as Sprite;
+                        GameObject.Find("Music").GetComponent<Image>().SetNativeSize();
                         GameObject.Find("Music").GetComponent<Button>().Select();
                     }
                     else if (GameObject.Find("SoundBarSelect").GetComponent<Image>().enabled)
                     {
+                        GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load("UI/Menu/d_sound_B", typeof(Sprite)) as Sprite;
+                        GameObject.Find("Sound").GetComponent<Image>().SetNativeSize();
                         GameObject.Find("Sound").GetComponent<Button>().Select();
                     }
                     else if (GameObject.Find("MusicSelect").GetComponent<Image>().enabled|| GameObject.Find("SoundSelect").GetComponent<Image>().enabled)
@@ -75,14 +92,14 @@ public class MenuSelect : MonoBehaviour
                         GameObject.Find("B_Setting").GetComponent<Button>().Select();
                     }
                     break;
+                //以下Options
                 case "Options":
                     GameObject.Find("ExitSelect").GetComponent<Image>().enabled = false;
                     GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = false;
                     GameObject.Find("B_Options").GetComponent<Button>().Select();
                     break;
             }
-            
-            //以下Setting
+
             
         }
     }
@@ -113,6 +130,11 @@ public class MenuSelect : MonoBehaviour
     }
     public void CloseSetting()
     {
+
+        Music.GetComponent<Image>().sprite = Resources.Load("UI/Menu/d_music_B", typeof(Sprite)) as Sprite;
+        Music.GetComponent<Image>().SetNativeSize();
+        Sound.GetComponent<Image>().sprite = Resources.Load("UI/Menu/d_sound_B", typeof(Sprite)) as Sprite;
+        Sound.GetComponent<Image>().SetNativeSize();
         Setting.SetActive(false);
     }
     public void CloseOptions()

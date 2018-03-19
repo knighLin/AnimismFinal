@@ -36,24 +36,24 @@ public class HPcontroller : MonoBehaviour
         switch (playerManager.PossessType)
         {
             case "Human":
-                FaceB.sprite = Resources.Load("UI/Avant/Pine/PINE_BUTTOM", typeof(Sprite)) as Sprite;
-                FaceW.sprite = Resources.Load("UI/Avant/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
-                FaceR.sprite = Resources.Load("UI/Avant/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
+                FaceB.sprite = Resources.Load("UI/Avantar/Pine/PINE_BUTTOM", typeof(Sprite)) as Sprite;
+                FaceW.sprite = Resources.Load("UI/Avantar/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
+                FaceR.sprite = Resources.Load("UI/Avantar/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
                 break;
             case "WolfMaster":
-                FaceB.sprite = Resources.Load("UI/Avant/Wolf/WOLF_BUTTOM", typeof(Sprite)) as Sprite;
-                FaceW.sprite = Resources.Load("UI/Avant/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
-                FaceR.sprite = Resources.Load("UI/Avant/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
+                FaceB.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_BUTTOM", typeof(Sprite)) as Sprite;
+                FaceW.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
+                FaceR.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
                 break;
             case "BearMaster":
-                FaceB.sprite = Resources.Load("UI/Avant/Bear/BEAR_BUTTOM", typeof(Sprite)) as Sprite;
-                FaceW.sprite = Resources.Load("UI/Avant/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
-                FaceR.sprite = Resources.Load("UI/Avant/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
+                FaceB.sprite = Resources.Load("UI/Avantar/Bear/BEAR_BUTTOM", typeof(Sprite)) as Sprite;
+                FaceW.sprite = Resources.Load("UI/Avantar/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
+                FaceR.sprite = Resources.Load("UI/Avantar/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
                 break;
             case "DeerMaster":
-                FaceB.sprite = Resources.Load("UI/Avant/Deer/DEER_BUTTOM", typeof(Sprite)) as Sprite;
-                FaceW.sprite = Resources.Load("UI/Avant/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
-                FaceR.sprite = Resources.Load("UI/Avant/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
+                FaceB.sprite = Resources.Load("UI/Avantar/Deer/DEER_BUTTOM", typeof(Sprite)) as Sprite;
+                FaceW.sprite = Resources.Load("UI/Avantar/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
+                FaceR.sprite = Resources.Load("UI/Avantar/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
                 break;
         }
     }
@@ -64,39 +64,39 @@ public class HPcontroller : MonoBehaviour
         {
             if (BlinkTime % 2 < 1)
             {
-                HpR.sprite = Resources.Load("UI/Avant/Hp/HP_WHITE", typeof(Sprite)) as Sprite;
+                HpR.sprite = Resources.Load("UI/Avantar/Hp/HP_WHITE", typeof(Sprite)) as Sprite;
                 switch (playerManager.NowType)
                 {
                     case "Human":
-                        FaceR.sprite = Resources.Load("UI/Avant/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
                         break;
                     case "Wolf":
-                        FaceR.sprite = Resources.Load("UI/Avant/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
                         break;
                     case "Bear":
-                        FaceR.sprite = Resources.Load("UI/Avant/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
                         break;
                     case "Deer":
-                        FaceR.sprite = Resources.Load("UI/Avant/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
                         break;
                 }
             }
             else
             {
-                HpR.sprite = Resources.Load("UI/Avant/Hp/HP_RED", typeof(Sprite)) as Sprite;
+                HpR.sprite = Resources.Load("UI/Avantar/Hp/HP_RED", typeof(Sprite)) as Sprite;
                 switch (playerManager.NowType)
                 {
                     case "Human":
-                        FaceR.sprite = Resources.Load("UI/Avant/Pine/PINE_RED", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Pine/PINE_RED", typeof(Sprite)) as Sprite;
                         break;
                     case "Wolf":
-                        FaceR.sprite = Resources.Load("UI/Avant/Wolf/WOLF_RED", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_RED", typeof(Sprite)) as Sprite;
                         break;
                     case "Bear":
-                        FaceR.sprite = Resources.Load("UI/Avant/Bear/BEAR_RED", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Bear/BEAR_RED", typeof(Sprite)) as Sprite;
                         break;
                     case "Deer":
-                        FaceR.sprite = Resources.Load("UI/Avant/Deer/DEER_RED", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Deer/DEER_RED", typeof(Sprite)) as Sprite;
                         break;
                 }
             }

@@ -5,6 +5,7 @@ using RootMotion.FinalIK;
 
 public class Health : MonoBehaviour
 {
+    private HurtBlood HurtBlood;
     private HPcontroller HPcontroller;
     private PlayerMovement playerMovement;//角色的移動
     private RagdollBehavior ragdollBehavior;
@@ -28,6 +29,7 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
+        HurtBlood = GameObject.Find("PlayerManager").GetComponent<HurtBlood>();
         possessedSystem = GetComponent<PossessedSystem>();
         playerMovement = GetComponent<PlayerMovement>();
         ik = GetComponent<FullBodyBipedIK>();
@@ -127,7 +129,7 @@ public class Health : MonoBehaviour
 
     IEnumerator HurtAnimation()//人用的
     {
-        Debug.Log(HitCount);
+        SetHitPointUI(HitCount);
         audioSource.PlayOneShot(hurt);
         ik.enabled = false;
         GroundIk.enabled = false;
@@ -139,7 +141,6 @@ public class Health : MonoBehaviour
             ik.enabled = true;
             GroundIk.enabled = true;
             animator.enabled = true;
-            SetHitPointUI(HitCount);
         }
         ragdollBehavior.ToggleRagdoll(false);
         //StopCoroutine(HurtAnimation());
@@ -151,15 +152,23 @@ public class Health : MonoBehaviour
         {
             case "1"://正面受傷
                 animator.SetTrigger("FontHurt");
+                HurtBlood.Up = true;
+                HurtBlood.Uptime = 0;
                 break;
             case "2"://背面受傷
                 animator.SetTrigger("BackHurt");
+                HurtBlood.Down = true;
+                HurtBlood.Downtime = 0;
                 break;
             case "3"://左側受傷
                 animator.SetTrigger("LeftHurt");
+                HurtBlood.Left = true;
+                HurtBlood.Lefttime = 0;
                 break;
             case "4"://右側受傷
                 animator.SetTrigger("RightHurt");
+                HurtBlood.Right = true;
+                HurtBlood.Righttime = 0;
                 break;
 
         }

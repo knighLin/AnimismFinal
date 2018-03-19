@@ -508,9 +508,12 @@
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
     <Compile Include="Assets\Script\UI\DataClick.cs" />
+    <Compile Include="Assets\Script\UI\HurtBlood.cs" />
     <Compile Include="Assets\Script\UI\MenuSelect.cs" />
     <Compile Include="Assets\Script\UI\Pause.cs" />
     <Compile Include="Assets\Script\UI\ResetSaveBoard.cs" />
+    <Compile Include="Assets\Script\UI\ResetSetting.cs" />
+    <Compile Include="Assets\Script\UI\SelectedChangeImage.cs" />
     <Compile Include="Assets\Script\WolfGuardsAi.cs" />
     <Compile Include="Assets\Script\WolfGuardsAttack.cs" />
   </ItemGroup>
