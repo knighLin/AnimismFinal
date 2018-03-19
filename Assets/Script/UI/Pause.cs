@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class Pause : MonoBehaviour {
 
-    public GameObject PauseCanvas;
+    public GameObject PauseCanvas,Menu;
     public Button Quest;
     public Image FadeIn;
     public float time=1;
-    private bool Fade;
+    private float CanvasTime=0;
+    private Vector3 CanvasDistance= new Vector3 (-650,0,0);
+    private bool Fade, CanvasMove,Show;
     private bool IsPause=false;
     // Use this for initialization
     void Start () {
@@ -19,6 +21,40 @@ public class Pause : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
  
+        if (CanvasMove)
+        {
+            if (Show)
+            {
+                if (CanvasTime < 1)
+                {
+                    CanvasTime += 0.2f;
+                    Menu.transform.localPosition += CanvasDistance / 5;
+                }
+                else if (CanvasTime >= 1)
+                {
+                    Time.timeScale = 0f;
+                    IsPause = true;
+                    CanvasTime = 0;
+                    CanvasMove = false;
+                }
+            }
+            else if (!Show)
+            {
+                if (CanvasTime < 1)
+                {
+                    CanvasTime += 0.2f;
+                    Menu.transform.localPosition -= CanvasDistance / 5;
+                }
+                else if (CanvasTime >= 1)
+                {
+                    PauseCanvas.SetActive(false);
+                    Time.timeScale = 1;
+                    IsPause = false;
+                    CanvasTime = 0;
+                    CanvasMove = false;
+                }
+            }
+        }
         if (Fade && time <=1&& time>0)
         {
             time -= Time.deltaTime * 0.8f;
@@ -42,7 +78,7 @@ public class Pause : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;//鎖滑鼠標
             Cursor.visible = false;
         }
-        if (Input.GetButtonDown("OptionsCancel"))
+        if (Input.GetButtonDown("OptionsCancel")&& PauseCanvas)
         {
             if (!IsPause)
             {
@@ -59,13 +95,12 @@ public class Pause : MonoBehaviour {
         //Instantiate(canvasPrefab, Vector2.zero, Quaternion.identity).name= "PauseCanvas";
         PauseCanvas.SetActive(true);
         Quest.Select();
-        Time.timeScale = 0f;
-        IsPause = true;
+        Show = true;
+        CanvasMove = true;
     }
     public void DestroyPauseCanvas()
     {
-        PauseCanvas.SetActive(false);
-        Time.timeScale = 1;
-        IsPause = false;
+        Show = false;
+        CanvasMove = true;
     }
 }

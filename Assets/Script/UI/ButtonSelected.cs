@@ -131,6 +131,14 @@ public class ButtonSelected : MonoBehaviour, ISelectHandler
             case "SoundBar":
                 GameObject.Find("SoundBarSelect").GetComponent<Image>().enabled = true;
                 break;
+            case "Return":
+                GameObject.Find("ExitSelect").GetComponent<Image>().enabled = false;
+                GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = true;
+                break;
+            case "Exit":
+                GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = false;
+                GameObject.Find("ExitSelect").GetComponent<Image>().enabled = true;
+                break;
         }
     }
 

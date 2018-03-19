@@ -52,6 +52,7 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 GameObject.Find("SoundSelect").GetComponent<Image>().enabled = false;
                 break;
             case "SoundBar":
+                GameObject.Find("SoundBarSelect").GetComponent<Image>().enabled = false;
                 break;
         }
     }

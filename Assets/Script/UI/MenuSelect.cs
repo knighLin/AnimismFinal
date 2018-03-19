@@ -75,6 +75,8 @@ public class MenuSelect : MonoBehaviour {
                     }
                     break;
                 case "Options":
+                    GameObject.Find("ExitSelect").GetComponent<Image>().enabled = false;
+                    GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = false;
                     GameObject.Find("B_Options").GetComponent<Button>().Select();
                     break;
             }

@@ -11,30 +11,51 @@ public class ButtonScript : MonoBehaviour
     private AsyncOperation _async;
     public AudioSource audioSource;
     public Slider LoadingSlider;
-    public Image FadeOut;
+    public Image Fade;
     public float time;
-    private bool Fade;
+    [SerializeField] private bool FadeIn, FadeOut;
     public int YesChooseData,SaveOrLoad = 0;//Save=1 Load=2
 
 
     void Update()
     {
-        if (Fade && time < 1)
-        {
-            time += Time.deltaTime*0.8f;
-            if (time >= 1)
-                time = 1;
-            FadeOut.color = new Color(0, 0, 0, time);
+        if (FadeIn)
+        { 
+            if  (time < 1)
+            {
+                time += Time.deltaTime * 0.8f;
+                if (time >= 1)
+                    time = 1;
+                Fade.color = new Color(0, 0, 0, time);
+            }
+            else if (time >= 1)
+            {
+                //AudioFadeOut(audioSource, time);
+                time = 0;
+                FadeIn = false;
+                Debug.Log("LoadSence");
+                SceneManager.LoadScene("Game");
+                //Application.LoadLevelAsync("Game");
+                // LoadSence();
+            }
         }
-        else if (time >= 1)
+        else if (FadeOut)
         {
-            //AudioFadeOut(audioSource, time);
-            time = 0;
-            Fade = false;
-            Debug.Log("LoadSence");
-            SceneManager.LoadScene("Game");
-            //Application.LoadLevelAsync("Game");
-           // LoadSence();
+            if (time < 1)
+            {
+                time += Time.deltaTime * 0.8f;
+                if (time >= 1)
+                    time = 1;
+                Fade.color = new Color(0, 0, 0,time);
+            }
+            else if (time >= 1)
+            {
+                //AudioFadeOut(audioSource, time);
+                time = 0;
+                FadeOut = false;
+                SceneManager.LoadScene("HomePage");
+                //Application.LoadLevelAsync("HomePage");
+            }
         }
     }
     public void LoadSence()
@@ -58,7 +79,7 @@ public class ButtonScript : MonoBehaviour
         {
             case "NewGame":
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "NewGame";
-                Fade = true;
+                FadeIn = true;
                 break;
             case "Yes":
                 switch (YesChooseData)
@@ -74,7 +95,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1" + ".sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data1";
-                                Fade = true;
+                                FadeIn = true;
                             }
                         }
                         break;
@@ -89,7 +110,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2" + ".sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data2";
-                                Fade = true;
+                                FadeIn = true;
                             }
                         }
                         break;
@@ -104,7 +125,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
-                                Fade = true;
+                                FadeIn = true;
                             }
                         }
                         break;
@@ -112,14 +133,14 @@ public class ButtonScript : MonoBehaviour
                 break;
             case "Exit":
                 //離開遊戲
+                Application.Quit();
                 break;
             case "Return":
                 if (Time.timeScale == 0)//如果暫停狀態下回到主畫面則讓時間恢復
                     Time.timeScale = 1;
                 if (GameObject.Find("ChooseSaveData")!=null)
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().DestroyThis();
-                SceneManager.LoadScene("HomePage");
-                //Application.LoadLevelAsync("HomePage");
+                FadeOut = true;
                 break;
         }
     }
