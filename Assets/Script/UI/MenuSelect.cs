@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuSelect2 : MonoBehaviour
+public class MenuSelect : MonoBehaviour
 {
     [SerializeField] private GameObject Quest, Save, Setting, Options;
     public string NowSelectMenu;

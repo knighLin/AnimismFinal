@@ -35,8 +35,7 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
                 break;
             case "Yes":
-                GameObject.Find("YesSelect").GetComponent<Image>().enabled = false;
-                GameObject.Find("SaveBoard").GetComponent<MenuSelect>().Yes = false;
+                GameObject.Find("YesSelect").GetComponent<Image>().enabled = false; 
                 break;
             case "No":
                 GameObject.Find("NoSelect").GetComponent<Image>().enabled = false;

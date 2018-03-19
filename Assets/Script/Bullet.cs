@@ -23,7 +23,8 @@ public class Bullet : MonoBehaviour {
 	{
 		if (Target.transform.tag == "Player")
 		{
-            //Debug.Log(Vector3.Cross(Vector3.Normalize(Target.transform.position), Vector3.Normalize(this.gameObject.transform.position)));
+            //Debug.Log(Vector3.Cross(Vector3.Normalize(Target.transform.forward), Vector3.Normalize(this.gameObject.transform.forward)));
+            
             Vector3 HitPoint = Vector3.Cross(Vector3.Normalize(Target.transform.position), Vector3.Normalize(this.gameObject.transform.position));//正面傷害正X軸，背面傷害負X軸，左邊傷害正Z軸，右邊傷害負Z軸
             health = Target.gameObject.GetComponent<Health>();
             
@@ -35,7 +36,7 @@ public class Bullet : MonoBehaviour {
                 health.Hurt(damage , HitPoint);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血 
             }
         }
-        Destroy(this.gameObject, 0.1f);
+        Destroy(gameObject);
     }
     
 }

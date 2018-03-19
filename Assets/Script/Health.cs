@@ -81,15 +81,15 @@ public class Health : MonoBehaviour
                 {
                     HitCount = 1.ToString();
                 }
-                else//BackHit
+                else if(HitPoint.x < 0)//BackHit
                 {
                     HitCount = 2.ToString();
                 }
-                if(HitPoint.z > 0)//LeftHit
+                else if(HitPoint.z > 0)//LeftHit
                 {
                     HitCount = 3.ToString();
                 }
-                else//RightHit
+                else if (HitPoint.z < 0)//RightHit
                 {
                     HitCount = 4.ToString();
                 }
@@ -127,34 +127,39 @@ public class Health : MonoBehaviour
 
     IEnumerator HurtAnimation()//人用的
     {
+        Debug.Log(HitCount);
         audioSource.PlayOneShot(hurt);
         ik.enabled = false;
         GroundIk.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         if (isDead == false)
         {
             ik.enabled = true;
             GroundIk.enabled = true;
             animator.enabled = true;
-            SetHitPointTrigger(HitCount);
+            SetHitPointUI(HitCount);
         }
         ragdollBehavior.ToggleRagdoll(false);
         //StopCoroutine(HurtAnimation());
     }
 
-    void SetHitPointTrigger(string Count)
+    void SetHitPointUI(string Count)
     {
         switch (Count)
         {
-            case "1":
+            case "1"://正面受傷
+                animator.SetTrigger("FontHurt");
                 break;
-            case "2":
+            case "2"://背面受傷
+                animator.SetTrigger("BackHurt");
                 break;
-            case "3":
+            case "3"://左側受傷
+                animator.SetTrigger("LeftHurt");
                 break;
-            case "4":
+            case "4"://右側受傷
+                animator.SetTrigger("RightHurt");
                 break;
 
         }
