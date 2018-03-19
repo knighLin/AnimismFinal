@@ -80,13 +80,11 @@ public class EnemyHealth : MonoBehaviour
             Anim.enabled = true;
         }
         ragdollBehavior.ToggleRagdoll(false);
-        //StopCoroutine(HurtAnimation());
     }
 
     void Death()
     {
         isDead = true;
-        // StopCoroutine("HurtAnimation");
         aim.enabled = false;
         ik.enabled = false;
         GroundIk.enabled = false;
@@ -95,7 +93,7 @@ public class EnemyHealth : MonoBehaviour
         Anim.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         enemyAI.enabled = false;
-        //Destroy (gameObject, 4f);
+        Destroy (gameObject, 5f);
     }
 
 }

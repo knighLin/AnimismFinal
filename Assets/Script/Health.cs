@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RootMotion.FinalIK;
 
 public class Health : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Health : MonoBehaviour
     private PlayerMovement playerMovement;//角色的移動
     private RagdollBehavior ragdollBehavior;
     private PossessedSystem possessedSystem;
+    private FullBodyBipedIK ik;
+    private GrounderFBBIK GroundIk;
 
     public float MaxHealth = 100; //最大HP
     public float currentHealth; //當前HP
@@ -21,11 +24,14 @@ public class Health : MonoBehaviour
     //public CapsuleCollider m_collider;
     private float StoreHumanHealth;
     public static bool CanPossessed;
+    private string HitCount;
 
     private void Awake()
     {
         possessedSystem = GetComponent<PossessedSystem>();
         playerMovement = GetComponent<PlayerMovement>();
+        ik = GetComponent<FullBodyBipedIK>();
+        GroundIk = GetComponent<GrounderFBBIK>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
@@ -62,14 +68,31 @@ public class Health : MonoBehaviour
         //}
     //}
 
-    public void Hurt(float Amount)
+    public void Hurt(float Amount, Vector3 HitPoint)
     {
+
         if (this.gameObject == possessedSystem.Possessor)
         {
             if (isDead)// ... no need to take damage so exit the function.
                 return;
             if (currentHealth > 0)
             {
+                if (HitPoint.x > 0)//FontHit
+                {
+                    HitCount = 1.ToString();
+                }
+                else//BackHit
+                {
+                    HitCount = 2.ToString();
+                }
+                if(HitPoint.z > 0)//LeftHit
+                {
+                    HitCount = 3.ToString();
+                }
+                else//RightHit
+                {
+                    HitCount = 4.ToString();
+                }
                 currentHealth -= Amount;//扣血
                 StartCoroutine("HurtAnimation");
             }
@@ -78,7 +101,6 @@ public class Health : MonoBehaviour
                 StopCoroutine("HurtAnimation");
                 Death();
             }
-            
         }
         else//動物的
         {
@@ -106,19 +128,43 @@ public class Health : MonoBehaviour
     IEnumerator HurtAnimation()//人用的
     {
         audioSource.PlayOneShot(hurt);
+        ik.enabled = false;
+        GroundIk.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         yield return new WaitForSeconds(0.3f);
         if (isDead == false)
         {
+            ik.enabled = true;
+            GroundIk.enabled = true;
             animator.enabled = true;
+            SetHitPointTrigger(HitCount);
         }
         ragdollBehavior.ToggleRagdoll(false);
         //StopCoroutine(HurtAnimation());
     }
+
+    void SetHitPointTrigger(string Count)
+    {
+        switch (Count)
+        {
+            case "1":
+                break;
+            case "2":
+                break;
+            case "3":
+                break;
+            case "4":
+                break;
+
+        }
+    }
+
     void Death()
     {
         isDead = true;
+        ik.enabled = false;
+        GroundIk.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         playerMovement.enabled = false;
