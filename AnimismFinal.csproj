@@ -490,6 +490,7 @@
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
     <Compile Include="Assets\Script\HPcontroller.cs" />
+    <Compile Include="Assets\Script\MenuSelect.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />

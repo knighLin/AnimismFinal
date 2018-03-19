@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
-    public GameObject LoadingCanvas;
+    public GameObject LoadingCanvas, ChooseSaveData;
     private AsyncOperation _async;
     public AudioSource audioSource;
     public Slider LoadingSlider;

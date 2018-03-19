@@ -10,7 +10,6 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
     {
         switch (this.name)
         {
-            //以下Save
             case "Save":
                 GameObject.Find("SaveSelect").GetComponent<Image>().enabled = false;
                 break;
@@ -37,6 +36,7 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 break;
             case "Yes":
                 GameObject.Find("YesSelect").GetComponent<Image>().enabled = false;
+                GameObject.Find("SaveBoard").GetComponent<MenuSelect>().Yes = false;
                 break;
             case "No":
                 GameObject.Find("NoSelect").GetComponent<Image>().enabled = false;

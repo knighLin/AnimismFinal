@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Pause : MonoBehaviour {
-
+    
     public GameObject PauseCanvas,Menu;
     public Button Quest;
     public Image FadeIn;
