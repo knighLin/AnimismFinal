@@ -16,16 +16,16 @@ public class WolfGuardsAi : MonoBehaviour
         Target = GameObject.FindWithTag("Player");
         Nav = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
-        StartCoroutine("DistoryTime");
-    }
-
-    private void Update()
-    {
         if (Target != null)
         {
             Nav.SetDestination(Target.transform.position);
         }
+        Destroy(gameObject,120);
+        //StartCoroutine("DistoryTime");
+    }
 
+    private void Update()
+    {
         if (Nav.remainingDistance < Nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
             Nav.isStopped = true;
@@ -40,21 +40,38 @@ public class WolfGuardsAi : MonoBehaviour
             m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
             Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
         }
+    }
 
+    int AttackRender()
+    {
+        int AttackCount = Random.Range(0, 2);
+        return AttackCount;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
         {
+            Nav.stoppingDistance = 0.5f;
             Debug.Log("Find Enemy");
             enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth.currentHealth > 0)
             {//當Enemy的還有血量時
                 transform.LookAt(other.transform);
+                Nav.SetDestination(Target.transform.position);
                 Anim.SetTrigger("Attack");//之後要改誠動畫
+                Anim.SetInteger("Render", AttackRender());
             }
 
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            Nav.SetDestination(Target.transform.position);
+            Nav.stoppingDistance = 1.5f;
         }
     }
 

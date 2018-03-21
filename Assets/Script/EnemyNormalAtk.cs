@@ -17,7 +17,7 @@ public class EnemyNormalAtk : MonoBehaviour
     public float timeBetweenAttacks = 1f;//敵人攻擊的時間間距
     public int EnemyAtk = 10;//敵人攻擊力
     public Collider weaponCollider;
-    Vector3 HitPoint;
+    float HitPoint;
 
 
     void Awake()
@@ -35,7 +35,7 @@ public class EnemyNormalAtk : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-             HitPoint = Vector3.Cross(Vector3.Normalize(other.transform.position), Vector3.Normalize(this.gameObject.transform.position));//正面傷害正X軸，背面傷害負X軸，左邊傷害正Z軸，右邊傷害負Z軸
+             //HitPoint = Vector3.Cross(Vector3.Normalize(other.transform.position), Vector3.Normalize(this.gameObject.transform.position));//正面傷害正X軸，背面傷害負X軸，左邊傷害正Z軸，右邊傷害負Z軸
             /*Debug.Log ("Player");
 			//playerInRange = true;
 			timer += Time.deltaTime;

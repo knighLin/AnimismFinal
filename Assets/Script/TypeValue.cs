@@ -12,8 +12,8 @@ public class TypeValue : MonoBehaviour
 
 	public void HumanVal ()//人型態數值
 	{
-		_MoveSpeed = 1.8f;
-		_RunSpeed = 3.6f;
+		_MoveSpeed = 1.6f;
+		_RunSpeed = 4f;
 		_JumpPower = 6f;
 		_playerAtk = 10f;
 		_playerDef = 1f;

@@ -5,6 +5,7 @@ using RootMotion.FinalIK;
 
 public class Health : MonoBehaviour
 {
+    private TypeValue value;
     private HurtBlood HurtBlood;
     private HPcontroller HPcontroller;
     private PlayerMovement playerMovement;//角色的移動
@@ -15,6 +16,7 @@ public class Health : MonoBehaviour
 
     public float MaxHealth = 100; //最大HP
     public float currentHealth; //當前HP
+    private Rigidbody m_rigidbody;
     private Animator animator;
     public static bool isDead;//是否死亡
     //audio
@@ -29,15 +31,18 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
+        value = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
         HurtBlood = GameObject.Find("PlayerManager").GetComponent<HurtBlood>();
         possessedSystem = GetComponent<PossessedSystem>();
         playerMovement = GetComponent<PlayerMovement>();
         ik = GetComponent<FullBodyBipedIK>();
         GroundIk = GetComponent<GrounderFBBIK>();
+        m_rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
         possessedSystem = GetComponent<PossessedSystem>();
+
         currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
         if (this.gameObject == possessedSystem.Possessor)
         {
@@ -52,52 +57,50 @@ public class Health : MonoBehaviour
             StoreHumanHealth = possessedSystem.Possessor.GetComponent<Health>().currentHealth;
         }
     }
-    //void Update()
-    //{
-        //if (currentHealth <= 0 && isDead == false && this.gameObject == possessedSystem.Possessor)
-        //{
-        //    StopCoroutine("HurtAnimation");
-        //    Death();
-        //}
-        //if (this.gameObject != possessedSystem.Possessor && currentHealth < MaxHealth * 0.3f)//當動物血量小於30%，分離主角，並扣出主角原本血量的一半
-        //{
-        //    possessedSystem.LifedPossessed();
-        //    possessedSystem.Possessor.GetComponent<Health>().currentHealth = StoreHumanHealth * 0.5f;
-        //    //Debug.Log(StorePlayerHealth);
-        //    // CanPossessed = false;
-        //    enabled = false;
-        //    // HPcontroller.CharacterHpControll();
-        //}
-    //}
-
-    public void Hurt(float Amount, Vector3 HitPoint)
+    
+    public void Hurt(float Amount, float HitPoint)
     {
-
         if (this.gameObject == possessedSystem.Possessor)
         {
             if (isDead)// ... no need to take damage so exit the function.
                 return;
-            if (currentHealth > 0)
+            if (m_rigidbody.isKinematic == false)
             {
-                if (HitPoint.x > 0)//FontHit
+                if (currentHealth > 0)
                 {
-                    HitCount = 1.ToString();
+                    if (HitPoint < -0.35f)  
+                    {
+                        Debug.Log("FontHit");
+                        HitCount = 1.ToString();
+                    }
+                    else if (HitPoint > 0.35f)
+                    {
+                        Debug.Log("BackHit");
+                        HitCount = 2.ToString();
+                    } 
+                    else if (HitPoint < 0.35f && HitPoint > -0.35f && HitPoint > 0)
+                    {
+                        Debug.Log("RightHit");
+                        HitCount = 3.ToString();
+                    }
+                    else if (HitPoint < 0.35f && HitPoint > -0.35f && HitPoint < 0)
+                    {
+                        Debug.Log("LeftHit");
+                        HitCount = 4.ToString();
+                    }
+                    currentHealth -= Amount;//扣血
+
+                    m_rigidbody.isKinematic = true;
+                    animator.SetFloat("Speed", 0);
+                   // PlayerMovement._Speed = 0;
+                    animator.SetTrigger("Hurt");
+                    audioSource.PlayOneShot(hurt);
+                    Invoke("ResetRigidbodyFlag", 0.8f);
+
+                    //StartCoroutine("HurtAnimation");
                 }
-                else if(HitPoint.x < 0)//BackHit
-                {
-                    HitCount = 2.ToString();
-                }
-                else if(HitPoint.z > 0)//LeftHit
-                {
-                    HitCount = 3.ToString();
-                }
-                else if (HitPoint.z < 0)//RightHit
-                {
-                    HitCount = 4.ToString();
-                }
-                currentHealth -= Amount;//扣血
-                StartCoroutine("HurtAnimation");
             }
+            
             if (currentHealth <= 0.5)
             {
                 StopCoroutine("HurtAnimation");
@@ -119,9 +122,7 @@ public class Health : MonoBehaviour
                 this.gameObject.layer = 12;
                 enabled = false;
             }
-            
         }
-        //audioSource.PlayOneShot(hurt);
         HPcontroller.CharacterHpControll();
         HPcontroller.Blink = true;
 
@@ -143,7 +144,6 @@ public class Health : MonoBehaviour
             animator.enabled = true;
         }
         ragdollBehavior.ToggleRagdoll(false);
-        //StopCoroutine(HurtAnimation());
     }
 
     void SetHitPointUI(string Count)
@@ -151,27 +151,32 @@ public class Health : MonoBehaviour
         switch (Count)
         {
             case "1"://正面受傷
-                animator.SetTrigger("FontHurt");
+                //animator.SetTrigger("FontHurt");
                 HurtBlood.Up = true;
                 HurtBlood.Uptime = 0;
                 break;
             case "2"://背面受傷
-                animator.SetTrigger("BackHurt");
+                //animator.SetTrigger("BackHurt");
                 HurtBlood.Down = true;
                 HurtBlood.Downtime = 0;
                 break;
             case "3"://左側受傷
-                animator.SetTrigger("LeftHurt");
+                //animator.SetTrigger("LeftHurt");
                 HurtBlood.Left = true;
                 HurtBlood.Lefttime = 0;
                 break;
             case "4"://右側受傷
-                animator.SetTrigger("RightHurt");
+               // animator.SetTrigger("RightHurt");
                 HurtBlood.Right = true;
                 HurtBlood.Righttime = 0;
                 break;
-
         }
+    }
+
+    void ResetRigidbodyFlag()
+    {
+         m_rigidbody.isKinematic = false;
+        //PlayerMovement._Speed = value.MoveSpeed;
     }
 
     void Death()

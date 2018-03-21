@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     float m_TurnAmount;//轉向值
     float m_ForwardAmount;//前進值
     Vector3 m_GroundNormal;//地面法向量
-    
+
 
     private void Awake()
     {
@@ -80,8 +80,7 @@ public class PlayerMovement : MonoBehaviour
             //在沒有主相機的情況下，我們使用世界相對的方向
             moveDirection = v * Vector3.forward + h * Vector3.right;
         }
-
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("R2Run"))
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("R2Run")))
         {//當按下shift，有跑步動作
             _Speed = value.RunSpeed;
         }
@@ -97,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
     // 移动！ 
     void PlayerMove(Vector3 move)
     {
+        //Debug.Log(transform.forward);
         // 将一个世界坐标的输入转换为本地相关的转向和前进速度，这需要考虑到角色头部的方向
         if (move.magnitude > 1f)
         {

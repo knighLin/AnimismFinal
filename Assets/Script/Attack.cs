@@ -10,8 +10,8 @@ public class Attack : MonoBehaviour
     private PossessedSystem possessedSystem;
     //Animator
     private Animator animator;
-    public Collider weaponCollider;
-    public Collider myselfCollider;
+    public CapsuleCollider weaponCollider;
+    //public BoxCollider weaponCollider2;
 
     //Audio
     private AudioSource audioSource;
@@ -30,6 +30,7 @@ public class Attack : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         //set WeaponCollider
         weaponCollider.enabled = false;
+        //weaponCollider2.enabled = false;
         // Physics.IgnoreCollision(myselfCollider, weaponCollider);//讓兩個物體不會產生碰撞
     }
 
@@ -100,10 +101,12 @@ public class Attack : MonoBehaviour
     void WeaponColliderOpen()
     {
         weaponCollider.enabled = true;
+        //weaponCollider2.enabled = true;
     }
     void WeaponColliderClose()
     {
         weaponCollider.enabled = false;
+        //weaponCollider2.enabled = false;
         Time.timeScale = 1f;
     }
     void ResetAttackFlag()

@@ -48,9 +48,9 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth > 0)
         {
             currentHealth -= Amount;//扣血
-                                    //audioSource.PlayOneShot(hurt);
-                                    //Anim.SetTrigger("Hurt");
-            StartCoroutine("HurtAnimation");
+            audioSource.PlayOneShot(hurt);
+            Anim.SetTrigger("Hurt");
+            // StartCoroutine("HurtAnimation");
         }
         if (currentHealth <= 0)
         {
