@@ -9,6 +9,9 @@ public class WolfGuardsAi : MonoBehaviour
     private GameObject Target;
     private NavMeshAgent Nav;
     private Animator Anim;
+    public CapsuleCollider weaponCollider;
+    private AudioSource audioSource;
+    public AudioClip attack;
     float m_TurnAmount;//轉向值
 
     void Awake()
@@ -16,16 +19,17 @@ public class WolfGuardsAi : MonoBehaviour
         Target = GameObject.FindWithTag("Player");
         Nav = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
-        if (Target != null)
-        {
-            Nav.SetDestination(Target.transform.position);
-        }
+        
         Destroy(gameObject,120);
         //StartCoroutine("DistoryTime");
     }
 
     private void Update()
     {
+        //if (Target != null)
+        //{
+         Nav.SetDestination(Target.transform.position);
+        //}
         if (Nav.remainingDistance < Nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
             Nav.isStopped = true;
@@ -36,6 +40,7 @@ public class WolfGuardsAi : MonoBehaviour
         else
         {
             Nav.isStopped = false;
+            Nav.SetDestination(Target.transform.position);
             Anim.SetFloat("Speed", Nav.desiredVelocity.sqrMagnitude, 0.1f, Time.deltaTime);
             m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
             Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
@@ -48,7 +53,7 @@ public class WolfGuardsAi : MonoBehaviour
         return AttackCount;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Enemy")
         {
@@ -58,7 +63,7 @@ public class WolfGuardsAi : MonoBehaviour
             if (enemyHealth.currentHealth > 0)
             {//當Enemy的還有血量時
                 transform.LookAt(other.transform);
-                Nav.SetDestination(Target.transform.position);
+                Nav.SetDestination(other.transform.position);
                 Anim.SetTrigger("Attack");//之後要改誠動畫
                 Anim.SetInteger("Render", AttackRender());
             }
@@ -80,5 +85,16 @@ public class WolfGuardsAi : MonoBehaviour
         yield return new WaitForSeconds(120);
         Destroy(gameObject);
     }
-
+    void WeaponSound()
+    {
+        audioSource.PlayOneShot(attack);
+    }
+    void WeaponColliderOpen()
+    {
+        weaponCollider.enabled = true;
+    }
+    void WeaponColliderClose()
+    {
+        weaponCollider.enabled = false;
+    }
 }

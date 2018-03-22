@@ -30,7 +30,7 @@ public class TypeValue : MonoBehaviour
 
 	public void WolfVal ()//熊型態數值
 	{
-		_MoveSpeed = 3.0f;
+		_MoveSpeed = 2.5f;
 		_RunSpeed = 6.0f;
 		_JumpPower = 6f;
 		_playerAtk = 20f;

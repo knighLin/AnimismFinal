@@ -44,7 +44,10 @@ public class DataName : MonoBehaviour {
         }
         if (File.Exists(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav"))
         {
-            TextName.fontSize = 25;
+            if (!GameObject.Find("Logo"))
+                TextName.fontSize = 25;
+            else
+                TextName.fontSize = 41;
             DataInfo = new FileInfo(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav");
             Debug.Log(DataInfo.LastWriteTime);
             TextName.text = DataInfo.LastWriteTime.ToString();
@@ -53,7 +56,10 @@ public class DataName : MonoBehaviour {
         }
         else
         {
-            TextName.fontSize = 25;
+            if (!GameObject.Find("Logo"))
+                TextName.fontSize = 25;
+            else
+                TextName.fontSize = 45;
             TextName.text = "空的存檔";
             if (Delet != null)
                 Delet.SetActive(false);

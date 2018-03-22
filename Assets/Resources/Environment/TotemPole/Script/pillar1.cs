@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class pillar1 : MonoBehaviour
 {
-    public Vector3 ChangePosition;//相機要改變的位置
     public int Nowlevel;//外填樓層
-    public GameObject camera_pos;//相機
     public pillarSystem pillarSystem;
 
     private void Start()

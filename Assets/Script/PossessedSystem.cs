@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PossessedSystem : MonoBehaviour
@@ -176,9 +176,7 @@ public class PossessedSystem : MonoBehaviour
                 }
                 AttachedBody.tag = "Player";//將目前附身動物tag改成player
                                             //附身者的位置到新被附身物的位置
-                Possessor.transform.position = new Vector3(AttachedBody.transform.position.x,
-                                                        AttachedBody.transform.position.y,
-                                                        AttachedBody.transform.position.z);
+                Possessor.transform.position = AttachedBody.transform.position;
 
                 PossessedCol.enabled = false;//關掉當前附身範圍
                 Possessor.transform.parent = AttachedBody.transform;//將附身者變為被附身物的子物件
@@ -211,17 +209,35 @@ public class PossessedSystem : MonoBehaviour
                 {
                     AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
                     Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
+                    Debug.Log(AttachedBody);
                     AttachedBody.GetComponent<PlayerMovement>().enabled = false;
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
+                    Possessor.SetActive(true);
                 }
+                Possessor.tag = "Player";//進入圖騰柱人的tag先為Player
+                playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+                playerManager.TurnType("Human", "Human");//附身圖騰柱後狀態先設為人 解除後才不用再抓一次
+                playerManager.PossessType = "Human";
+                HPcontroller.Health = Possessor.GetComponent<Health>();
+                HPcontroller.CharacterHpControll();
+                HPcontroller.CharacterSwitch();//換圖片
+                GameObject.Find("FaceBlack").GetComponent<Image>().color = new Color(1, 1, 1, 0);//隱藏血量
+                GameObject.Find("FaceWhite").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("FaceRed").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("HpBlack").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("HpWhite").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("HpRed").GetComponent<Image>().color = new Color(1, 1, 1, 0);
                 AttachedBody = Target.gameObject;//讓新的附身物等於AttachedBody
                 playerManager.NowCharacter = AttachedBody;
                 playerManager.PossessType = AttachedBody.tag;
                 PossessedCol.enabled = false;//關掉當前附身範圍
-                Possessor.GetComponent<PlayerMovement>().enabled = false;
                 OnPossessed = true;//已附身
                 pillar1 = AttachedBody.GetComponent<pillar1>();
                 pillar1.changLevel();
+                Possessor.GetComponent<PlayerMovement>().enabled = false;
+                Possessor.transform.position = GameObject.Find("TotemPole").transform.position + new Vector3(0, 0, -3);
+                Possessor.transform.rotation = Quaternion.Euler(0, 0, 0);
+                Possessor.tag = "Pillar";//設為不是Player敵人才抓不到
             }
         }
     }
@@ -272,9 +288,13 @@ public class PossessedSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log("1");
-            Possessor.transform.position = GameObject.Find("TotemPole").transform.position + new Vector3(0, 0, -3);
-            Possessor.transform.rotation = Quaternion.Euler(0, 0, 0);
+            GameObject.Find("FaceBlack").GetComponent<Image>().color = new Color(1, 1, 1, 1);//開啟血量
+            GameObject.Find("FaceWhite").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("FaceRed").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("HpBlack").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("HpWhite").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("HpRed").GetComponent<Image>().color = new Color(1, 1, 1 , 1);
+            Possessor.tag = "Player";
             CameraScript.rotX = 0;
             CameraScript.rotY = 0;
             Possessor.GetComponent<PlayerMovement>().enabled = true;

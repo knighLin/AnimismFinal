@@ -96,7 +96,7 @@ public class Health : MonoBehaviour
                     animator.SetTrigger("Hurt");
                     audioSource.PlayOneShot(hurt);
                     Invoke("ResetRigidbodyFlag", 0.8f);
-
+                    SetHitPointUI(HitCount);
                     //StartCoroutine("HurtAnimation");
                 }
             }
@@ -187,5 +187,7 @@ public class Health : MonoBehaviour
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         playerMovement.enabled = false;
+        Time.timeScale = 0;
+        GameObject.Find("PlayerManager").GetComponent<Death>().IsDeath=true;
     }
 }

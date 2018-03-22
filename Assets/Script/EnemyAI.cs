@@ -50,21 +50,23 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        Target = GameObject.FindGameObjectWithTag("Player").transform;
-        ThinkState();
-        TargetInRange();
-        if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
+        if (GameObject.FindGameObjectWithTag("Player"))
         {
-            nav.isStopped = true;
-            animSpeed = nav.desiredVelocity.sqrMagnitude;
-            animator.SetFloat("Speed", animSpeed);
-
-        }
-        else
-        {
-            nav.isStopped = false;
-            animSpeed = nav.desiredVelocity.sqrMagnitude;
-            animator.SetFloat("Speed", animSpeed);
+            Target = GameObject.FindGameObjectWithTag("Player").transform;
+            ThinkState();
+            TargetInRange();
+            if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
+            {
+                nav.isStopped = true;
+                animSpeed = nav.desiredVelocity.sqrMagnitude;
+                animator.SetFloat("Speed", animSpeed);
+            }
+            else
+            {
+                nav.isStopped = false;
+                animSpeed = nav.desiredVelocity.sqrMagnitude;
+                animator.SetFloat("Speed", animSpeed);
+            }
         }
     }
 

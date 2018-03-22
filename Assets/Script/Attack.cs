@@ -8,6 +8,7 @@ public class Attack : MonoBehaviour
     private EnemyHealth enemyHealth;
     private TypeValue typeValue;
     private PossessedSystem possessedSystem;
+    
     //Animator
     private Animator animator;
     public CapsuleCollider weaponCollider;
@@ -22,6 +23,7 @@ public class Attack : MonoBehaviour
     [SerializeField] private Rigidbody WolfGuards;//召喚狼
     [SerializeField] private Transform SummonPoint1;
     [SerializeField] private Transform SummonPoint2;
+    Rigidbody rigidbody;
     
     void Awake()
     {
@@ -60,6 +62,7 @@ public class Attack : MonoBehaviour
             case "Wolf":
                 if (CanAttack)
                 {
+                    rigidbody = GetComponent<Rigidbody>();
                     if (Input.GetButtonDown("SquareAttack"))
                     {
                         CanAttack = false;
@@ -67,14 +70,19 @@ public class Attack : MonoBehaviour
                         animator.SetInteger("Render", AttackRender());
                         Invoke("ResetAttackFlag", 1.2f);
                     }
-                    if (Input.GetMouseButtonDown(1))//特殊技
+                    if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("TriangleAbility"))//特殊技
                     {
                         if (PossessedSystem.WolfCount >= 1 && PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
                         {
                             animator.SetTrigger("Surgery");
                             audioSource.PlayOneShot(summon);
-                            Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
-                            Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
+                            Vector3 MovePoint = new Vector3((transform.localPosition.x - 2),transform.localPosition.y, (transform.localPosition.z - 2));
+                            Vector3 MovePoint2 = new Vector3((transform.localPosition.x + 2), transform.localPosition.y, (transform.localPosition.z - 2));
+                            Instantiate(WolfGuards, MovePoint, Quaternion.identity);
+                            Instantiate(WolfGuards, MovePoint2, Quaternion.identity);
+
+                            //Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
+                            //Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
                             PossessedSystem.WolfCount = 0;
                         }
                     }
@@ -107,7 +115,7 @@ public class Attack : MonoBehaviour
     {
         weaponCollider.enabled = false;
         //weaponCollider2.enabled = false;
-        Time.timeScale = 1f;
+       // Time.timeScale = 1f;
     }
     void ResetAttackFlag()
     {
@@ -115,5 +123,19 @@ public class Attack : MonoBehaviour
         // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
         this.GetComponent<Rigidbody>().isKinematic = false;
         CanAttack = true;
+    }
+
+    //void AttackEffectOpen()
+    //{
+    //    gameObject.GetComponentInChildren<MeleeWeaponTrail>().enabled = true;
+    //}
+    //void AttackEffectClose()
+    //{
+    //    gameObject.GetComponentInChildren<MeleeWeaponTrail>().enabled = false;
+    //}
+
+    void WolfAddForce()
+    {
+        rigidbody.AddForce(Vector3.forward * 10);
     }
 }

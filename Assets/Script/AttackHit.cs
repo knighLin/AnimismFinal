@@ -15,7 +15,7 @@ public class AttackHit : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-           Time.timeScale = 0.4f;
+           //Time.timeScale = 0.4f;
             enemyHealth = other.GetComponent<EnemyHealth>();
             if(enemyHealth.currentHealth > 0)
             {

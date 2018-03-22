@@ -15,9 +15,9 @@ public class HurtBlood : MonoBehaviour {
             if (Uptime < 1)
             {
                 Uptime += Time.deltaTime/2;
-                Blood[0].color = new Color(0, 0, 0, 1 - Uptime);
-                Blood[4].color = new Color(0, 0, 0, 1 - Uptime);
-                Blood[8].color = new Color(0, 0, 0, 1 - Uptime);
+                Blood[0].color = new Color(1, 1, 1, 1 - Uptime);
+                Blood[4].color = new Color(1, 1, 1, 1 - Uptime);
+                Blood[8].color = new Color(1, 1, 1, 1 - Uptime);
             }
             else if (Uptime>=1)
             {
@@ -30,9 +30,9 @@ public class HurtBlood : MonoBehaviour {
             if (Downtime < 1)
             {
                 Downtime += Time.deltaTime / 2;
-                Blood[0].color = new Color(0, 0, 0, 1 - Downtime);
-                Blood[4].color = new Color(0, 0, 0, 1 - Downtime);
-                Blood[8].color = new Color(0, 0, 0, 1 - Downtime);
+                Blood[1].color = new Color(1, 1, 1, 1 - Downtime);
+                Blood[5].color = new Color(1, 1, 1, 1 - Downtime);
+                Blood[9].color = new Color(1, 1, 1, 1 - Downtime);
             }
             else if (Downtime >= 1)
             {
@@ -45,9 +45,9 @@ public class HurtBlood : MonoBehaviour {
             if (Lefttime < 1)
             {
                 Lefttime += Time.deltaTime / 2;
-                Blood[0].color = new Color(0, 0, 0, 1 - Lefttime);
-                Blood[4].color = new Color(0, 0, 0, 1 - Lefttime);
-                Blood[8].color = new Color(0, 0, 0, 1 - Lefttime);
+                Blood[3].color = new Color(1, 1, 1, 1 - Lefttime);
+                Blood[7].color = new Color(1, 1, 1, 1 - Lefttime);
+                Blood[11].color = new Color(1, 1, 1, 1 - Lefttime);
             }
             else if (Lefttime >= 1)
             {
@@ -60,9 +60,9 @@ public class HurtBlood : MonoBehaviour {
             if (Righttime < 1)
             {
                 Righttime += Time.deltaTime / 2;
-                Blood[0].color = new Color(0, 0, 0, 1 - Righttime);
-                Blood[4].color = new Color(0, 0, 0, 1 - Righttime);
-                Blood[8].color = new Color(0, 0, 0, 1 - Righttime);
+                Blood[2].color = new Color(1, 1, 1, 1 - Righttime);
+                Blood[6].color = new Color(1, 1, 1, 1 - Righttime);
+                Blood[10].color = new Color(1, 1,1, 1 - Righttime);
             }
             else if (Righttime >= 1)
             {

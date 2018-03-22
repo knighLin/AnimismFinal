@@ -27,9 +27,9 @@ public class Bullet : MonoBehaviour {
 
             // Vector3 HitPoint = Vector3.Cross(Vector3.Normalize(Target.transform.position), Vector3.Normalize(this.gameObject.transform.position));//正面傷害正X軸，背面傷害負X軸，左邊傷害正Z軸，右邊傷害負Z軸
             Vector3 toOther = (Target.transform.position - transform.position).normalized;
-            Debug.Log("ToPine"+toOther);
+            //Debug.Log("ToPine"+toOther);
             var dot = Vector3.Dot(Target.transform.forward, toOther);
-            Debug.Log(dot);
+            //Debug.Log(dot);
             health = Target.gameObject.GetComponent<Health>();
             
             if(health.currentHealth > 0)

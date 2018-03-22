@@ -84,6 +84,27 @@ public class ButtonScript : MonoBehaviour
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "NewGame";
                 FadeIn = true;
                 break;
+            case "LoadData1":
+                if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1" + ".sav"))
+                {
+                    GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data1";
+                    FadeIn = true;
+                }
+                break;
+            case "LoadData2":
+                if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2" + ".sav"))
+                {
+                    GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data2";
+                    FadeIn = true;
+                }
+                break;
+            case "LoadData3":
+                if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
+                {
+                    GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
+                    FadeIn = true;
+                }
+                break;
             case "Yes":
                 switch (SaveOrLoad)
                 {

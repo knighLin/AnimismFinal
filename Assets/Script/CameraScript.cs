@@ -169,7 +169,11 @@ public class CameraScript : MonoBehaviour
             }
         }
         if ((Input.GetButtonDown("CircleUnpossess")))
+        {
+            Debug.Log("5");
             PossessedSystem.LifedPossessed();
+        }
+
     }
     public void CameraSetActive(int Set)
     {
@@ -437,10 +441,10 @@ public class CameraScript : MonoBehaviour
         switch (playerManager.PossessType)
         {
             case "Human":
-                PossessedSystem = GameObject.Find("Pine").GetComponent<PossessedSystem>();
-                NowCharacter = GameObject.Find("Pine");
-                PlayerView = GameObject.Find("FirstPersonCamPoint");
-                MoveEnd = GameObject.Find("CamMoveEndPoint");
+                PossessedSystem = PossessedSystem.Possessor.GetComponent<PossessedSystem>();
+                NowCharacter = PossessedSystem.Possessor;
+                PlayerView = PossessedSystem.Possessor.GetComponentsInChildren<Transform>()[2].gameObject;
+                MoveEnd = PossessedSystem.Possessor.GetComponentsInChildren<Transform>()[1].gameObject;
                 CameraState = "NormalState";
                 break;
             case "WolfMaster":

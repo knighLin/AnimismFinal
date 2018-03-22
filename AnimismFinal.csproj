@@ -484,12 +484,15 @@
     <Compile Include="Assets\Script\CameraAspect.cs" />
     <Compile Include="Assets\Script\CameraLocking.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
+    <Compile Include="Assets\Script\Effect\Interpolate.cs" />
+    <Compile Include="Assets\Script\Effect\LookAtTarget.cs" />
+    <Compile Include="Assets\Script\Effect\MeleeWeaponTrail.cs" />
+    <Compile Include="Assets\Script\Effect\SwooshTest.cs" />
     <Compile Include="Assets\Script\EnemyAI.cs" />
     <Compile Include="Assets\Script\EnemyHealth.cs" />
     <Compile Include="Assets\Script\EnemyNormalAtk.cs" />
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
-    <Compile Include="Assets\Script\HPcontroller.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />
@@ -508,6 +511,8 @@
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
     <Compile Include="Assets\Script\UI\DataClick.cs" />
+    <Compile Include="Assets\Script\UI\Death.cs" />
+    <Compile Include="Assets\Script\UI\HPcontroller.cs" />
     <Compile Include="Assets\Script\UI\HurtBlood.cs" />
     <Compile Include="Assets\Script\UI\MenuSelect.cs" />
     <Compile Include="Assets\Script\UI\Pause.cs" />
@@ -664,6 +669,7 @@
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.cginc" />
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
