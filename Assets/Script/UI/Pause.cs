@@ -81,16 +81,16 @@ public class Pause : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;//鎖滑鼠標
             Cursor.visible = false;
         }
-        if (Input.GetButtonDown("OptionsCancel")&& PauseCanvas)
+        if (Input.GetButtonDown("OptionsCancel")&& PauseCanvas&& !IsPause)
         {
             if (!IsPause)
-            {
                 CreatPauseCanvas();
-            }
             else
-            {
                 DestroyPauseCanvas();
-            }
+        }
+        else if (Input.GetButtonDown("CrossJump") && IsPause)
+        {
+            DestroyPauseCanvas();
         }
     }
     public void CreatPauseCanvas()

@@ -110,7 +110,7 @@ public class CameraScript : MonoBehaviour
                 break;
         }
 
-        if (Input.GetButton("L2") && Input.GetButton("R2Run"))//同時按著R2L2 視角固定不能轉
+        if (Input.GetButton("L2FixCamera"))//按著L2 視角固定不能轉
             FixedVison = true;
         else
         {
@@ -137,11 +137,11 @@ public class CameraScript : MonoBehaviour
     }
     public void PillarState()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && pillarSystem.pillarLevel != 3)
+        if (Input.GetButtonDown("Up") && pillarSystem.pillarLevel != 3)
         {
             pillarSystem.pillarLevel += 1;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && pillarSystem.pillarLevel != 1)
+        if (Input.GetButtonDown("Down") && pillarSystem.pillarLevel != 1)
         {
 
             pillarSystem.pillarLevel -= 1;
@@ -244,7 +244,7 @@ public class CameraScript : MonoBehaviour
         if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit) && !FixedVison)
         {
             int HitTag = hit.collider.gameObject.layer;//撞到的物件的layer
-            if (HitTag != 9 && HitTag != 11 && HitTag != 8 && HitTag != 10)//9為player 11為ragdoll 8為CanPossess 10為武器
+            if (HitTag != 9 && HitTag != 11 && HitTag != 8 && HitTag != 10 && HitTag != 13)//9為player 11為ragdoll 8為CanPossess 10為武器 13為敵人
             {
                 RedressVector = NormalPosition - hit.point;//如果撞到物件 設一個向量為 撞到的位置和原來鏡頭位置之差
                 transform.position = NormalPosition - RedressVector;//減掉位置差 讓鏡頭移動到撞到的位置 其實值等於 hit.point即可 只是變數留著可以做變化 先不做優化
@@ -292,7 +292,7 @@ public class CameraScript : MonoBehaviour
         {
             CameraSetActive(2);
             FowardAndBackTime = FowardStop;
-            IsSoulVision = true;
+            LockingAnimal = true;
         }
     }
     public void SoulVision()//靈視

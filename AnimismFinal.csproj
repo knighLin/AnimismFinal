@@ -519,6 +519,7 @@
     <Compile Include="Assets\Script\UI\ResetSaveBoard.cs" />
     <Compile Include="Assets\Script\UI\ResetSetting.cs" />
     <Compile Include="Assets\Script\UI\SelectedChangeImage.cs" />
+    <Compile Include="Assets\Script\UI\SelectNewGame.cs" />
     <Compile Include="Assets\Script\WolfGuardsAi.cs" />
     <Compile Include="Assets\Script\WolfGuardsAttack.cs" />
   </ItemGroup>

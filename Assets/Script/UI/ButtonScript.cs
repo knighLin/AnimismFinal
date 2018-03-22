@@ -110,9 +110,12 @@ public class ButtonScript : MonoBehaviour
                 {
                     case 1:
                         Success.GetComponent<Image>().sprite = Resources.Load("UI/Menu/c_save_success_w", typeof(Sprite)) as Sprite;
+                        Success.SetActive(true);
                         break;
                     case 2:
                         Success.GetComponent<Image>().sprite = Resources.Load("UI/Menu/c_load_success_w", typeof(Sprite)) as Sprite;
+                        Success.SetActive(true);
+                        Success.GetComponent<Button>().Select();
                         break;
 
                 }
