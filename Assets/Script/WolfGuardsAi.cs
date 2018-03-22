@@ -20,7 +20,7 @@ public class WolfGuardsAi : MonoBehaviour
         Nav = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         
-        Destroy(gameObject,120);
+        Destroy(gameObject,60);
         //StartCoroutine("DistoryTime");
     }
 
@@ -58,7 +58,7 @@ public class WolfGuardsAi : MonoBehaviour
         if (other.tag == "Enemy")
         {
             Nav.stoppingDistance = 0.5f;
-            Debug.Log("Find Enemy");
+            //Debug.Log("Find Enemy");
             enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth.currentHealth > 0)
             {//當Enemy的還有血量時

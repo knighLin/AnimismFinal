@@ -31,6 +31,7 @@ public class PossessedSystem : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip HumanSurgery;
     public AudioClip WolfSurgery;
+    int i;
     private void Awake()
     {
         if (!Possessor)
@@ -61,8 +62,7 @@ public class PossessedSystem : MonoBehaviour
 
     private void Update()
     {
-        if (!Possessor)
-            Possessor = GameObject.Find("Pine");
+       
         if (CameraScript.CanPossess)//打開附身系統
         {
             if (clear)//開啟附身系統只清一次，播放一次動畫
@@ -158,12 +158,14 @@ public class PossessedSystem : MonoBehaviour
             {
                 if (AttachedBody != null && OnPossessed == true)//如果先前有附身物，而且正在附身
                 {
+                    Debug.Log("OldPossessTag:" + AttachedBody.tag + i++);
                     AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
                     Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
                     AttachedBody.GetComponent<PlayerMovement>().enabled = false;
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
                     AttachedBody.GetComponent<Attack>().enabled = false;//攻擊
                     AttachedBody.GetComponent<Health>().enabled = false;
+                   
                 }
                 PreviousTag = Possessor.tag;//附身後將先前附身的tag存起來
                 Possessor.tag = Target.tag;//將目前人的tag轉為附身後動物的

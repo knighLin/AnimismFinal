@@ -39,7 +39,7 @@ public class CameraScript : MonoBehaviour
     private bool FixedVison = false;//固定視角
     private bool IsSoulVision = false;
     private bool Backing = false;
-    private bool Shake = false;
+    public bool Shake = false;
 
     // Use this for initialization
     void Start()
@@ -68,14 +68,10 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.U))
-            Shake = true;
-        else
-            Shake = false;
         if (Shake)
         {
             if (ShakeTime % 2 == 0)
-                Normal003.transform.localPosition += new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), Random.Range(-0.2f, 0.2f));
+                Normal003.transform.localPosition += new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), Random.Range(-0.1f, 0.1f));
             ShakeTime += 1;
         }
         else
@@ -292,7 +288,7 @@ public class CameraScript : MonoBehaviour
         {
             CameraSetActive(2);
             FowardAndBackTime = FowardStop;
-            LockingAnimal = true;
+            IsSoulVision = true;
         }
     }
     public void SoulVision()//靈視
