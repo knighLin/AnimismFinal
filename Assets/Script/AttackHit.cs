@@ -19,7 +19,7 @@ public class AttackHit : MonoBehaviour
             enemyHealth = other.GetComponent<EnemyHealth>();
             if(enemyHealth.currentHealth > 0)
             {
-                var damage = 10 * Random.Range(0.9f, 1.1f);
+                var damage = typeValue.PlayerAtk * Random.Range(0.9f, 1.1f);
                 damage = Mathf.Round(damage);
                 enemyHealth.Hurt(damage);//敵人的攻擊扣掉主角的防禦，然後＊隨機小數點，就是主角要被扣掉的血
             }

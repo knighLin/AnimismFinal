@@ -13,14 +13,33 @@ public class Pause : MonoBehaviour {
     private Vector3 CanvasDistance= new Vector3 (-650,0,0);
     private bool Fade, CanvasMove,Show;
     private bool IsPause=false;
+    private bool ShowCursor = false;
+
     // Use this for initialization
     void Start () {
         Fade = true;
-	}
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
- 
+
+        if (Input.GetButtonDown("Cursor"))
+        {
+            Debug.Log(ShowCursor);
+            ShowCursor = !ShowCursor;
+            if (ShowCursor)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;//鎖滑鼠標
+                Cursor.visible = false;
+            }
+        }
         if (CanvasMove)
         {
             if (Show)
@@ -69,17 +88,6 @@ public class Pause : MonoBehaviour {
                 time = 1;
                 Fade = false;
             }
-        }
-
-        if (IsPause)
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;//鎖滑鼠標
-            Cursor.visible = false;
         }
         if (Input.GetButtonDown("OptionsCancel")&& PauseCanvas&& !IsPause)
         {

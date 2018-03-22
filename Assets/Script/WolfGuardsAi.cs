@@ -19,16 +19,21 @@ public class WolfGuardsAi : MonoBehaviour
         Target = GameObject.FindWithTag("Player");
         Nav = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
-        
+        audioSource = GetComponent<AudioSource>();
+        Nav.enabled = false;
         Destroy(gameObject,60);
         //StartCoroutine("DistoryTime");
     }
 
+    private void Start()
+    {
+        Nav.enabled = true;
+    }
     private void Update()
     {
         //if (Target != null)
         //{
-         Nav.SetDestination(Target.transform.position);
+        Nav.SetDestination(Target.transform.position);
         //}
         if (Nav.remainingDistance < Nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
@@ -69,16 +74,18 @@ public class WolfGuardsAi : MonoBehaviour
             }
 
         }
+        else
+            Nav.stoppingDistance = 1.5f;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Enemy")
-        {
-            Nav.SetDestination(Target.transform.position);
-            Nav.stoppingDistance = 1.5f;
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Enemy")
+    //    {
+    //        Nav.SetDestination(Target.transform.position);
+    //        Nav.stoppingDistance = 1.5f;
+    //    }
+    //}
 
     IEnumerator DistoryTime()//兩分鐘後消失
     {

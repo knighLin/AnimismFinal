@@ -187,7 +187,11 @@ public class Health : MonoBehaviour
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         playerMovement.enabled = false;
+        Invoke("DelayGameOver", 3f);
+    }
+    void DelayGameOver()
+    {
         Time.timeScale = 0;
-        GameObject.Find("PlayerManager").GetComponent<Death>().IsDeath=true;
+        GameObject.Find("PlayerManager").GetComponent<Death>().IsDeath = true;
     }
 }

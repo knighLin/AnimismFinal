@@ -43,13 +43,20 @@ public class EnemyAI : MonoBehaviour
         enemyState = EnemyState.Enemy_Idle;//敵人最初狀態
         isThink = true;
         nav = GetComponent<NavMeshAgent>();
-        OriginPoint = transform.position;//敵人最初的位置
+        nav.enabled = false;
+       
         animator = GetComponent<Animator>();
         //nav.updateRotation = false;
     }
-
+    private void Start()
+    {
+        //nav.enabled = true;
+        OriginPoint = transform.position;//敵人最初的位置
+    }
     void Update()
     {
+        if(!nav.enabled)
+            nav.enabled = true;
         if (GameObject.FindGameObjectWithTag("Player"))
         {
             Target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -109,14 +116,14 @@ public class EnemyAI : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(EnemyLookRotate);
             isThink = false;//Stop think
 
-            if (EnemyToPlayerDis <= 8 && EnemyToPlayerDis >= 2)//小於8大於3的距離射擊
+            if (EnemyToPlayerDis <= 8 )//小於8大於3的距離射擊
             {
                 SetEnemyState(EnemyState.Enemy_Shooting);
             }
-            else if (EnemyToPlayerDis <= 2)//距離小於3  普通攻擊
-            {
-                SetEnemyState(EnemyState.Enemy_NormalAttack);//距離在10內追擊主角
-            }
+            //else if (EnemyToPlayerDis <= 2)//距離小於3  普通攻擊
+            //{
+            //    SetEnemyState(EnemyState.Enemy_NormalAttack);//距離在10內追擊主角
+            //}
             else
             {
                 SetEnemyState(EnemyState.Enemy_Catch);

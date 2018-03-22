@@ -14,10 +14,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection;//移動位置
     [SerializeField] float m_MovingTurnSpeed = 360;//移動時轉向的速度
     [SerializeField] float m_StationaryTurnSpeed = 180;//站立時轉向速度
-    //[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;//重力乘數(落下速度)
+    [Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;//重力乘數(落下速度)
     [SerializeField] float m_RunCycleLegOffset = 0.2f; //特定於樣本資產中的字符，需要修改才能與他人合作
     //[SerializeField] float m_AnimSpeedMultiplier = 1f;//動畫播放速度的乘數
-    [SerializeField] float m_GroundCheckDistance = 0.2f;//地面距離檢查
+    [SerializeField] float m_GroundCheckDistance = 0.3f;//地面距離檢查
 
     Rigidbody m_Rigidbody;
     private Animator m_Animator;
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     float m_TurnAmount;//轉向值
     float m_ForwardAmount;//前進值
     Vector3 m_GroundNormal;//地面法向量
-
+    bool OnWalk = true;  
 
     private void Awake()
     {
@@ -114,21 +114,29 @@ public class PlayerMovement : MonoBehaviour
         if (m_IsGrounded)
         {
             m_Rigidbody.velocity = transform.forward * move.z * _Speed;
+            if (move != Vector3.zero)
+            {
+                OnWalk = true;
+            }
+            else
+                OnWalk = false;
             // 确定当前是否能跳  ：
             if (Input.GetButtonDown("CrossJump"))
             { // jump!
-                // m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
-                m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
+                 m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
+                //m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
                 m_Animator.SetTrigger("m_Jump");
+                m_Animator.SetBool("OnWalk", OnWalk);
                 m_IsGrounded = false;
                 m_Animator.applyRootMotion = false;
-                m_GroundCheckDistance = 0.1f;
+                m_GroundCheckDistance = 0.3f;
             }
         }
         else
         {//乘數增加重力：
-            //Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-            m_Rigidbody.AddForce(Physics.gravity * 1.5f);
+            //Vector3 extraGravityForce = Physics.gravity * m_GravityMultiplier * 0.001f;
+            m_Rigidbody.AddForce(Physics.gravity * 2);
+            //m_Rigidbody.velocity = extraGravityForce;
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;//上升的时候不判断是否在地面上   
         }
         // 将输入和其他状态传递给动画组件  

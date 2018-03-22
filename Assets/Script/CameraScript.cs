@@ -80,7 +80,7 @@ public class CameraScript : MonoBehaviour
             ShakeTime = 0;
         }
         if (!Backing && !IsPossessing && !FixedVison && !LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
-        NormalPosition = RotationEuler * Normal003.transform.localPosition + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
+            NormalPosition = RotationEuler * Normal003.transform.localPosition + PlayerView.transform.position;//每幀確認鏡頭正常的位置 讓前進後退順暢
         switch (CameraState)
         {
             case "PillarState":
@@ -166,7 +166,6 @@ public class CameraScript : MonoBehaviour
         }
         if ((Input.GetButtonDown("CircleUnpossess")))
         {
-            Debug.Log("5");
             PossessedSystem.LifedPossessed();
         }
 

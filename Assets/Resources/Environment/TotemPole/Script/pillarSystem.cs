@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class pillarSystem : MonoBehaviour
 {
 
     public static bool pillarSystemBool;
-
+    [SerializeField] private GameObject OverCanvas;
+    [SerializeField] private Button ReturnButton;
     private int rotatespeed = 10;
     private float shakelevel = 0.2f;
     public GameObject[] pillarother = new GameObject[3];
@@ -121,6 +123,12 @@ public class pillarSystem : MonoBehaviour
             pillarother[1].tag = "Untagged";
             pillarother[2].tag = "Untagged";
             GameObject.Find("Pine").GetComponent<PossessedSystem>().LifedPossessed();
+            Invoke("TurnToCanvas", 2f);
         }
+    }
+    void TurnToCanvas()
+    {
+        OverCanvas.SetActive(true);
+        ReturnButton.Select();
     }
 }

@@ -50,7 +50,7 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
-                        this.GetComponent<Rigidbody>().isKinematic = true;
+                        //this.GetComponent<Rigidbody>().isKinematic = true;
                    
                         CanAttack = false;
                         animator.SetTrigger("Attack");
@@ -76,13 +76,13 @@ public class Attack : MonoBehaviour
                         {
                             animator.SetTrigger("Surgery");
                             audioSource.PlayOneShot(summon);
-                            Vector3 MovePoint = new Vector3((transform.localPosition.x - 2),transform.localPosition.y, (transform.localPosition.z - 2));
-                            Vector3 MovePoint2 = new Vector3((transform.localPosition.x + 2), transform.localPosition.y, (transform.localPosition.z - 2));
-                            Instantiate(WolfGuards, MovePoint, Quaternion.identity);
-                            Instantiate(WolfGuards, MovePoint2, Quaternion.identity);
+                            //Vector3 MovePoint = new Vector3((transform.localPosition.x - 2),transform.localPosition.y, (transform.localPosition.z - 2));
+                            //Vector3 MovePoint2 = new Vector3((transform.localPosition.x + 2), transform.localPosition.y, (transform.localPosition.z - 2));
+                            //Instantiate(WolfGuards, MovePoint, Quaternion.identity);
+                            //Instantiate(WolfGuards, MovePoint2, Quaternion.identity);
 
-                            //Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
-                            //Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
+                            Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
+                            Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
                             PossessedSystem.WolfCount = 0;
                         }
                     }
@@ -121,7 +121,7 @@ public class Attack : MonoBehaviour
     {
         //animator.SetBool("Attack", false);
         // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
-        this.GetComponent<Rigidbody>().isKinematic = false;
+       // this.GetComponent<Rigidbody>().isKinematic = false;
         CanAttack = true;
     }
 
@@ -136,6 +136,6 @@ public class Attack : MonoBehaviour
 
     void WolfAddForce()
     {
-        rigidbody.AddForce(Vector3.forward * 10);
+        //rigidbody.AddForce(Vector3.forward * 100);
     }
 }

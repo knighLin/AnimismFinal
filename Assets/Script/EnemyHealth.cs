@@ -13,7 +13,7 @@ public class EnemyHealth : MonoBehaviour
     private GrounderFBBIK GroundIk;
     private SecondHandOnGun secondHandOnGun;
 
-    public float MaxHealth = 100; //最大HP
+    private float MaxHealth = 60; //最大HP
     public float currentHealth; //當前HP
                                 //public CapsuleCollider body;
     bool isDead;//是否死亡
