@@ -70,16 +70,20 @@ public class Attack : MonoBehaviour
                         animator.SetInteger("Render", AttackRender());
                         Invoke("ResetAttackFlag", 1.2f);
                     }
-                    if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("TriangleAbility"))//特殊技
+                    if (GameObject.Find("WolfGuard1") == null && GameObject.Find("WolfGuard2") == null)
                     {
-                        if (PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                        if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("TriangleAbility"))//特殊技
                         {
-                            animator.SetTrigger("Surgery");
-                            audioSource.PlayOneShot(summon);
-                            Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity).name = "WolfGuard1";
-                            Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity).name = "WolfGuard2";
+                            if (PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                            {
+                                animator.SetTrigger("Surgery");
+                                audioSource.PlayOneShot(summon);
+                                Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity).name = "WolfGuard1";
+                                Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity).name = "WolfGuard2";
+                            }
                         }
                     }
+                    
                 }
 
                 break;

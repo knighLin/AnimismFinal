@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
+using UnityEngine.AI;
 
 public class Health : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Health : MonoBehaviour
     private PossessedSystem possessedSystem;
     private FullBodyBipedIK ik;
     private GrounderFBBIK GroundIk;
+    private WolfGuardsAi wolfGuardsAi;
 
     public float MaxHealth = 100; //最大HP
     public float currentHealth; //當前HP
@@ -27,7 +29,9 @@ public class Health : MonoBehaviour
     //public CapsuleCollider m_collider;
     private float StoreHumanHealth;
     public static bool CanPossessed;
-    private string HitCount;
+    private string HitCount;//受傷位置
+    private NavMeshAgent Nav;
+
 
     private void Awake()
     {
@@ -42,8 +46,15 @@ public class Health : MonoBehaviour
         animator = GetComponent<Animator>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
         possessedSystem = GetComponent<PossessedSystem>();
-
-        currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
+        if (this.gameObject.tag != "WolfGuard")
+            currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
+        else
+        {
+            wolfGuardsAi = GetComponent<WolfGuardsAi>();
+            Nav = GetComponent<NavMeshAgent>();
+            currentHealth = MaxHealth * 0.6f;
+        }
+            
         if (this.gameObject.tag != "WolfGuard" && this.gameObject == possessedSystem.Possessor)
         {
             ragdollBehavior = GetComponent<RagdollBehavior>();
@@ -57,7 +68,7 @@ public class Health : MonoBehaviour
             StoreHumanHealth = possessedSystem.Possessor.GetComponent<Health>().currentHealth;
         }
     }
-    
+
     public void Hurt(float Amount, float HitPoint)
     {
         if (HitPoint < -0.35f)
@@ -117,7 +128,7 @@ public class Health : MonoBehaviour
                     this.gameObject.layer = 12;
                     enabled = false;
                 }
-            } 
+            }
             SetHitPointUI(HitCount);
             HPcontroller.CharacterHpControll();
             HPcontroller.Blink = true;
@@ -130,6 +141,8 @@ public class Health : MonoBehaviour
             }
             if (currentHealth <= 0)
             {
+                Nav.enabled = false;
+                wolfGuardsAi.enabled = false;
                 animator.SetBool("Dead", true);
                 Destroy(gameObject, 5f);
             }
@@ -175,7 +188,7 @@ public class Health : MonoBehaviour
                 HurtBlood.Lefttime = 0;
                 break;
             case "4"://右側受傷
-               // animator.SetTrigger("RightHurt");
+                     // animator.SetTrigger("RightHurt");
                 HurtBlood.Right = true;
                 HurtBlood.Righttime = 0;
                 break;
@@ -184,7 +197,7 @@ public class Health : MonoBehaviour
 
     void ResetRigidbodyFlag()
     {
-         m_rigidbody.isKinematic = false;
+        m_rigidbody.isKinematic = false;
         //PlayerMovement._Speed = value.MoveSpeed;
     }
 

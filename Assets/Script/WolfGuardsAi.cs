@@ -7,12 +7,18 @@ public class WolfGuardsAi : MonoBehaviour
 {
     private EnemyHealth enemyHealth;
     private GameObject Target;
+    private float ToEnemyDis;//主角跟敵人的距離
     private NavMeshAgent Nav;
     private Animator Anim;
+    private List<GameObject> EnemyTarget = new List<GameObject>();
+    //private List<EnemyHealth> enemyHealth = new List<EnemyHealth>();
+    private Vector3 LookRotateToEnemy;
     public CapsuleCollider weaponCollider;
     private AudioSource audioSource;
     public AudioClip attack;
     float m_TurnAmount;//轉向值
+    float timer = 0;
+    bool NoEnemy = true;
 
     void Awake()
     {
@@ -21,7 +27,7 @@ public class WolfGuardsAi : MonoBehaviour
         Anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         Nav.enabled = false;
-        Destroy(gameObject,60);
+        Destroy(gameObject, 60);
         //StartCoroutine("DistoryTime");
     }
 
@@ -31,12 +37,17 @@ public class WolfGuardsAi : MonoBehaviour
     }
     private void Update()
     {
-        //if (Target != null)
-        //{
-        if (Nav.stoppingDistance != 3f)
+        if (NoEnemy && (!Target || Target.tag != "Player"))
+        {
+            Target = GameObject.FindWithTag("Player");
             Nav.stoppingDistance = 3f;
-        Nav.SetDestination(Target.transform.position);
-        //}
+        }
+        if(Target.tag == "Player")
+        {
+            Nav.SetDestination(Target.transform.position);
+        }
+
+        //TargetInRange();
         if (Nav.remainingDistance < Nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
             Nav.isStopped = true;
@@ -60,30 +71,111 @@ public class WolfGuardsAi : MonoBehaviour
         return AttackCount;
     }
 
+    //private void TargetInRange()
+    //{
+    //    if (EnemyTarget.Count == 0)//如果沒有敵人，目標是主角
+    //    {
+    //        Nav.SetDestination(Target.transform.position);
+    //    }
+    //    else if (EnemyTarget.Count > 0)
+    //    {
+    //        float ShortestRange;//敵人跟目標最短距離
+    //        if (EnemyTarget.Count > 1)
+    //        {
+    //            for (int i = 0; i < EnemyTarget.Count; i++)
+    //            {
+    //                if ((Vector3.Distance(transform.position, EnemyTarget[i].transform.position) < Vector3.Distance(transform.position, EnemyTarget[i + 1].transform.position)))
+    //                {//第一個目標與第二個目標判斷最小距離，當一小於二
+    //                    ShortestRange = Vector3.Distance(transform.position, EnemyTarget[i].transform.position);
+    //                    Target = EnemyTarget[i];//將敵人攻擊目標轉成一
+    //                    EnemyTarget[i + 1] = EnemyTarget[i];//將目標二變成目標一，之後在跟目標三比
+    //                    ToEnemyDis = ShortestRange;
+    //                }
+    //                else
+    //                {
+    //                    ShortestRange = Vector3.Distance(transform.position, EnemyTarget[i + 1].transform.position);
+    //                    Target = EnemyTarget[i + 1];
+    //                    ToEnemyDis = ShortestRange;
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            Target = EnemyTarget[0];
+    //            ToEnemyDis = Vector3.Distance(transform.position, EnemyTarget[0].transform.position);
+    //        }
+
+    //    }
+    //    if (ToEnemyDis <= 5)//當召喚狼與敵人距離小於5
+    //    {//轉向敵人，跑向敵人
+    //    LookRotateToEnemy = new Vector3((Target.transform.position.x - transform.position.x), 0, (Target.transform.position.z - transform.position.z));//Turn to Target
+    //    transform.rotation = Quaternion.LookRotation(LookRotateToEnemy);
+    //    Nav.SetDestination(Target.transform.position);
+    //    for (int i = 0; i < EnemyTarget.Count; i++)
+    //    {
+    //        if (Target == EnemyTarget[i] && enemyHealth[i].currentHealth > 0)
+    //        {//當Enemy的還有血量時
+    //            if (Time.time - timer > 1f)//時間大於一秒就攻擊
+    //            {
+    //                Anim.SetTrigger("Attack");//之後要改誠動畫
+    //                Anim.SetInteger("Render", AttackRender());
+    //                timer = Time.time;
+    //            }
+    //        }
+    //    }
+    //    }
+    //}
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.tag == "Enemy")
+    //    {
+    //        EnemyTarget.Add(other.transform.gameObject);
+    //        enemyHealth.Add(other.GetComponent<EnemyHealth>());
+    //        Nav.stoppingDistance = 0.5f;
+    //    }
+    //    else if (other.tag == "Player")
+    //    {
+    //        Target = GameObject.FindWithTag("Player");
+    //        Nav.stoppingDistance = 3f;
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Enemy")
+    //    {
+    //        EnemyTarget.Clear();
+    //        enemyHealth.Clear();
+    //        Target = GameObject.FindWithTag("Player");
+    //    }
+    //}
+
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Enemy")
         {
+            NoEnemy = false;
+            Target = other.gameObject;
             Nav.stoppingDistance = 0.5f;
             enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth.currentHealth > 0)
             {//當Enemy的還有血量時
                 transform.LookAt(other.transform);
                 Nav.SetDestination(other.transform.position);
-                Anim.SetTrigger("Attack");//之後要改誠動畫
-                Anim.SetInteger("Render", AttackRender());
+                if (Time.time - timer > 1f)//時間大於一秒就攻擊
+                {
+                    Anim.SetTrigger("Attack");
+                    Anim.SetInteger("Render", AttackRender());
+                    timer = Time.time;
+                }
             }
         }
+        else
+        {
+            NoEnemy = true;
+        }
     }
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.tag == "Enemy")
-    //    {
-    //        Nav.SetDestination(Target.transform.position);
-    //        Nav.stoppingDistance = 1.5f;
-    //    }
-    //}
 
     IEnumerator DistoryTime()//兩分鐘後消失
     {

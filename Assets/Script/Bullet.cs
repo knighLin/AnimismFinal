@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision Target)
     {
-        if (Target.transform.tag == "Player")
+        if (Target.transform.tag == "Player" || Target.transform.tag == "WolfGuard")
         {
             //Debug.Log(Vector3.Cross(Vector3.Normalize(Target.transform.forward), Vector3.Normalize(this.gameObject.transform.forward)));
             // Vector3 HitPoint = Vector3.Cross(Vector3.Normalize(Target.transform.position), Vector3.Normalize(this.gameObject.transform.position));//正面傷害正X軸，背面傷害負X軸，左邊傷害正Z軸，右邊傷害負Z軸

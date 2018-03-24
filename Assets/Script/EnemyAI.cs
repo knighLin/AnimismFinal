@@ -56,18 +56,18 @@ public class EnemyAI : MonoBehaviour
     }
     void Update()
     {
-        //if(!nav.enabled)
-        // nav.enabled = true;
         if (Target == null)
         {
             Target = GameObject.FindGameObjectWithTag("Player");
         }
-        if(WolfGuardTarget == null)
+
+        if (GameObject.FindGameObjectWithTag("WolfGuard"))
         {
             WolfGuardTarget = GameObject.FindGameObjectsWithTag("WolfGuard");
         }
+        else
+            WolfGuardTarget = null;
         ThinkState();
-        if(Target != null || WolfGuardTarget != null)
         TargetInRange();
         if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
@@ -115,7 +115,35 @@ public class EnemyAI : MonoBehaviour
     
     private void TargetInRange()
     {
-        EnemyToPlayerDis = Vector3.Distance(transform.position, Target.transform.position);//去判斷跟主角的範圍
+        //Debug.Log(Target);
+        if (WolfGuardTarget == null)//如果沒有召喚狼，敵人攻擊目標是主角
+        {
+            Target = GameObject.FindGameObjectWithTag("Player");
+            EnemyToPlayerDis = Vector3.Distance(transform.position, Target.transform.position);//去判斷跟主角的範圍
+        }
+        else if (Vector3.Distance(transform.position, Target.transform.position) > 3)//如果有召喚狼，並且上個目標跟敵人距離大於3時，去判斷誰距離敵人最近，並且攻擊
+        {
+            float ShortestRange;//敵人跟目標最短距離
+            GameObject[] ChooseTarget = { GameObject.FindGameObjectWithTag("Player"), WolfGuardTarget[0], WolfGuardTarget[1] };//抓取主角與召喚狼
+
+            for (int i=0; i < ChooseTarget.Length-1; i++)//用迴圈去判斷敵人與三個目標的距離
+            {
+                if ((Vector3.Distance(transform.position, ChooseTarget[i].transform.position) < Vector3.Distance(transform.position, ChooseTarget[i+1].transform.position)))
+                {//第一個目標與第二個目標判斷最小距離，當一小於二
+                    ShortestRange = Vector3.Distance(transform.position, ChooseTarget[i].transform.position);
+                    Target = ChooseTarget[i];//將敵人攻擊目標轉成一
+                    ChooseTarget[i + 1] = ChooseTarget[i];//將目標二變成目標一，之後在跟目標三比
+                    EnemyToPlayerDis = ShortestRange;
+                }
+                else//將敵人攻擊目標轉成二，之後繼續迴圈跟下個目標距離比
+                {
+                    ShortestRange = Vector3.Distance(transform.position, ChooseTarget[i+1].transform.position);
+                    Target = ChooseTarget[i+1];
+                    EnemyToPlayerDis = ShortestRange;
+                }
+            }
+        }
+        
         if (EnemyToPlayerDis <= 10 && Health.isDead == false)
         {
             EnemyLookRotate = new Vector3((Target.transform.position.x - transform.position.x), 0, (Target.transform.position.z - transform.position.z));//Turn to Target
