@@ -25,7 +25,8 @@ public class EnemyAI : MonoBehaviour
     private bool isThink;
     private NavMeshAgent nav;
     //判斷主角
-    private Transform Target;
+    private GameObject Target;
+    private GameObject[] WolfGuardTarget;
     private Vector3 EnemyLookRotate;
     private float EnemyToPlayerDis;//主角跟敵人的距離
     //巡邏範圍計算變數
@@ -50,30 +51,35 @@ public class EnemyAI : MonoBehaviour
     }
     private void Start()
     {
-        //nav.enabled = true;
+        nav.enabled = true;
         OriginPoint = transform.position;//敵人最初的位置
     }
     void Update()
     {
-        if(!nav.enabled)
-            nav.enabled = true;
-        if (GameObject.FindGameObjectWithTag("Player"))
+        //if(!nav.enabled)
+        // nav.enabled = true;
+        if (Target == null)
         {
-            Target = GameObject.FindGameObjectWithTag("Player").transform;
-            ThinkState();
-            TargetInRange();
-            if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
-            {
-                nav.isStopped = true;
-                animSpeed = nav.desiredVelocity.sqrMagnitude;
-                animator.SetFloat("Speed", animSpeed);
-            }
-            else
-            {
-                nav.isStopped = false;
-                animSpeed = nav.desiredVelocity.sqrMagnitude;
-                animator.SetFloat("Speed", animSpeed);
-            }
+            Target = GameObject.FindGameObjectWithTag("Player");
+        }
+        if(WolfGuardTarget == null)
+        {
+            WolfGuardTarget = GameObject.FindGameObjectsWithTag("WolfGuard");
+        }
+        ThinkState();
+        if(Target != null || WolfGuardTarget != null)
+        TargetInRange();
+        if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
+        {
+            nav.isStopped = true;
+            animSpeed = nav.desiredVelocity.sqrMagnitude;
+            animator.SetFloat("Speed", animSpeed);
+        }
+        else
+        {
+            nav.isStopped = false;
+            animSpeed = nav.desiredVelocity.sqrMagnitude;
+            animator.SetFloat("Speed", animSpeed);
         }
     }
 
@@ -106,10 +112,10 @@ public class EnemyAI : MonoBehaviour
         MovePoint = new Vector3(Random.Range(OriginPoint.x - PatorlRadius, OriginPoint.x + PatorlRadius), transform.position.y, Random.Range(OriginPoint.z - PatorlRadius, OriginPoint.z + PatorlRadius));
         return MovePoint;
     }
-
+    
     private void TargetInRange()
     {
-        EnemyToPlayerDis = Vector3.Distance(transform.position, Target.position);//去判斷跟主角的範圍
+        EnemyToPlayerDis = Vector3.Distance(transform.position, Target.transform.position);//去判斷跟主角的範圍
         if (EnemyToPlayerDis <= 10 && Health.isDead == false)
         {
             EnemyLookRotate = new Vector3((Target.transform.position.x - transform.position.x), 0, (Target.transform.position.z - transform.position.z));//Turn to Target
@@ -163,7 +169,7 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Enemy_Catch:
                 nav.isStopped = false;
                 animator.SetBool("Catch",true);
-                nav.SetDestination(Target.position);
+                nav.SetDestination(Target.transform.position);
                 break;
             case EnemyState.Enemy_NormalAttack:
                 animator.SetBool("Catch", false);
@@ -176,7 +182,7 @@ public class EnemyAI : MonoBehaviour
                 if (Time.time - timer > 3f)
                 {
                     animator.SetTrigger("Shoot");
-                    enemyShoot.Shooting(Target);
+                    enemyShoot.Shooting(Target.transform);
                     
                     timer = Time.time;
                 }

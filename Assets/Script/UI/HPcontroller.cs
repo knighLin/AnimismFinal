@@ -16,8 +16,8 @@ public class HPcontroller : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        playerManager = GetComponent<PlayerManager>();
+
         Blink = false;
       //  CharacterSwitch();
     }
@@ -36,14 +36,14 @@ public class HPcontroller : MonoBehaviour
         switch (playerManager.PossessType)
         {
             case "Human":
-                FaceB.sprite = Resources.Load("UI/Avantar/Pine/PINE_BUTTOM", typeof(Sprite)) as Sprite;
-                FaceW.sprite = Resources.Load("UI/Avantar/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
-                FaceR.sprite = Resources.Load("UI/Avantar/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
+                FaceB.sprite = Resources.Load("UI/Avantar/Pine/pine_bak", typeof(Sprite)) as Sprite;
+                FaceW.sprite = Resources.Load("UI/Avantar/Pine/pine_front", typeof(Sprite)) as Sprite;
+                FaceR.sprite = Resources.Load("UI/Avantar/Pine/pine_front", typeof(Sprite)) as Sprite;
                 break;
             case "WolfMaster":
-                FaceB.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_BUTTOM", typeof(Sprite)) as Sprite;
-                FaceW.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
-                FaceR.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
+                FaceB.sprite = Resources.Load("UI/Avantar/Wolf/wolf_bak", typeof(Sprite)) as Sprite;
+                FaceW.sprite = Resources.Load("UI/Avantar/Wolf/wolf_front", typeof(Sprite)) as Sprite;
+                FaceR.sprite = Resources.Load("UI/Avantar/Wolf/wolf_front", typeof(Sprite)) as Sprite;
                 break;
             case "BearMaster":
                 FaceB.sprite = Resources.Load("UI/Avantar/Bear/BEAR_BUTTOM", typeof(Sprite)) as Sprite;
@@ -64,14 +64,14 @@ public class HPcontroller : MonoBehaviour
         {
             if (BlinkTime % 2 < 1)
             {
-                HpR.sprite = Resources.Load("UI/Avantar/Hp/HP_WHITE", typeof(Sprite)) as Sprite;
+                HpR.sprite = Resources.Load("UI/Avantar/Hp/hp_front", typeof(Sprite)) as Sprite;
                 switch (playerManager.NowType)
                 {
                     case "Human":
-                        FaceR.sprite = Resources.Load("UI/Avantar/Pine/PINE_WHITE", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Pine/pine_front", typeof(Sprite)) as Sprite;
                         break;
                     case "Wolf":
-                        FaceR.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_WHITE", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Wolf/wolf_front", typeof(Sprite)) as Sprite;
                         break;
                     case "Bear":
                         FaceR.sprite = Resources.Load("UI/Avantar/Bear/BEAR_WHITE", typeof(Sprite)) as Sprite;
@@ -79,24 +79,28 @@ public class HPcontroller : MonoBehaviour
                     case "Deer":
                         FaceR.sprite = Resources.Load("UI/Avantar/Deer/DEER_WHITE", typeof(Sprite)) as Sprite;
                         break;
+                    case "WolfGuard":
+                        break;
                 }
             }
             else
             {
-                HpR.sprite = Resources.Load("UI/Avantar/Hp/HP_RED", typeof(Sprite)) as Sprite;
+                HpR.sprite = Resources.Load("UI/Avantar/Hp/hp_hurt", typeof(Sprite)) as Sprite;
                 switch (playerManager.NowType)
                 {
                     case "Human":
-                        FaceR.sprite = Resources.Load("UI/Avantar/Pine/PINE_RED", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Pine/pine_hurt", typeof(Sprite)) as Sprite;
                         break;
                     case "Wolf":
-                        FaceR.sprite = Resources.Load("UI/Avantar/Wolf/WOLF_RED", typeof(Sprite)) as Sprite;
+                        FaceR.sprite = Resources.Load("UI/Avantar/Wolf/wolf_hurt", typeof(Sprite)) as Sprite;
                         break;
                     case "Bear":
                         FaceR.sprite = Resources.Load("UI/Avantar/Bear/BEAR_RED", typeof(Sprite)) as Sprite;
                         break;
                     case "Deer":
                         FaceR.sprite = Resources.Load("UI/Avantar/Deer/DEER_RED", typeof(Sprite)) as Sprite;
+                        break;
+                    case "WolfGuard":
                         break;
                 }
             }
@@ -105,39 +109,22 @@ public class HPcontroller : MonoBehaviour
     }
     public void CharacterHpControll()
     {
-        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        switch (playerManager.NowType)
+        if (Health!= GameObject.FindGameObjectWithTag("Player").GetComponent<Health>())
+            Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        if (Health)
+        { 
+            HpW.fillAmount = (Health.currentHealth * 0.74f + Health.MaxHealth * 0.26f) / Health.MaxHealth;//(75%當前血量+25%血量最大值)/血量最大值
+            HpR.fillAmount = (Health.currentHealth * 0.74f + Health.MaxHealth * 0.26f) / Health.MaxHealth;//Ex:當前血20 血量最大值100 為 (20*75%+100*25%)/100 = 0.4
+        }
+    }
+    public void WolfGuardHpControll()
+    {
+        if (Health != GameObject.FindGameObjectWithTag("WolfGuard").GetComponent<Health>())
+            Health = GameObject.FindGameObjectWithTag("WolfGuard").GetComponent<Health>();
+        if (Health)
         {
-            case "Human":
-                    PineHpMax = Health.MaxHealth;
-                    PineHpNow = Health.currentHealth;
-
-                    HpW.fillAmount = (PineHpNow * 0.74f + PineHpMax * 0.26f) / PineHpMax;//(75%當前血量+25%血量最大值)/血量最大值
-                    HpR.fillAmount = (PineHpNow * 0.74f + PineHpMax * 0.26f) / PineHpMax;//Ex:當前血20 血量最大值100 為 (20*75%+100*25%)/100 = 0.4
-                    break;
-            case "Wolf":
-                   
-                    WolfHpMax = Health.MaxHealth;
-                    WolfHpNow = Health.currentHealth;
-                    HpW.fillAmount = ((WolfHpNow * 0.74f + WolfHpMax * 0.26f) / WolfHpMax)+10;
-                    HpR.fillAmount = ((WolfHpNow * 0.74f + WolfHpMax * 0.26f) / WolfHpMax)+10;
-                break;
-                //case "Bear":
-                //    AnimalHealth = GameObject.Find("Player/Bear").GetComponent<AnimalHealth>();
-                //    BearHpMax = AnimalHealth.MaxHealth;
-                //    BearHpNow = AnimalHealth.currentHealth;
-                //    HpB.fillAmount = (BearHpNow * 0.75f + BearHpMax * 0.25f) / BearHpMax;
-                //    HpW.fillAmount = (BearHpNow * 0.75f + BearHpMax * 0.25f) / BearHpMax;
-                //    HpR.fillAmount = (BearHpNow * 0.75f + BearHpMax * 0.25f) / BearHpMax;
-                //    break;
-                //case "Deer":
-                //    AnimalHealth = GameObject.Find("Player/Deer").GetComponent<AnimalHealth>();
-                //    DeerHpMax = AnimalHealth.MaxHealth;
-                //    DeerHpNow = AnimalHealth.currentHealth;
-                //    HpB.fillAmount = (DeerHpNow * 0.75f + DeerHpMax * 0.25f) / DeerHpMax;
-                //    HpW.fillAmount = (DeerHpNow * 0.75f + DeerHpMax * 0.25f) / DeerHpMax;
-                //    HpR.fillAmount = (DeerHpNow * 0.75f + DeerHpMax * 0.25f) / DeerHpMax;
-                //    break;
+            HpW.fillAmount = (Health.currentHealth * 0.74f + Health.MaxHealth * 0.26f) / Health.MaxHealth;//(75%當前血量+25%血量最大值)/血量最大值
+            HpR.fillAmount = (Health.currentHealth * 0.74f + Health.MaxHealth * 0.26f) / Health.MaxHealth;//Ex:當前血20 血量最大值100 為 (20*75%+100*25%)/100 = 0.4
         }
     }
 }

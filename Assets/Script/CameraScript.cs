@@ -71,12 +71,12 @@ public class CameraScript : MonoBehaviour
         if (Shake)
         {
             if (ShakeTime % 2 == 0)
-                Normal003.transform.localPosition += new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), Random.Range(-0.1f, 0.1f));
+                Normal003.transform.localPosition += new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), 0);
             ShakeTime += 1;
         }
         else
         {
-            Normal003.transform.localPosition = new Vector3(0, 0, -3);
+            Normal003.transform.localPosition = new Vector3(0, 0, -5);
             ShakeTime = 0;
         }
         if (!Backing && !IsPossessing && !FixedVison && !LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
@@ -131,13 +131,17 @@ public class CameraScript : MonoBehaviour
 
 
     }
+    public void CameraMoveToCave()
+    {
+
+    }
     public void PillarState()
     {
-        if (Input.GetButtonDown("Up") && pillarSystem.pillarLevel != 3)
+        if (Input.GetButtonDown("TriangleAbility") && pillarSystem.pillarLevel != 3)
         {
             pillarSystem.pillarLevel += 1;
         }
-        if (Input.GetButtonDown("Down") && pillarSystem.pillarLevel != 1)
+        if (Input.GetButtonDown("CrossJump") && pillarSystem.pillarLevel != 1)
         {
 
             pillarSystem.pillarLevel -= 1;
@@ -226,7 +230,7 @@ public class CameraScript : MonoBehaviour
         if (rotX > 360) rotX -= 360;
         else if (rotX < 0) rotX += 360;
         if (rotY > 45) rotY = 45;
-        else if (rotY < -45) rotY = -45;
+        else if (rotY < -25) rotY = -25;
         //運算攝影機旋轉
         RotationEuler = Quaternion.Euler(rotY, rotX, 0);
         transform.rotation = RotationEuler; //鏡頭轉動

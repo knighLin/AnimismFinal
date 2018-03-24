@@ -33,6 +33,8 @@ public class WolfGuardsAi : MonoBehaviour
     {
         //if (Target != null)
         //{
+        if (Nav.stoppingDistance != 3f)
+            Nav.stoppingDistance = 3f;
         Nav.SetDestination(Target.transform.position);
         //}
         if (Nav.remainingDistance < Nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
@@ -63,7 +65,6 @@ public class WolfGuardsAi : MonoBehaviour
         if (other.tag == "Enemy")
         {
             Nav.stoppingDistance = 0.5f;
-            //Debug.Log("Find Enemy");
             enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth.currentHealth > 0)
             {//當Enemy的還有血量時
@@ -72,10 +73,7 @@ public class WolfGuardsAi : MonoBehaviour
                 Anim.SetTrigger("Attack");//之後要改誠動畫
                 Anim.SetInteger("Render", AttackRender());
             }
-
         }
-        else
-            Nav.stoppingDistance = 1.5f;
     }
 
     //private void OnTriggerExit(Collider other)

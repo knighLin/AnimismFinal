@@ -117,18 +117,21 @@ public class pillarSystem : MonoBehaviour
     }
     void succeedpillar()
     { //轉到指定角度
-        if (p1bool = true && p2bool == true && p3bool == true&& GameObject.Find("PlayerManager").GetComponent<PlayerManager>().PossessType == "Pillar")
+        if (p1bool == true && p2bool == true && p3bool == true&& GameObject.Find("PlayerManager").GetComponent<PlayerManager>().PossessType == "Pillar")
         {
             pillarother[0].tag = "Untagged";
             pillarother[1].tag = "Untagged";
             pillarother[2].tag = "Untagged";
             GameObject.Find("Pine").GetComponent<PossessedSystem>().LifedPossessed();
+            GameObject.Find("Main Camera").GetComponent<CameraScript>().Shake=true;
             Invoke("TurnToCanvas", 2f);
         }
     }
     void TurnToCanvas()
     {
-        OverCanvas.SetActive(true);
-        ReturnButton.Select();
+        GameObject.Find("Main Camera").GetComponent<CameraScript>().CameraMoveToCave();
+        Time.timeScale = 0;
+        //OverCanvas.SetActive(true);
+        //ReturnButton.Select();
     }
 }

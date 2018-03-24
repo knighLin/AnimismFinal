@@ -196,14 +196,14 @@ public class PossessedSystem : MonoBehaviour
                 Possessor.SetActive(false);//關掉人型態的任何事
                 OnPossessed = true;//已附身
 
-                if (Target.tag == "Wolf")
-                {
-                    WolfCount++;
-                }
-                else
-                {
-                    WolfCount = 0;
-                }
+                //if (Target.tag == "Wolf")
+                //{
+                //    WolfCount++;
+                //}
+                //else
+                //{
+                //    WolfCount = 0;
+                //}
             }
             HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
             HPcontroller.CharacterHpControll();
@@ -291,7 +291,6 @@ public class PossessedSystem : MonoBehaviour
             CameraScript.LoadCharacterPosition();
 
             HPcontroller.CharacterSwitch();
-            HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
             HPcontroller.CharacterHpControll();
         }
         else

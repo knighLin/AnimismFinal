@@ -17,7 +17,7 @@ public class MenuSelect : MonoBehaviour
             switch (NowSelectMenu)
                 {
                 case "Quest":
-                    GameObject.Find("B_Quest").GetComponent<Button>().Select();
+                    GameObject.Find("PlayerManager").GetComponent<Pause>().DestroyPauseCanvas();
                     break;
                 case "Save":
                     if (GameObject.Find("SaveDataBoard"))
@@ -72,6 +72,8 @@ public class MenuSelect : MonoBehaviour
                         GameObject.Find("LoadSelect").GetComponent<Image>().enabled = false;
                         GameObject.Find("B_Save").GetComponent<Button>().Select();
                     }
+                    else
+                        GameObject.Find("PlayerManager").GetComponent<Pause>().DestroyPauseCanvas();
                     break;
                 //以下Setting
                 case "Setting":
@@ -91,12 +93,19 @@ public class MenuSelect : MonoBehaviour
                     {
                         GameObject.Find("B_Setting").GetComponent<Button>().Select();
                     }
+                    else
+                        GameObject.Find("PlayerManager").GetComponent<Pause>().DestroyPauseCanvas();
                     break;
                 //以下Options
                 case "Options":
-                    GameObject.Find("ExitSelect").GetComponent<Image>().enabled = false;
-                    GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = false;
-                    GameObject.Find("B_Options").GetComponent<Button>().Select();
+                    if (GameObject.Find("ExitSelect").GetComponent<Image>().enabled || GameObject.Find("ReturnSelect").GetComponent<Image>().enabled)
+                    {
+                        GameObject.Find("ExitSelect").GetComponent<Image>().enabled = false;
+                        GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = false;
+                        GameObject.Find("B_Options").GetComponent<Button>().Select();
+                    }
+                    else
+                        GameObject.Find("PlayerManager").GetComponent<Pause>().DestroyPauseCanvas();
                     break;
             }
 

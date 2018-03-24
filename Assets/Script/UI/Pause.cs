@@ -89,16 +89,12 @@ public class Pause : MonoBehaviour {
                 Fade = false;
             }
         }
-        if (Input.GetButtonDown("OptionsCancel")&& PauseCanvas&& !IsPause)
+        if (Input.GetButtonDown("OptionsCancel")&& PauseCanvas)
         {
             if (!IsPause)
                 CreatPauseCanvas();
             else
                 DestroyPauseCanvas();
-        }
-        else if (Input.GetButtonDown("CrossJump") && IsPause)
-        {
-            DestroyPauseCanvas();
         }
     }
     public void CreatPauseCanvas()

@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;//重力乘數(落下速度)
     [SerializeField] float m_RunCycleLegOffset = 0.2f; //特定於樣本資產中的字符，需要修改才能與他人合作
     //[SerializeField] float m_AnimSpeedMultiplier = 1f;//動畫播放速度的乘數
-    [SerializeField] float m_GroundCheckDistance = 0.3f;//地面距離檢查
+    [SerializeField] float m_GroundCheckDistance = 0.2f;//地面距離檢查
 
     Rigidbody m_Rigidbody;
     private Animator m_Animator;
@@ -115,12 +115,10 @@ public class PlayerMovement : MonoBehaviour
         {
             m_Rigidbody.velocity = transform.forward * move.z * _Speed;
             if (move != Vector3.zero)
-            {
                 OnWalk = true;
-            }
             else
                 OnWalk = false;
-            // 确定当前是否能跳  ：
+            // 确定当前是否能跳 ：
             if (Input.GetButtonDown("CrossJump"))
             { // jump!
                  m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
@@ -128,8 +126,7 @@ public class PlayerMovement : MonoBehaviour
                 m_Animator.SetTrigger("m_Jump");
                 m_Animator.SetBool("OnWalk", OnWalk);
                 m_IsGrounded = false;
-                m_Animator.applyRootMotion = false;
-                m_GroundCheckDistance = 0.3f;
+                m_GroundCheckDistance = 0.2f;
             }
         }
         else
@@ -164,18 +161,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("CrossJump"))
         {
             m_Animator.SetFloat("JumpLeg", jumpLeg);
-
         }
-
-        // 这边的方法允许我们在inspector视图中调整动画的速率，他会因为根运动影响移动的速度  
-        //if (m_IsGrounded && move.magnitude > 0)
-        //{
-        //    m_Animator.speed = m_AnimSpeedMultiplier;
-        //}
-        //else
-        //{// 在空中的时候不用
-        //    m_Animator.speed = 1;
-        //}
     }
 
 

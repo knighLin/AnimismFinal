@@ -120,7 +120,7 @@ ModelImporter:
     - serializedVersion: 16
       name: jump_Inplace_S
       takeName: Take 001
-      firstFrame: 5
+      firstFrame: 7
       lastFrame: 13
       wrapMode: 0
       orientationOffsetY: 0
