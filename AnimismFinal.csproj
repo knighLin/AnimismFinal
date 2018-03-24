@@ -507,6 +507,7 @@
     <Compile Include="Assets\Script\Save&amp;LoadData\SaveData.cs" />
     <Compile Include="Assets\Script\SecondHandOnGun.cs" />
     <Compile Include="Assets\Script\TypeValue.cs" />
+    <Compile Include="Assets\Script\UI\BringBring.cs" />
     <Compile Include="Assets\Script\UI\ButtonDeselect.cs" />
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
