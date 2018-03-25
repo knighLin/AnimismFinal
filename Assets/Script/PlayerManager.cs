@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
 
     void Awake()
     {
+        PossessType = "Human";//一開始型態為Human
         NowType = "Human";//一開始型態為Human
         PreviousType = "Human";
         typevalue = GetComponent<TypeValue>();

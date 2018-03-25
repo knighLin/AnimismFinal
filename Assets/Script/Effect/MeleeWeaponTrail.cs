@@ -101,6 +101,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 	void OnDisable()
 	{
         _trailMesh.ClearBlendShapes();
+        if (_trailObject)
         _trailObject.GetComponent<MeshFilter>().mesh.Clear();
        // Destroy(_trailMesh);
         Destroy(_trailObject);

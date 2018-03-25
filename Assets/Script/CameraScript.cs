@@ -10,7 +10,7 @@ public class CameraScript : MonoBehaviour
     private PlayerManager playerManager;
     private pillarSystem pillarSystem;
     public GameObject PossessTarget;
-    [SerializeField] private GameObject NormalEffect, SoulVisionEffect, PossessEffect, Crosshairs;
+    [SerializeField] private GameObject NormalEffect, SoulVisionEffect, PossessEffect;
     [SerializeField] private GameObject NowCharacter, Normal003;
     public GameObject MoveEnd, PlayerView;
     private Transform[] AttachedBodyChildren;
@@ -48,7 +48,6 @@ public class CameraScript : MonoBehaviour
         CameraLocking = GetComponent<CameraLocking>();
         PossessedSystem = GameObject.FindWithTag("Player").GetComponent<PossessedSystem>();
         playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
-        Crosshairs.SetActive(false);//開始時準心關閉
         CameraState = "NormalState";//初始狀態為正常狀態
         AttachedBodyChildren = new Transform[3];//只抓前四個物件(包含本身)
         if (GameObject.Find("FirstPersonCamPoint") != null)
@@ -76,7 +75,7 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
-            Normal003.transform.localPosition = new Vector3(0, 0, -5);
+            Normal003.transform.localPosition = new Vector3(0, 0, -4);
             ShakeTime = 0;
         }
         if (!Backing && !IsPossessing && !FixedVison && !LockingAnimal) CameraRotate();//如果不是附身模式或固定視角模式 讓鏡頭可以轉
@@ -182,11 +181,9 @@ public class CameraScript : MonoBehaviour
                 this.GetComponent<PostProcessingBehaviour>().profile = NormalEffect.GetComponent<PostProcessingBehaviour>().profile;
                 CameraLocking.Player = null;
                 IsSoulVision = false;
-                Crosshairs.SetActive(false);
                 break;
             case 2://靈視狀態
                 this.GetComponent<PostProcessingBehaviour>().profile = SoulVisionEffect.GetComponent<PostProcessingBehaviour>().profile;
-                Crosshairs.SetActive(true);
                 break;
             case 3://附身中狀態
                 this.GetComponent<PostProcessingBehaviour>().profile = PossessEffect.GetComponent<PostProcessingBehaviour>().profile;
@@ -230,7 +227,7 @@ public class CameraScript : MonoBehaviour
         if (rotX > 360) rotX -= 360;
         else if (rotX < 0) rotX += 360;
         if (rotY > 45) rotY = 45;
-        else if (rotY < -25) rotY = -25;
+        else if (rotY < -10) rotY = -10;
         //運算攝影機旋轉
         RotationEuler = Quaternion.Euler(rotY, rotX, 0);
         transform.rotation = RotationEuler; //鏡頭轉動
@@ -243,7 +240,7 @@ public class CameraScript : MonoBehaviour
         if (Physics.Linecast(PlayerView.transform.position, NormalPosition, out hit) && !FixedVison)
         {
             int HitTag = hit.collider.gameObject.layer;//撞到的物件的layer
-            if (HitTag != 9 && HitTag != 11 && HitTag != 8 && HitTag != 10 && HitTag != 13)//9為player 11為ragdoll 8為CanPossess 10為武器 13為敵人
+            if (HitTag != 9 && HitTag != 11 && HitTag != 8 && HitTag != 10 && HitTag != 13 && HitTag != 14)//9為player 11為ragdoll 8為CanPossess 10為武器 13為敵人 14為小狼
             {
                 RedressVector = NormalPosition - hit.point;//如果撞到物件 設一個向量為 撞到的位置和原來鏡頭位置之差
                 transform.position = NormalPosition - RedressVector;//減掉位置差 讓鏡頭移動到撞到的位置 其實值等於 hit.point即可 只是變數留著可以做變化 先不做優化

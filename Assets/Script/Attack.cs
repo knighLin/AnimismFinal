@@ -23,8 +23,8 @@ public class Attack : MonoBehaviour
     [SerializeField] private Rigidbody WolfGuards;//召喚狼
     [SerializeField] private Transform SummonPoint1;
     [SerializeField] private Transform SummonPoint2;
-    Rigidbody rigidbody;
-    
+    private MeleeWeaponTrail[] meleeWeaponTrail;
+
     void Awake()
     {
         //set Animator
@@ -32,13 +32,13 @@ public class Attack : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         //set WeaponCollider
         weaponCollider.enabled = false;
-        //weaponCollider2.enabled = false;
-        // Physics.IgnoreCollision(myselfCollider, weaponCollider);//讓兩個物體不會產生碰撞
+        
     }
 
     void Start()
     {
         possessedSystem = GetComponent<PossessedSystem>();
+        meleeWeaponTrail = GetComponentsInChildren<MeleeWeaponTrail>();
     }
 
     private void Update()
@@ -50,8 +50,6 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
-                        //this.GetComponent<Rigidbody>().isKinematic = true;
-                   
                         CanAttack = false;
                         animator.SetTrigger("Attack");
                         animator.SetInteger("Render", AttackRender());
@@ -62,7 +60,6 @@ public class Attack : MonoBehaviour
             case "Wolf":
                 if (CanAttack)
                 {
-                    rigidbody = GetComponent<Rigidbody>();
                     if (Input.GetButtonDown("SquareAttack"))
                     {
                         CanAttack = false;
@@ -107,31 +104,24 @@ public class Attack : MonoBehaviour
     void WeaponColliderOpen()
     {
         weaponCollider.enabled = true;
-        //weaponCollider2.enabled = true;
+        for(int i =0; i < meleeWeaponTrail.Length; i++)
+        {
+            meleeWeaponTrail[i].enabled = true;
+        }
     }
     void WeaponColliderClose()
     {
         weaponCollider.enabled = false;
-        //weaponCollider2.enabled = false;
-       // Time.timeScale = 1f;
+        for (int i = 0; i < meleeWeaponTrail.Length; i++)
+        {
+            meleeWeaponTrail[i].enabled = false;
+        }
     }
     void ResetAttackFlag()
     {
-        //animator.SetBool("Attack", false);
-        // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
-       // this.GetComponent<Rigidbody>().isKinematic = false;
         CanAttack = true;
     }
-
-    //void AttackEffectOpen()
-    //{
-    //    gameObject.GetComponentInChildren<MeleeWeaponTrail>().enabled = true;
-    //}
-    //void AttackEffectClose()
-    //{
-    //    gameObject.GetComponentInChildren<MeleeWeaponTrail>().enabled = false;
-    //}
-
+    
     void WolfAddForce()
     {
         //rigidbody.AddForce(Vector3.forward * 100);

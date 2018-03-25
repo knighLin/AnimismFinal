@@ -29,16 +29,25 @@ public class DataName : MonoBehaviour {
             case "LoadData1":
                 WhitchData = "Data1";
                 break;
+            case "H_LoadData1":
+                WhitchData = "Data1";
+                break;
             case "SaveData2":
                 WhitchData = "Data2";
                 break;
             case "LoadData2":
                 WhitchData = "Data2";
                 break;
+            case "H_LoadData2":
+                WhitchData = "Data2";
+                break;
             case "SaveData3":
                 WhitchData = "Data3";
                 break;
             case "LoadData3":
+                WhitchData = "Data3";
+                break;
+            case "H_LoadData3":
                 WhitchData = "Data3";
                 break;
         }

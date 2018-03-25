@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;// Required when using Event data.
@@ -138,6 +139,65 @@ public class ButtonSelected : MonoBehaviour, ISelectHandler
             case "Exit":
                 GameObject.Find("ReturnSelect").GetComponent<Image>().enabled = false;
                 GameObject.Find("ExitSelect").GetComponent<Image>().enabled = true;
+                break;
+            //以下為主畫面
+            case "NewGame":
+                GameObject.Find("NewGameSelect").GetComponent<Image>().enabled = true;
+                GameObject.Find("H_Cross").GetComponent<Image>().enabled = false;
+                GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
+                GameObject.Find("H_Circle").GetComponent<Image>().enabled = true;
+                break;
+            case "LoadGame":
+                GameObject.Find("LoadGameSelect").GetComponent<Image>().enabled = true;
+                break;
+            case "ExitGame":
+                GameObject.Find("ExitGameSelect").GetComponent<Image>().enabled = true;
+                break;
+            case "H_LoadData1":
+                GetComponent<LoadOrDelet>().Select = true;
+                if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1.sav"))
+                {
+                    GameObject.Find("H_Cross").GetComponent<Image>().enabled = true;
+                    GameObject.Find("H_Triangle").GetComponent<Image>().enabled = true;
+                    GetComponent<LoadOrDelet>().Select = true;
+                }
+                else
+                {
+                    GameObject.Find("H_Cross").GetComponent<Image>().enabled = true;
+                    GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
+                    GetComponent<LoadOrDelet>().Select = false;
+                }
+                break;
+            case "H_LoadData2":
+                if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2.sav"))
+                {
+                    GameObject.Find("H_Triangle").GetComponent<Image>().enabled = true;
+                    GetComponent<LoadOrDelet>().Select = true;
+                }
+                else
+                {
+                    GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
+                    GetComponent<LoadOrDelet>().Select = false;
+                }
+                break;
+            case "H_LoadData3":
+                if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3.sav"))
+                {
+                    GameObject.Find("H_Triangle").GetComponent<Image>().enabled = true;
+                    GetComponent<LoadOrDelet>().Select = true;
+                }
+                else
+                {
+                    GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
+                    GetComponent<LoadOrDelet>().Select = false;
+                }
+                break;
+            case "SureYes":
+                GameObject.Find("SureYesSelect").GetComponent<Image>().enabled = true;
+                GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
+                break;
+            case "SureNo":
+                GameObject.Find("SureNoSelect").GetComponent<Image>().enabled = true;
                 break;
         }
     }

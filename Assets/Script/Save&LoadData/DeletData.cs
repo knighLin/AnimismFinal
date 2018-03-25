@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class DeletData : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
     public void DeletSaveData()
     {
-            File.Delete(Application.persistentDataPath + @"\Save\" + this.name + ".sav");
+        switch (this.name)
+        {
+            case "H_LoadData1":
+                File.Delete(Application.persistentDataPath + @"\Save\" + "Data1.sav");
+                break;
+            case "H_LoadData2":
+                File.Delete(Application.persistentDataPath + @"\Save\" + "Data2.sav");
+                break;
+            case "H_LoadData3":
+                File.Delete(Application.persistentDataPath + @"\Save\" + "Data3.sav");
+                break;
+        }
     }
 }

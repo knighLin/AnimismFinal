@@ -123,7 +123,7 @@ public class PossessedSystem : MonoBehaviour
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out hit, 15, PossessedLayerMask);
+            Physics.Raycast(ray, out hit, 12, PossessedLayerMask);
             // Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 1f, true);
             for (int i = 0; i < RangeObject.Count; i++)
             {
@@ -243,7 +243,7 @@ public class PossessedSystem : MonoBehaviour
                 pillar1 = AttachedBody.GetComponent<pillar1>();
                 pillar1.changLevel();
                 Possessor.GetComponent<PlayerMovement>().enabled = false;
-                Possessor.transform.position = GameObject.Find("TotemPole").transform.position + new Vector3(0, 0, -3);
+                Possessor.transform.position = GameObject.Find("TotemPole_Bottom").transform.position + new Vector3(0, 0, -3);
                 Possessor.transform.rotation = Quaternion.Euler(0, 0, 0);
                 Possessor.tag = "Pillar";//設為不是Player敵人才抓不到
             }
@@ -252,7 +252,7 @@ public class PossessedSystem : MonoBehaviour
 
     void OnTriggerEnter(Collider Object)//送出訊息
     {
-        switch (Object.transform.tag)
+        switch (Object.tag)
         {//判斷是不是可以附身的物件
          //case "Human":
             case "Bear":

@@ -131,7 +131,7 @@ public class pillarSystem : MonoBehaviour
     {
         GameObject.Find("Main Camera").GetComponent<CameraScript>().CameraMoveToCave();
         Time.timeScale = 0;
-        //OverCanvas.SetActive(true);
-        //ReturnButton.Select();
+        OverCanvas.SetActive(true);
+        ReturnButton.Select();
     }
 }

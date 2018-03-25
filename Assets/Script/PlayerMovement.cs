@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator m_Animator;
     private float _Speed;//移動速度的乘數
     //bool m_Jump;
-    bool m_IsGrounded;
+    public bool m_IsGrounded;
     float m_OrigGroundCheckDistance;//地面距離檢查的起源值
     const float k_Half = 0.5f;
     float m_TurnAmount;//轉向值

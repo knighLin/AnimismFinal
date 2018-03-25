@@ -68,7 +68,10 @@ public class EnemyAI : MonoBehaviour
         else
             WolfGuardTarget = null;
         ThinkState();
-        TargetInRange();
+        if (Target.tag != "Pillar")
+            TargetInRange();
+        else if(!isThink)
+            isThink = true;
         if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
             nav.isStopped = true;
@@ -116,12 +119,12 @@ public class EnemyAI : MonoBehaviour
     private void TargetInRange()
     {
         //Debug.Log(Target);
-        if (WolfGuardTarget == null)//如果沒有召喚狼，敵人攻擊目標是主角
+        if (WolfGuardTarget == null && GameObject.FindGameObjectWithTag("Player"))//如果沒有召喚狼，敵人攻擊目標是主角
         {
             Target = GameObject.FindGameObjectWithTag("Player");
             EnemyToPlayerDis = Vector3.Distance(transform.position, Target.transform.position);//去判斷跟主角的範圍
         }
-        else if (Vector3.Distance(transform.position, Target.transform.position) > 3)//如果有召喚狼，並且上個目標跟敵人距離大於3時，去判斷誰距離敵人最近，並且攻擊
+        else if (WolfGuardTarget !=  null && Vector3.Distance(transform.position, Target.transform.position) > 3)//如果有召喚狼，並且上個目標跟敵人距離大於3時，去判斷誰距離敵人最近，並且攻擊
         {
             float ShortestRange;//敵人跟目標最短距離
             GameObject[] ChooseTarget = { GameObject.FindGameObjectWithTag("Player"), WolfGuardTarget[0], WolfGuardTarget[1] };//抓取主角與召喚狼
