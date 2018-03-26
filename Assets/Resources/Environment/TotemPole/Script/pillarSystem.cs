@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class pillarSystem : MonoBehaviour
 {
 
     public static bool pillarSystemBool;
-
+    [SerializeField] private GameObject OverCanvas;
+    [SerializeField] private Button ReturnButton;
     private int rotatespeed = 10;
     private float shakelevel = 0.2f;
     public GameObject[] pillarother = new GameObject[3];
-    public GameObject player;
     public static int pillarLevel;//目前階層
 
     bool p1bool;
@@ -81,7 +82,7 @@ public class pillarSystem : MonoBehaviour
         float p1 = pillarother[0].gameObject.transform.rotation.y;
         float p2 = pillarother[1].gameObject.transform.rotation.y;
         float p3 = pillarother[2].gameObject.transform.rotation.y;
-        if (p1 > 0 && p1 < 0.1)
+        if (p1 > -0.1 && p1 < 0.1)
         {
             Debug.Log("P1OK");
             p1bool = true;
@@ -92,7 +93,7 @@ public class pillarSystem : MonoBehaviour
             p1bool = false;
         }
 
-        if (p2 > 0 && p2 < 0.1)
+        if (p2 > -0.1 && p2 < 0.1)
         {
             Debug.Log("P2OK");
             p2bool = true;
@@ -103,7 +104,7 @@ public class pillarSystem : MonoBehaviour
             p2bool = false;
         }
 
-        if (p3 > 0 && p3 < 0.1)
+        if (p3 > -0.1 && p3 < 0.1)
         {
             Debug.Log("P3OK");
             p3bool = true;
@@ -116,12 +117,21 @@ public class pillarSystem : MonoBehaviour
     }
     void succeedpillar()
     { //轉到指定角度
-        if (p1bool = true && p2bool == true && p3bool == true&& GameObject.Find("PlayerManager").GetComponent<PlayerManager>().PossessType == "Pillar")
+        if (p1bool == true && p2bool == true && p3bool == true&& GameObject.Find("PlayerManager").GetComponent<PlayerManager>().PossessType == "Pillar")
         {
             pillarother[0].tag = "Untagged";
             pillarother[1].tag = "Untagged";
             pillarother[2].tag = "Untagged";
-            player.GetComponent<PossessedSystem>().LifedPossessed();
+            GameObject.Find("Pine").GetComponent<PossessedSystem>().LifedPossessed();
+            GameObject.Find("Main Camera").GetComponent<CameraScript>().Shake=true;
+            Invoke("TurnToCanvas", 2f);
         }
+    }
+    void TurnToCanvas()
+    {
+        GameObject.Find("Main Camera").GetComponent<CameraScript>().CameraMoveToCave();
+        Time.timeScale = 0;
+        OverCanvas.SetActive(true);
+        ReturnButton.Select();
     }
 }

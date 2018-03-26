@@ -219,37 +219,37 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Body1
-    second: {fileID: 2100000, guid: 2ac19bb3011374789aee370bc74e50e0, type: 2}
+    second: {fileID: 2100000, guid: 1facb747db5569842b18e50bd806db13, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Equipment
-    second: {fileID: 2100000, guid: 68026b27a53554301b5c30308d44dd8c, type: 2}
+    second: {fileID: 2100000, guid: 90a6c3c2cc20d71488767206750aa728, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Equipment2
-    second: {fileID: 2100000, guid: e9901e4cd3aae412281488f5f883d30e, type: 2}
+    second: {fileID: 2100000, guid: e33ce356e8a0f8a448f87bc82c11eb2f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Equipment3
-    second: {fileID: 2100000, guid: 4d5d778698a6048f18810fc985c75909, type: 2}
+    second: {fileID: 2100000, guid: 859d6d360ebaa1642b4582f6711a5db4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Eyes1
-    second: {fileID: 2100000, guid: 6fc7d1e95e72a482d95f0643aeed4055, type: 2}
+    second: {fileID: 2100000, guid: 0b5d422219449ba4b9c84fa04e9027f5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Gun1
-    second: {fileID: 2100000, guid: 9b530ac39f84f4dea875f5d472fc111f, type: 2}
+    second: {fileID: 2100000, guid: 4153658ee18d3a141bcad80726274ee2, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

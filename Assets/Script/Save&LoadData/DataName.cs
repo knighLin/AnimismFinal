@@ -29,10 +29,16 @@ public class DataName : MonoBehaviour {
             case "LoadData1":
                 WhitchData = "Data1";
                 break;
+            case "H_LoadData1":
+                WhitchData = "Data1";
+                break;
             case "SaveData2":
                 WhitchData = "Data2";
                 break;
             case "LoadData2":
+                WhitchData = "Data2";
+                break;
+            case "H_LoadData2":
                 WhitchData = "Data2";
                 break;
             case "SaveData3":
@@ -41,10 +47,16 @@ public class DataName : MonoBehaviour {
             case "LoadData3":
                 WhitchData = "Data3";
                 break;
+            case "H_LoadData3":
+                WhitchData = "Data3";
+                break;
         }
         if (File.Exists(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav"))
         {
-            TextName.fontSize = 25;
+            if (!GameObject.Find("Logo"))
+                TextName.fontSize = 25;
+            else
+                TextName.fontSize = 41;
             DataInfo = new FileInfo(Application.persistentDataPath + @"\Save\" + WhitchData + ".sav");
             Debug.Log(DataInfo.LastWriteTime);
             TextName.text = DataInfo.LastWriteTime.ToString();
@@ -53,7 +65,10 @@ public class DataName : MonoBehaviour {
         }
         else
         {
-            TextName.fontSize = 25;
+            if (!GameObject.Find("Logo"))
+                TextName.fontSize = 25;
+            else
+                TextName.fontSize = 45;
             TextName.text = "空的存檔";
             if (Delet != null)
                 Delet.SetActive(false);

@@ -13,7 +13,7 @@ public class EnemyHealth : MonoBehaviour
     private GrounderFBBIK GroundIk;
     private SecondHandOnGun secondHandOnGun;
 
-    public float MaxHealth = 100; //最大HP
+    private float MaxHealth = 60; //最大HP
     public float currentHealth; //當前HP
                                 //public CapsuleCollider body;
     bool isDead;//是否死亡
@@ -48,9 +48,9 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth > 0)
         {
             currentHealth -= Amount;//扣血
-                                    //audioSource.PlayOneShot(hurt);
-                                    //Anim.SetTrigger("Hurt");
-            StartCoroutine("HurtAnimation");
+            audioSource.PlayOneShot(hurt);
+            Anim.SetTrigger("Hurt");
+            // StartCoroutine("HurtAnimation");
         }
         if (currentHealth <= 0)
         {
@@ -80,13 +80,11 @@ public class EnemyHealth : MonoBehaviour
             Anim.enabled = true;
         }
         ragdollBehavior.ToggleRagdoll(false);
-        //StopCoroutine(HurtAnimation());
     }
 
     void Death()
     {
         isDead = true;
-        // StopCoroutine("HurtAnimation");
         aim.enabled = false;
         ik.enabled = false;
         GroundIk.enabled = false;
@@ -95,7 +93,7 @@ public class EnemyHealth : MonoBehaviour
         Anim.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
         enemyAI.enabled = false;
-        //Destroy (gameObject, 4f);
+        Destroy (gameObject, 5f);
     }
 
 }

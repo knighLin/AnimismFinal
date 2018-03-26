@@ -380,7 +380,7 @@ namespace AnimFollow
 						animator.SetFloat(hash.speedFloat, 0f, 0f, Time.fixedDeltaTime);
 
 						Vector3 rootBoneForward = ragdollRootBone.rotation * rootboneToForward * Vector3.forward;
-						if (Vector3.Dot(rootBoneForward, Vector3.down) >= 0f) // Check if ragdoll is lying on its back or front, then transition to getup animation
+						if (Vector3.Dot(rootBoneForward, Vector3.up) >= 0f) // Check if ragdoll is lying on its back or front, then transition to getup animation
 						{
 							if (!animator.GetCurrentAnimatorStateInfo(0).fullPathHash.Equals(hash.getupFront))
 								animator.SetBool(hash.frontTrigger, true);

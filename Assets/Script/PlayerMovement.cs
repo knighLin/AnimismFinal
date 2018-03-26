@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection;//移動位置
     [SerializeField] float m_MovingTurnSpeed = 360;//移動時轉向的速度
     [SerializeField] float m_StationaryTurnSpeed = 180;//站立時轉向速度
-    //[Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;//重力乘數(落下速度)
+    [Range(1f, 4f)] [SerializeField] float m_GravityMultiplier = 2f;//重力乘數(落下速度)
     [SerializeField] float m_RunCycleLegOffset = 0.2f; //特定於樣本資產中的字符，需要修改才能與他人合作
     //[SerializeField] float m_AnimSpeedMultiplier = 1f;//動畫播放速度的乘數
     [SerializeField] float m_GroundCheckDistance = 0.2f;//地面距離檢查
@@ -23,13 +23,13 @@ public class PlayerMovement : MonoBehaviour
     private Animator m_Animator;
     private float _Speed;//移動速度的乘數
     //bool m_Jump;
-    bool m_IsGrounded;
+    public bool m_IsGrounded;
     float m_OrigGroundCheckDistance;//地面距離檢查的起源值
     const float k_Half = 0.5f;
     float m_TurnAmount;//轉向值
     float m_ForwardAmount;//前進值
     Vector3 m_GroundNormal;//地面法向量
-    
+    bool OnWalk = true;  
 
     private void Awake()
     {
@@ -80,8 +80,7 @@ public class PlayerMovement : MonoBehaviour
             //在沒有主相機的情況下，我們使用世界相對的方向
             moveDirection = v * Vector3.forward + h * Vector3.right;
         }
-
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("R2Run"))
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("R2Run")))
         {//當按下shift，有跑步動作
             _Speed = value.RunSpeed;
         }
@@ -97,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
     // 移动！ 
     void PlayerMove(Vector3 move)
     {
+        //Debug.Log(transform.forward);
         // 将一个世界坐标的输入转换为本地相关的转向和前进速度，这需要考虑到角色头部的方向
         if (move.magnitude > 1f)
         {
@@ -114,21 +114,26 @@ public class PlayerMovement : MonoBehaviour
         if (m_IsGrounded)
         {
             m_Rigidbody.velocity = transform.forward * move.z * _Speed;
-            // 确定当前是否能跳  ：
+            if (move != Vector3.zero)
+                OnWalk = true;
+            else
+                OnWalk = false;
+            // 确定当前是否能跳 ：
             if (Input.GetButtonDown("CrossJump"))
             { // jump!
-                // m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
-                m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
+                 m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
+                //m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
                 m_Animator.SetTrigger("m_Jump");
+                m_Animator.SetBool("OnWalk", OnWalk);
                 m_IsGrounded = false;
-                m_Animator.applyRootMotion = false;
-                m_GroundCheckDistance = 0.1f;
+                m_GroundCheckDistance = 0.2f;
             }
         }
         else
         {//乘數增加重力：
-            //Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-            m_Rigidbody.AddForce(Physics.gravity * 1.5f);
+            //Vector3 extraGravityForce = Physics.gravity * m_GravityMultiplier * 0.001f;
+            m_Rigidbody.AddForce(Physics.gravity * 2);
+            //m_Rigidbody.velocity = extraGravityForce;
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;//上升的时候不判断是否在地面上   
         }
         // 将输入和其他状态传递给动画组件  
@@ -156,18 +161,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("CrossJump"))
         {
             m_Animator.SetFloat("JumpLeg", jumpLeg);
-
         }
-
-        // 这边的方法允许我们在inspector视图中调整动画的速率，他会因为根运动影响移动的速度  
-        //if (m_IsGrounded && move.magnitude > 0)
-        //{
-        //    m_Animator.speed = m_AnimSpeedMultiplier;
-        //}
-        //else
-        //{// 在空中的时候不用
-        //    m_Animator.speed = 1;
-        //}
     }
 
 

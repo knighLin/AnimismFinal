@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PossessedSystem : MonoBehaviour
@@ -31,8 +31,11 @@ public class PossessedSystem : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip HumanSurgery;
     public AudioClip WolfSurgery;
+    int i;
     private void Awake()
     {
+        if (!Possessor)
+            Possessor = GameObject.Find("Pine");
         attack = GetComponent<Attack>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         CameraScript = GameObject.Find("Main Camera").GetComponent<CameraScript>();
@@ -59,6 +62,7 @@ public class PossessedSystem : MonoBehaviour
 
     private void Update()
     {
+       
         if (CameraScript.CanPossess)//打開附身系統
         {
             if (clear)//開啟附身系統只清一次，播放一次動畫
@@ -97,7 +101,11 @@ public class PossessedSystem : MonoBehaviour
                                     //joycontroller.joypossessed = false; //搖桿
         }
 
+<<<<<<< HEAD
         if (Input.GetButtonDown("CircleUnpossess") && AttachedBody != null && !CameraScript.IsPossessing && !CameraScript.CantLeftPossess)//解除附身
+=======
+        if (Time.timeScale==1 && Input.GetButtonDown("CircleUnpossess") && AttachedBody != null && !CameraScript.IsPossessing && !CameraScript.CantLeftPossess)//解除附身
+>>>>>>> 156c71daae9569ffc66ccd1a1883560e766a745d
         {
             LifedPossessed();//離開附身物
         }
@@ -115,11 +123,15 @@ public class PossessedSystem : MonoBehaviour
             ChooseRightObject = false;//重置
             CameraScript.CameraState = "GettingPossess";//轉為附身模式
         }
+<<<<<<< HEAD
         else if (( Input.GetButtonDown("TriangelAbility") && PossessedSystem.PossessedCol.enabled == true))
+=======
+        else if ((Input.GetButtonDown("TriangleAbility") && PossessedSystem.PossessedCol.enabled == true))
+>>>>>>> 156c71daae9569ffc66ccd1a1883560e766a745d
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out hit, 15, PossessedLayerMask);
+            Physics.Raycast(ray, out hit, 12, PossessedLayerMask);
             // Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 1f, true);
             for (int i = 0; i < RangeObject.Count; i++)
             {
@@ -154,10 +166,14 @@ public class PossessedSystem : MonoBehaviour
             {
                 if (AttachedBody != null && OnPossessed == true)//如果先前有附身物，而且正在附身
                 {
+                    Debug.Log("OldPossessTag:" + AttachedBody.tag + i++);
                     AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
                     Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
                     AttachedBody.GetComponent<PlayerMovement>().enabled = false;
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
+                    AttachedBody.GetComponent<Attack>().enabled = false;//攻擊
+                    AttachedBody.GetComponent<Health>().enabled = false;
+                   
                 }
                 PreviousTag = Possessor.tag;//附身後將先前附身的tag存起來
                 Possessor.tag = Target.tag;//將目前人的tag轉為附身後動物的
@@ -176,9 +192,7 @@ public class PossessedSystem : MonoBehaviour
                 }
                 AttachedBody.tag = "Player";//將目前附身動物tag改成player
                                             //附身者的位置到新被附身物的位置
-                Possessor.transform.position = new Vector3(AttachedBody.transform.position.x,
-                                                        AttachedBody.transform.position.y,
-                                                        AttachedBody.transform.position.z);
+                Possessor.transform.position = AttachedBody.transform.position;
 
                 PossessedCol.enabled = false;//關掉當前附身範圍
                 Possessor.transform.parent = AttachedBody.transform;//將附身者變為被附身物的子物件
@@ -190,14 +204,14 @@ public class PossessedSystem : MonoBehaviour
                 Possessor.SetActive(false);//關掉人型態的任何事
                 OnPossessed = true;//已附身
 
-                if (Target.tag == "Wolf")
-                {
-                    WolfCount++;
-                }
-                else
-                {
-                    WolfCount = 0;
-                }
+                //if (Target.tag == "Wolf")
+                //{
+                //    WolfCount++;
+                //}
+                //else
+                //{
+                //    WolfCount = 0;
+                //}
             }
             HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
             HPcontroller.CharacterHpControll();
@@ -211,24 +225,42 @@ public class PossessedSystem : MonoBehaviour
                 {
                     AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
                     Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
+                    Debug.Log(AttachedBody);
                     AttachedBody.GetComponent<PlayerMovement>().enabled = false;
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
+                    Possessor.SetActive(true);
                 }
+                Possessor.tag = "Player";//進入圖騰柱人的tag先為Player
+                playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+                playerManager.TurnType("Human", "Human");//附身圖騰柱後狀態先設為人 解除後才不用再抓一次
+                playerManager.PossessType = "Human";
+                HPcontroller.Health = Possessor.GetComponent<Health>();
+                HPcontroller.CharacterHpControll();
+                HPcontroller.CharacterSwitch();//換圖片
+                GameObject.Find("FaceBlack").GetComponent<Image>().color = new Color(1, 1, 1, 0);//隱藏血量
+                GameObject.Find("FaceWhite").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("FaceRed").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("HpBlack").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("HpWhite").GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                GameObject.Find("HpRed").GetComponent<Image>().color = new Color(1, 1, 1, 0);
                 AttachedBody = Target.gameObject;//讓新的附身物等於AttachedBody
                 playerManager.NowCharacter = AttachedBody;
                 playerManager.PossessType = AttachedBody.tag;
                 PossessedCol.enabled = false;//關掉當前附身範圍
-                Possessor.GetComponent<PlayerMovement>().enabled = false;
                 OnPossessed = true;//已附身
                 pillar1 = AttachedBody.GetComponent<pillar1>();
                 pillar1.changLevel();
+                Possessor.GetComponent<PlayerMovement>().enabled = false;
+                Possessor.transform.position = GameObject.Find("TotemPole_Bottom").transform.position + new Vector3(0, 0, -3);
+                Possessor.transform.rotation = Quaternion.Euler(0, 0, 0);
+                Possessor.tag = "Pillar";//設為不是Player敵人才抓不到
             }
         }
     }
 
     void OnTriggerEnter(Collider Object)//送出訊息
     {
-        switch (Object.transform.tag)
+        switch (Object.tag)
         {//判斷是不是可以附身的物件
          //case "Human":
             case "Bear":
@@ -267,14 +299,17 @@ public class PossessedSystem : MonoBehaviour
             CameraScript.LoadCharacterPosition();
 
             HPcontroller.CharacterSwitch();
-            HPcontroller.Health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
             HPcontroller.CharacterHpControll();
         }
         else
         {
-            Debug.Log("1");
-            Possessor.transform.position = GameObject.Find("TotemPole").transform.position + new Vector3(0, 0, -3);
-            Possessor.transform.rotation = Quaternion.Euler(0, 0, 0);
+            GameObject.Find("FaceBlack").GetComponent<Image>().color = new Color(1, 1, 1, 1);//開啟血量
+            GameObject.Find("FaceWhite").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("FaceRed").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("HpBlack").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("HpWhite").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            GameObject.Find("HpRed").GetComponent<Image>().color = new Color(1, 1, 1 , 1);
+            Possessor.tag = "Player";
             CameraScript.rotX = 0;
             CameraScript.rotY = 0;
             Possessor.GetComponent<PlayerMovement>().enabled = true;

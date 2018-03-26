@@ -184,11 +184,8 @@
     <Reference Include="UnityEngine.WindModule">
       <HintPath>Library\UnityAssemblies\UnityEngine.WindModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
@@ -196,11 +193,14 @@
     <Reference Include="nunit.framework">
       <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Timeline">
       <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GoogleAudioSpatializer">
       <HintPath>Library\UnityAssemblies\UnityEngine.GoogleAudioSpatializer.dll</HintPath>
@@ -476,7 +476,6 @@
     <Compile Include="Assets\Resources\Environment\TotemPole\Script\pillar1.cs" />
     <Compile Include="Assets\Resources\Environment\TotemPole\Script\pillarSystem.cs" />
     <Compile Include="Assets\Resources\Environment\TotemPole\Script\playermove.cs" />
-    <Compile Include="Assets\Script\AnimalAi.cs" />
     <Compile Include="Assets\Script\Attack.cs" />
     <Compile Include="Assets\Script\AttackHit.cs" />
     <Compile Include="Assets\Script\BearAttack.cs" />
@@ -484,6 +483,10 @@
     <Compile Include="Assets\Script\CameraAspect.cs" />
     <Compile Include="Assets\Script\CameraLocking.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
+    <Compile Include="Assets\Script\Effect\Interpolate.cs" />
+    <Compile Include="Assets\Script\Effect\LookAtTarget.cs" />
+    <Compile Include="Assets\Script\Effect\MeleeWeaponTrail.cs" />
+    <Compile Include="Assets\Script\Effect\SwooshTest.cs" />
     <Compile Include="Assets\Script\EnemyAI.cs" />
     <Compile Include="Assets\Script\EnemyHealth.cs" />
     <Compile Include="Assets\Script\EnemyNormalAtk.cs" />
@@ -503,14 +506,30 @@
     <Compile Include="Assets\Script\Save&amp;LoadData\SaveData.cs" />
     <Compile Include="Assets\Script\SecondHandOnGun.cs" />
     <Compile Include="Assets\Script\TypeValue.cs" />
+    <Compile Include="Assets\Script\UI\AnimalAi.cs" />
+    <Compile Include="Assets\Script\UI\BringBring.cs" />
     <Compile Include="Assets\Script\UI\ButtonDeselect.cs" />
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
+    <Compile Include="Assets\Script\UI\CanvasLookAt.cs" />
     <Compile Include="Assets\Script\UI\DataClick.cs" />
+<<<<<<< HEAD
     <Compile Include="Assets\Script\UI\HPcontroller.cs" />
+=======
+    <Compile Include="Assets\Script\UI\Death.cs" />
+    <Compile Include="Assets\Script\UI\HintDetector.cs" />
+    <Compile Include="Assets\Script\UI\HomepageReturn.cs" />
+    <Compile Include="Assets\Script\UI\HPcontroller.cs" />
+    <Compile Include="Assets\Script\UI\HurtBlood.cs" />
+    <Compile Include="Assets\Script\UI\LoadOrDelet.cs" />
+>>>>>>> 156c71daae9569ffc66ccd1a1883560e766a745d
     <Compile Include="Assets\Script\UI\MenuSelect.cs" />
     <Compile Include="Assets\Script\UI\Pause.cs" />
+    <Compile Include="Assets\Script\UI\PressCrossCancel.cs" />
     <Compile Include="Assets\Script\UI\ResetSaveBoard.cs" />
+    <Compile Include="Assets\Script\UI\ResetSetting.cs" />
+    <Compile Include="Assets\Script\UI\SelectedChangeImage.cs" />
+    <Compile Include="Assets\Script\UI\SelectNewGame.cs" />
     <Compile Include="Assets\Script\WolfGuardsAi.cs" />
     <Compile Include="Assets\Script\WolfGuardsAttack.cs" />
   </ItemGroup>
@@ -661,6 +680,7 @@
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.cginc" />
     <None Include="Assets\Standard Assets\Effects\CinematicEffects(BETA)\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />

@@ -25,7 +25,8 @@ public class EnemyAI : MonoBehaviour
     private bool isThink;
     private NavMeshAgent nav;
     //判斷主角
-    private Transform Target;
+    private GameObject Target;
+    private GameObject[] WolfGuardTarget;
     private Vector3 EnemyLookRotate;
     private float EnemyToPlayerDis;//主角跟敵人的距離
     //巡邏範圍計算變數
@@ -43,22 +44,39 @@ public class EnemyAI : MonoBehaviour
         enemyState = EnemyState.Enemy_Idle;//敵人最初狀態
         isThink = true;
         nav = GetComponent<NavMeshAgent>();
-        OriginPoint = transform.position;//敵人最初的位置
+        nav.enabled = false;
+       
         animator = GetComponent<Animator>();
         //nav.updateRotation = false;
     }
-
+    private void Start()
+    {
+        nav.enabled = true;
+        OriginPoint = transform.position;//敵人最初的位置
+    }
     void Update()
     {
-        Target = GameObject.FindGameObjectWithTag("Player").transform;
+        if (Target == null)
+        {
+            Target = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        if (GameObject.FindGameObjectWithTag("WolfGuard"))
+        {
+            WolfGuardTarget = GameObject.FindGameObjectsWithTag("WolfGuard");
+        }
+        else
+            WolfGuardTarget = null;
         ThinkState();
-        TargetInRange();
+        if (Target.tag != "Pillar")
+            TargetInRange();
+        else if(!isThink)
+            isThink = true;
         if (nav.remainingDistance < nav.stoppingDistance) //如果移動位置小於停止位置，不跑步
         {
             nav.isStopped = true;
             animSpeed = nav.desiredVelocity.sqrMagnitude;
             animator.SetFloat("Speed", animSpeed);
-
         }
         else
         {
@@ -97,24 +115,52 @@ public class EnemyAI : MonoBehaviour
         MovePoint = new Vector3(Random.Range(OriginPoint.x - PatorlRadius, OriginPoint.x + PatorlRadius), transform.position.y, Random.Range(OriginPoint.z - PatorlRadius, OriginPoint.z + PatorlRadius));
         return MovePoint;
     }
-
+    
     private void TargetInRange()
     {
-        EnemyToPlayerDis = Vector3.Distance(transform.position, Target.position);//去判斷跟主角的範圍
+        //Debug.Log(Target);
+        if (WolfGuardTarget == null && GameObject.FindGameObjectWithTag("Player"))//如果沒有召喚狼，敵人攻擊目標是主角
+        {
+            Target = GameObject.FindGameObjectWithTag("Player");
+            EnemyToPlayerDis = Vector3.Distance(transform.position, Target.transform.position);//去判斷跟主角的範圍
+        }
+        else if (WolfGuardTarget !=  null && Vector3.Distance(transform.position, Target.transform.position) > 3)//如果有召喚狼，並且上個目標跟敵人距離大於3時，去判斷誰距離敵人最近，並且攻擊
+        {
+            float ShortestRange;//敵人跟目標最短距離
+            GameObject[] ChooseTarget = { GameObject.FindGameObjectWithTag("Player"), WolfGuardTarget[0], WolfGuardTarget[1] };//抓取主角與召喚狼
+
+            for (int i=0; i < ChooseTarget.Length-1; i++)//用迴圈去判斷敵人與三個目標的距離
+            {
+                if ((Vector3.Distance(transform.position, ChooseTarget[i].transform.position) < Vector3.Distance(transform.position, ChooseTarget[i+1].transform.position)))
+                {//第一個目標與第二個目標判斷最小距離，當一小於二
+                    ShortestRange = Vector3.Distance(transform.position, ChooseTarget[i].transform.position);
+                    Target = ChooseTarget[i];//將敵人攻擊目標轉成一
+                    ChooseTarget[i + 1] = ChooseTarget[i];//將目標二變成目標一，之後在跟目標三比
+                    EnemyToPlayerDis = ShortestRange;
+                }
+                else//將敵人攻擊目標轉成二，之後繼續迴圈跟下個目標距離比
+                {
+                    ShortestRange = Vector3.Distance(transform.position, ChooseTarget[i+1].transform.position);
+                    Target = ChooseTarget[i+1];
+                    EnemyToPlayerDis = ShortestRange;
+                }
+            }
+        }
+        
         if (EnemyToPlayerDis <= 10 && Health.isDead == false)
         {
             EnemyLookRotate = new Vector3((Target.transform.position.x - transform.position.x), 0, (Target.transform.position.z - transform.position.z));//Turn to Target
             transform.rotation = Quaternion.LookRotation(EnemyLookRotate);
             isThink = false;//Stop think
 
-            if (EnemyToPlayerDis <= 8 && EnemyToPlayerDis >= 2)//小於8大於3的距離射擊
+            if (EnemyToPlayerDis <= 8 )//小於8大於3的距離射擊
             {
                 SetEnemyState(EnemyState.Enemy_Shooting);
             }
-            else if (EnemyToPlayerDis <= 2)//距離小於3  普通攻擊
-            {
-                SetEnemyState(EnemyState.Enemy_NormalAttack);//距離在10內追擊主角
-            }
+            //else if (EnemyToPlayerDis <= 2)//距離小於3  普通攻擊
+            //{
+            //    SetEnemyState(EnemyState.Enemy_NormalAttack);//距離在10內追擊主角
+            //}
             else
             {
                 SetEnemyState(EnemyState.Enemy_Catch);
@@ -154,7 +200,7 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Enemy_Catch:
                 nav.isStopped = false;
                 animator.SetBool("Catch",true);
-                nav.SetDestination(Target.position);
+                nav.SetDestination(Target.transform.position);
                 break;
             case EnemyState.Enemy_NormalAttack:
                 animator.SetBool("Catch", false);
@@ -167,7 +213,7 @@ public class EnemyAI : MonoBehaviour
                 if (Time.time - timer > 3f)
                 {
                     animator.SetTrigger("Shoot");
-                    enemyShoot.Shooting(Target);
+                    enemyShoot.Shooting(Target.transform);
                     
                     timer = Time.time;
                 }

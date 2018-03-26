@@ -12,9 +12,9 @@ public class TypeValue : MonoBehaviour
 
 	public void HumanVal ()//人型態數值
 	{
-		_MoveSpeed = 1.8f;
-		_RunSpeed = 3.6f;
-		_JumpPower = 6f;
+		_MoveSpeed = 1.6f;
+		_RunSpeed = 4f;
+		_JumpPower = 10f;
 		_playerAtk = 10f;
 		_playerDef = 1f;
 	}
@@ -30,7 +30,7 @@ public class TypeValue : MonoBehaviour
 
 	public void WolfVal ()//熊型態數值
 	{
-		_MoveSpeed = 3.0f;
+		_MoveSpeed = 2.5f;
 		_RunSpeed = 6.0f;
 		_JumpPower = 6f;
 		_playerAtk = 20f;

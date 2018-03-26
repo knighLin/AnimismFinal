@@ -35,12 +35,48 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
                 break;
             case "Yes":
-                GameObject.Find("YesSelect").GetComponent<Image>().enabled = false;
-                GameObject.Find("SaveBoard").GetComponent<MenuSelect>().Yes = false;
+                GameObject.Find("YesSelect").GetComponent<Image>().enabled = false; 
                 break;
             case "No":
                 GameObject.Find("NoSelect").GetComponent<Image>().enabled = false;
-                GameObject.Find("SaveBoard").GetComponent<MenuSelect>().No = false;
+                break;
+            //以下Setting
+            case "Music":
+                GameObject.Find("MusicSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "MusicBar":
+                GameObject.Find("MusicBarSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "Sound":
+                GameObject.Find("SoundSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "SoundBar":
+                GameObject.Find("SoundBarSelect").GetComponent<Image>().enabled = false;
+                break;
+            //以下為主畫面
+            case "NewGame":
+                GameObject.Find("NewGameSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "LoadGame":
+                GameObject.Find("LoadGameSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "ExitGame":
+                GameObject.Find("ExitGameSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "H_LoadData1":
+                GetComponent<LoadOrDelet>().Select = false;
+                break;
+            case "H_LoadData2":
+                GetComponent<LoadOrDelet>().Select = false;
+                break;
+            case "H_LoadData3":
+                GetComponent<LoadOrDelet>().Select = false;
+                break;
+            case "SureYes":
+                GameObject.Find("SureYesSelect").GetComponent<Image>().enabled = false;
+                break;
+            case "SureNo":
+                GameObject.Find("SureNoSelect").GetComponent<Image>().enabled = false;
                 break;
         }
     }

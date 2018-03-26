@@ -8,10 +8,11 @@ public class Attack : MonoBehaviour
     private EnemyHealth enemyHealth;
     private TypeValue typeValue;
     private PossessedSystem possessedSystem;
+    
     //Animator
     private Animator animator;
-    public Collider weaponCollider;
-    public Collider myselfCollider;
+    public CapsuleCollider weaponCollider;
+    //public BoxCollider weaponCollider2;
 
     //Audio
     private AudioSource audioSource;
@@ -22,7 +23,8 @@ public class Attack : MonoBehaviour
     [SerializeField] private Rigidbody WolfGuards;//召喚狼
     [SerializeField] private Transform SummonPoint1;
     [SerializeField] private Transform SummonPoint2;
-    
+    private MeleeWeaponTrail[] meleeWeaponTrail;
+
     void Awake()
     {
         //set Animator
@@ -30,12 +32,13 @@ public class Attack : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         //set WeaponCollider
         weaponCollider.enabled = false;
-        // Physics.IgnoreCollision(myselfCollider, weaponCollider);//讓兩個物體不會產生碰撞
+        
     }
 
     void Start()
     {
         possessedSystem = GetComponent<PossessedSystem>();
+        meleeWeaponTrail = GetComponentsInChildren<MeleeWeaponTrail>();
     }
 
     private void Update()
@@ -47,8 +50,6 @@ public class Attack : MonoBehaviour
                 {
                     if (Input.GetButtonDown("SquareAttack"))//Attack
                     {
-                        this.GetComponent<Rigidbody>().isKinematic = true;
-                   
                         CanAttack = false;
                         animator.SetTrigger("Attack");
                         animator.SetInteger("Render", AttackRender());
@@ -66,17 +67,20 @@ public class Attack : MonoBehaviour
                         animator.SetInteger("Render", AttackRender());
                         Invoke("ResetAttackFlag", 1.2f);
                     }
-                    if (Input.GetMouseButtonDown(1))//特殊技
+                    if (GameObject.Find("WolfGuard1") == null && GameObject.Find("WolfGuard2") == null)
                     {
-                        if (PossessedSystem.WolfCount >= 1 && PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                        if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("TriangleAbility"))//特殊技
                         {
-                            animator.SetTrigger("Surgery");
-                            audioSource.PlayOneShot(summon);
-                            Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity);
-                            Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity);
-                            PossessedSystem.WolfCount = 0;
+                            if (PossessedSystem.OnPossessed == true && PossessedSystem.PossessedCol.enabled == false)
+                            {
+                                animator.SetTrigger("Surgery");
+                                audioSource.PlayOneShot(summon);
+                                Instantiate(WolfGuards, SummonPoint1.position, Quaternion.identity).name = "WolfGuard1";
+                                Instantiate(WolfGuards, SummonPoint2.position, Quaternion.identity).name = "WolfGuard2";
+                            }
                         }
                     }
+                    
                 }
 
                 break;
@@ -100,17 +104,30 @@ public class Attack : MonoBehaviour
     void WeaponColliderOpen()
     {
         weaponCollider.enabled = true;
+        for(int i =0; i < meleeWeaponTrail.Length; i++)
+        {
+            meleeWeaponTrail[i].enabled = true;
+        }
     }
     void WeaponColliderClose()
     {
         weaponCollider.enabled = false;
+<<<<<<< HEAD
         //Time.timeScale = 1f;
+=======
+        for (int i = 0; i < meleeWeaponTrail.Length; i++)
+        {
+            meleeWeaponTrail[i].enabled = false;
+        }
+>>>>>>> 156c71daae9569ffc66ccd1a1883560e766a745d
     }
     void ResetAttackFlag()
     {
-        //animator.SetBool("Attack", false);
-        // this.gameObject.GetComponent<PlayerMovement>().enabled = false;
-        this.GetComponent<Rigidbody>().isKinematic = false;
         CanAttack = true;
+    }
+    
+    void WolfAddForce()
+    {
+        //rigidbody.AddForce(Vector3.forward * 100);
     }
 }

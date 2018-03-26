@@ -22,7 +22,7 @@ public class EnemyShoot : MonoBehaviour {
         transform.LookAt(Target);
         newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
         audioSource.PlayOneShot(GunBang);
-        newBullet.AddForce((Target.position +Vector3.up - transform.position).normalized * force);
+        newBullet.AddForce((Target.position - transform.position+new Vector3(0,0.5f,0)).normalized * force);
     }
     
 }
