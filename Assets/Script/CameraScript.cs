@@ -305,14 +305,13 @@ public class CameraScript : MonoBehaviour
         {
             LockingAnimal = true;
             CameraLocking.LockingAnimals();
-            transform.position = CameraLocking.CameraRotation * new Vector3(0, 0, 0) + MoveEnd.transform.position;
+            transform.position = CameraLocking.CameraRotation * new Vector3(0, -0.2f, 0) + MoveEnd.transform.position;
             transform.rotation = CameraLocking.CameraRotation;
             CameraNowPosition = transform.position;
             rotX = transform.eulerAngles.y;//讓角度跟固定視角的角度一樣
             rotY = transform.eulerAngles.x;
             RotationEuler = Quaternion.Euler(rotY, rotX, 0);
             IsSoulVision = false;//換成鎖定
-
         }
     }
     public void SoulVisionLocking()//靈視鎖定狀態
@@ -451,6 +450,7 @@ public class CameraScript : MonoBehaviour
                 CameraState = "NormalState";
                 break;
             case "Pillar":
+                CantLeftPossess = false;
                 NowCharacter = PossessTarget;
                 switch (pillarSystem.pillarLevel)
                 {

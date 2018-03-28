@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;// Required when using Event data.
 
 public class ButtonDeselect : MonoBehaviour, IDeselectHandler
 {
+    [SerializeField] private GameObject NewGame, SureYes, Yes;
     public void OnDeselect(BaseEventData data)
     {
         switch (this.name)
@@ -35,7 +36,7 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 GameObject.Find("Data3Select").GetComponent<Image>().enabled = false;
                 break;
             case "Yes":
-                GameObject.Find("YesSelect").GetComponent<Image>().enabled = false; 
+                Yes.GetComponent<Image>().enabled = false; 
                 break;
             case "No":
                 GameObject.Find("NoSelect").GetComponent<Image>().enabled = false;
@@ -55,7 +56,7 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 break;
             //以下為主畫面
             case "NewGame":
-                GameObject.Find("NewGameSelect").GetComponent<Image>().enabled = false;
+                NewGame.GetComponent<Image>().enabled = false;
                 break;
             case "LoadGame":
                 GameObject.Find("LoadGameSelect").GetComponent<Image>().enabled = false;
@@ -73,7 +74,7 @@ public class ButtonDeselect : MonoBehaviour, IDeselectHandler
                 GetComponent<LoadOrDelet>().Select = false;
                 break;
             case "SureYes":
-                GameObject.Find("SureYesSelect").GetComponent<Image>().enabled = false;
+                SureYes.GetComponent<Image>().enabled = false;
                 break;
             case "SureNo":
                 GameObject.Find("SureNoSelect").GetComponent<Image>().enabled = false;

@@ -28,7 +28,7 @@ public class TypeValue : MonoBehaviour
 		_playerDef = 7f;
 	}
 
-	public void WolfVal ()//熊型態數值
+	public void WolfVal ()//狼型態數值
 	{
 		_MoveSpeed = 2.5f;
 		_RunSpeed = 6.0f;

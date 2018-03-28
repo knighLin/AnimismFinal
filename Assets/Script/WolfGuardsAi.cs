@@ -55,16 +55,16 @@ public class WolfGuardsAi : MonoBehaviour
         {
             Nav.isStopped = true;
             Anim.SetFloat("Speed", Nav.desiredVelocity.sqrMagnitude, 0.1f, Time.deltaTime);
-            m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
-            Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+            //m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
+           // Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
         }
         else if (Target)
         {
             Nav.isStopped = false;
             Nav.SetDestination(Target.transform.position);
             Anim.SetFloat("Speed", Nav.desiredVelocity.sqrMagnitude, 0.1f, Time.deltaTime);
-            m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
-            Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+           // m_TurnAmount = Mathf.Atan2(Target.transform.position.x, Target.transform.position.z);
+           // Anim.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
         }
     }
 

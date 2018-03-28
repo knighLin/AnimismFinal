@@ -63,13 +63,17 @@ public class PossessedSystem : MonoBehaviour
     private void Update()
     {
        
-        if (CameraScript.CanPossess)//打開附身系統
+        if (CameraScript.CantLeftPossess)//打開附身系統
         {
             if (clear)//開啟附身系統只清一次，播放一次動畫
             {
+                animator.SetFloat("Speed", 0);
                 animator.SetTrigger("Surgery");//播放附身動畫
+
                 playerMovement.enabled = false;
                 attack.enabled = false;
+                //animator.Play("OnGrounded",-1,-0f);
+                //animator.Update(0f);
                 //清掉之前範圍的動物物件和Highlight
                 RangeObject.Clear();
                 clear = false;

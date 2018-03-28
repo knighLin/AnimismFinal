@@ -169,7 +169,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Surgery
       takeName: Take 001
-      firstFrame: 0
+      firstFrame: 16
       lastFrame: 33
       wrapMode: 0
       orientationOffsetY: 0

@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     public string NowType, PossessType;
     public GameObject NowCharacter;
     private string PreviousType;
-    private TypeValue typevalue;
+    [SerializeField]private TypeValue typevalue;
     
 
     void Awake()
@@ -15,13 +15,12 @@ public class PlayerManager : MonoBehaviour
         PossessType = "Human";//一開始型態為Human
         NowType = "Human";//一開始型態為Human
         PreviousType = "Human";
-        typevalue = GetComponent<TypeValue>();
         typevalue.HumanVal();
     }
 
     private void Start()
     {
-        NowCharacter = GameObject.Find("Pine");
+        NowCharacter = GameObject.FindWithTag("Player");
     }
     //void Update()
     //{

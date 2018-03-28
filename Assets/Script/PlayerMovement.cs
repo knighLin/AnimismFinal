@@ -29,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     float m_TurnAmount;//轉向值
     float m_ForwardAmount;//前進值
     Vector3 m_GroundNormal;//地面法向量
-    bool OnWalk = true;  
+    bool OnWalk = true;
+    bool Jump = true;
 
     private void Awake()
     {
@@ -41,9 +42,7 @@ public class PlayerMovement : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Animator = GetComponent<Animator>();
-
     }
-
 
     private void Start()
     {
@@ -119,22 +118,24 @@ public class PlayerMovement : MonoBehaviour
             else
                 OnWalk = false;
             // 确定当前是否能跳 ：
-            if (Input.GetButtonDown("CrossJump"))
+            if (Input.GetButtonDown("CrossJump") && !Jump)
             { // jump!
-                 m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
+                Jump = true;
+                m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, value.JumpPower, m_Rigidbody.velocity.z);//保存x、z轴速度，并给以y轴向上的速度 
                 //m_Rigidbody.AddForce(Vector3.up * value.JumpPower * 60f);
                 m_Animator.SetTrigger("m_Jump");
-                m_Animator.SetBool("OnWalk", OnWalk);
                 m_IsGrounded = false;
                 m_GroundCheckDistance = 0.2f;
             }
         }
         else
         {//乘數增加重力：
+            
             //Vector3 extraGravityForce = Physics.gravity * m_GravityMultiplier * 0.001f;
             m_Rigidbody.AddForce(Physics.gravity * 2);
             //m_Rigidbody.velocity = extraGravityForce;
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;//上升的时候不判断是否在地面上   
+
         }
         // 将输入和其他状态传递给动画组件  
         UpdateAnimator(move);
@@ -146,6 +147,8 @@ public class PlayerMovement : MonoBehaviour
         //更新動畫參數
         m_Animator.SetFloat("Speed", m_Rigidbody.velocity.magnitude, 0.1f, Time.deltaTime);
         m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+        m_Animator.SetBool("OnWalk", OnWalk);
+        m_Animator.SetBool("CanJump", Jump);
         m_Animator.SetBool("OnGround", m_IsGrounded);
         if (!m_IsGrounded)
         {
@@ -185,15 +188,17 @@ public class PlayerMovement : MonoBehaviour
 
         // 0.1f是從主角內部開始射線的小偏移
         //也很好地註意到，樣本資產中的變換位置是主角的基礎
-        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, m_GroundCheckDistance))
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.2f), Vector3.down, out hitInfo, m_GroundCheckDistance))
         {//射到了，保存法向量，改变变量，将动画的applyRootMotion置为true，true的含义是应用骨骼节点的位移，就是说动画的运动会对实际角色坐标产生影响，用于精确的播放动画  
             m_GroundNormal = hitInfo.normal;
             m_IsGrounded = true;
+            Jump = false;
             //m_Animator.applyRootMotion = true;
         }
         else
         {
             m_IsGrounded = false;
+            Jump = true;
             m_GroundNormal = Vector3.up;
             //m_Animator.applyRootMotion = false;
         }

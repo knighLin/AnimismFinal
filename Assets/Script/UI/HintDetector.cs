@@ -10,16 +10,20 @@ public class HintDetector : MonoBehaviour
     private PossessedSystem PossessedSystem;
     [SerializeField] private PlayerManager PlayerManager;
     [SerializeField] private CameraScript CameraScript;
-    [SerializeField] private GameObject Canvas,Triangle, Square, Circle, Cross,R1,R2,L1,L2,Spin, WolfHint, DeerPillar, WolfPillar, BearPillar; 
+    [SerializeField] private GameObject Canvas, Triangle, Square, Circle, Cross, R1, R2, L1, L2, Spin, DeerPillar, WolfPillar, BearPillar;
     private List<GameObject> HintRange = new List<GameObject>();
     private RaycastHit hit;//點擊的物件
     private GameObject HitObj;
-    private bool CanPossess,SoulVision,IsPillar;
+    private bool CanPossess, SoulVision, IsPillar;
 
     private void Update()
     {
+        if (GameObject.FindWithTag("Player"))
+            transform.position = GameObject.FindWithTag("Player").transform.position;
+        else
+            transform.position = GameObject.Find("Pine").transform.position;
         if (CameraScript.CameraState == "EnterSoulVision" || CameraScript.CameraState == "SoulVisionOver" || CameraScript.CameraState == "GettingPossess")
-        {          
+        {
             Canvas.SetActive(false);
         }
         else//如果在進入靈視、退出靈視、進入附身狀態不要有UI
@@ -55,11 +59,11 @@ public class HintDetector : MonoBehaviour
                     IsPillar = false;
                     Cross.SetActive(true);
                     Cross.GetComponent<Image>().sprite = Resources.Load("UI/Hint/X_jump", typeof(Sprite)) as Sprite;
+                    if (SoulVision)
+                        Circle.SetActive(false);
+                    else
+                        Circle.SetActive(true);
                 }
-                if (SoulVision)
-                    Circle.SetActive(true);
-                else
-                    Circle.SetActive(false);
             }
             else
             {
@@ -123,64 +127,45 @@ public class HintDetector : MonoBehaviour
                             {
                                 CanPossess = true;
                                 //hit.transform.GetComponentsInChildren<Transform>()[3].gameObject.SetActive(true);
-                                WolfHint = hit.transform.GetChild(2).gameObject;
-                                WolfHint.SetActive(true);
                             }
                             else
                             {
                                 CanPossess = false;
-                                WolfHint = hit.transform.GetChild(2).gameObject;
-                                WolfHint.SetActive(false);
                             }
                             break;
                         case "BearMaster":
                             break;
                         case "Pillar":
-                            if (SoulVision)
+                            if (!SoulVision)
                             {
                                 switch (hit.collider.name)
                                 {
                                     case "TotemPole_Deer":
-                                        DeerPillar.SetActive(true);
-                                        WolfPillar.SetActive(false);
-                                        BearPillar.SetActive(false);
+                                        Triangle.SetActive(false);
                                         CanPossess = true;
                                         break;
                                     case "TotemPole_Wolf":
-                                        WolfPillar.SetActive(true);
-                                        DeerPillar.SetActive(false);
-                                        BearPillar.SetActive(false);
+                                        Triangle.SetActive(false);
                                         CanPossess = true;
                                         break;
                                     case "TotemPole_Bear":
-                                        BearPillar.SetActive(true);
-                                        DeerPillar.SetActive(false);
-                                        WolfPillar.SetActive(false);
+                                        Triangle.SetActive(false);
                                         CanPossess = true;
                                         break;
                                 }
                             }
                             else
                             {
-                                DeerPillar.SetActive(false);
-                                WolfPillar.SetActive(false);
-                                BearPillar.SetActive(false);
-                                Triangle.SetActive(false);
+                                Triangle.SetActive(true);
                                 CanPossess = false;
                             }
                             break;
                         case "Enemy":
-                            Square.SetActive(true);
                             break;
                         default:
                             CanPossess = false;
                             Spin.SetActive(false);
-                            if (WolfHint)
-                            WolfHint.SetActive(false);
                             Square.SetActive(false);
-                            DeerPillar.SetActive(false);
-                            WolfPillar.SetActive(false);
-                            BearPillar.SetActive(false);
                             return;
                     }
                 }
@@ -188,22 +173,72 @@ public class HintDetector : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    switch (other.tag)
-    //    {
-    //        case "Wolf":
-    //            break;
-    //        case "Bear":
-    //            break;
-    //        case "Pillar":
-    //            break;
-    //        case "Enemy":
-    //            break;
-    //        default:
-    //            return;
-    //    }
-    //    if()
-    //    HintRange.Add(other.transform.gameObject);
-    //}
+    private void OnTriggerStay(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Wolf":
+                if (SoulVision)
+                    other.transform.parent.GetChild(2).gameObject.SetActive(false);
+                else
+                {
+                    if (other==GameObject.FindWithTag("Player").transform.GetChild(3)&& other.transform.parent.tag=="WolfMaster")
+                        other.transform.parent.GetChild(2).gameObject.SetActive(false);
+                    else
+                        other.transform.parent.GetChild(2).gameObject.SetActive(true);
+                }
+                break;
+            case "Bear":
+                break;
+            case "Pillar":
+                if (PlayerManager.PossessType != "Pillar")
+                {
+                    if (SoulVision)
+                    {
+                        DeerPillar.SetActive(false);
+                        WolfPillar.SetActive(false);
+                        BearPillar.SetActive(false);
+                    }
+                    else
+                    {
+                        DeerPillar.SetActive(true);
+                        WolfPillar.SetActive(true);
+                        BearPillar.SetActive(true);
+                    }
+                }
+                else
+                {
+                    DeerPillar.SetActive(false);
+                    WolfPillar.SetActive(false);
+                    BearPillar.SetActive(false);
+                }
+                break;
+            case "Enemy":
+                Square.SetActive(true);
+                break;
+            default:
+                return;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Wolf":
+                other.transform.parent.GetChild(2).gameObject.SetActive(false);
+                break;
+            case "Bear":
+                break;
+            case "Pillar":
+                DeerPillar.SetActive(false);
+                WolfPillar.SetActive(false);
+                BearPillar.SetActive(false);
+                break;
+            case "Enemy":
+                Square.SetActive(false);
+                break;
+            default:
+                return;
+        }
+    }
 }

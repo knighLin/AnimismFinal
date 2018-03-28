@@ -155,15 +155,16 @@ public class ButtonSelected : MonoBehaviour, ISelectHandler
                 break;
             case "H_LoadData1":
                 GetComponent<LoadOrDelet>().Select = true;
+                GameObject.Find("H_Cross").GetComponent<Image>().enabled = true;
                 if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1.sav"))
                 {
-                    GameObject.Find("H_Cross").GetComponent<Image>().enabled = true;
+                    GameObject.Find("H_Circle").GetComponent<Image>().enabled = true;
                     GameObject.Find("H_Triangle").GetComponent<Image>().enabled = true;
                     GetComponent<LoadOrDelet>().Select = true;
                 }
                 else
                 {
-                    GameObject.Find("H_Cross").GetComponent<Image>().enabled = true;
+                    GameObject.Find("H_Circle").GetComponent<Image>().enabled = false;
                     GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
                     GetComponent<LoadOrDelet>().Select = false;
                 }
@@ -171,11 +172,13 @@ public class ButtonSelected : MonoBehaviour, ISelectHandler
             case "H_LoadData2":
                 if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2.sav"))
                 {
+                    GameObject.Find("H_Circle").GetComponent<Image>().enabled = true;
                     GameObject.Find("H_Triangle").GetComponent<Image>().enabled = true;
                     GetComponent<LoadOrDelet>().Select = true;
                 }
                 else
                 {
+                    GameObject.Find("H_Circle").GetComponent<Image>().enabled = false;
                     GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
                     GetComponent<LoadOrDelet>().Select = false;
                 }
@@ -183,11 +186,13 @@ public class ButtonSelected : MonoBehaviour, ISelectHandler
             case "H_LoadData3":
                 if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3.sav"))
                 {
+                    GameObject.Find("H_Circle").GetComponent<Image>().enabled = true;
                     GameObject.Find("H_Triangle").GetComponent<Image>().enabled = true;
                     GetComponent<LoadOrDelet>().Select = true;
                 }
                 else
                 {
+                    GameObject.Find("H_Circle").GetComponent<Image>().enabled = false;
                     GameObject.Find("H_Triangle").GetComponent<Image>().enabled = false;
                     GetComponent<LoadOrDelet>().Select = false;
                 }

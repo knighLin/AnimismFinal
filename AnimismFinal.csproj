@@ -492,6 +492,7 @@
     <Compile Include="Assets\Script\EnemyNormalAtk.cs" />
     <Compile Include="Assets\Script\EnemyShoot.cs" />
     <Compile Include="Assets\Script\Health.cs" />
+    <Compile Include="Assets\Script\Nouse\MoveTest.cs" />
     <Compile Include="Assets\Script\Nouse\PossessCameraMove.cs" />
     <Compile Include="Assets\Script\PlayerManager.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />
@@ -510,6 +511,7 @@
     <Compile Include="Assets\Script\UI\BringBring.cs" />
     <Compile Include="Assets\Script\UI\ButtonDeselect.cs" />
     <Compile Include="Assets\Script\UI\ButtonScript.cs" />
+    <Compile Include="Assets\Script\UI\ButtonScriptForH.cs" />
     <Compile Include="Assets\Script\UI\ButtonSelected.cs" />
     <Compile Include="Assets\Script\UI\CanvasLookAt.cs" />
     <Compile Include="Assets\Script\UI\DataClick.cs" />

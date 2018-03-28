@@ -94,7 +94,7 @@ public class LoadData : MonoBehaviour {
                 if (WolfState[A] == 2)                        //如果動物被附身(WolfState=2)生成後把主角掛在狼身上
                 {
                     Wolf = Instantiate(WolfPrefab, WolfVector3[A], WolfQuaternion[A]);
-                    GameObject.Find("Pine").GetComponent<PossessedSystem>().Target = Wolf.GetComponentsInChildren<Transform>()[3].gameObject.GetComponent<BoxCollider>();
+                    GameObject.Find("Pine").GetComponent<PossessedSystem>().Target = Wolf.transform.GetChild(3).GetComponent<Collider>();
                     GameObject.Find("Pine").GetComponent<PossessedSystem>().EnterPossessed();
                     //Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
                 }

@@ -24,7 +24,7 @@ public class ButtonScript : MonoBehaviour
     {
         if (FadeIn)
         { 
-            if  (time < 1)
+            if (time > 0 && time < 1)
             {
                 time += 0.05f;
                 if (time >= 1)
@@ -46,7 +46,7 @@ public class ButtonScript : MonoBehaviour
         }
         else if (FadeOut)
         {
-            if (time < 1)
+            if (time>0 &&time < 1)
             {
                 time += 0.05f;
                 if (time >= 1)
@@ -84,12 +84,14 @@ public class ButtonScript : MonoBehaviour
         {
             case "NewGame":
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "NewGame";
+                time = 0.05f;
                 FadeIn = true;
                 break;
             case "Data1":
                 if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1" + ".sav"))
                 {
                     GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data1";
+                    time = 0.05f;
                     FadeIn = true;
                 }
                 break;
@@ -97,6 +99,7 @@ public class ButtonScript : MonoBehaviour
                 if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2" + ".sav"))
                 {
                     GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data2";
+                    time = 0.05f;
                     FadeIn = true;
                 }
                 break;
@@ -104,6 +107,7 @@ public class ButtonScript : MonoBehaviour
                 if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3" + ".sav"))
                 {
                     GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
+                    time = 0.05f;
                     FadeIn = true;
                 }
                 break;
@@ -134,6 +138,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1.sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data1";
+                                time = 0.05f;
                                 FadeIn = true;
                             }
                         }
@@ -149,6 +154,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2.sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data2";
+                                time = 0.05f;
                                 FadeIn = true;
                             }
                         }
@@ -164,6 +170,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3.sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
+                                time = 0.05f;
                                 FadeIn = true;
                             }
                         }
@@ -183,6 +190,7 @@ public class ButtonScript : MonoBehaviour
                     Time.timeScale = 1;
                 if (GameObject.Find("ChooseSaveData")!=null)
                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().DestroyThis();
+                time = 0.05f;
                 FadeOut = true;
                 break;
             case "SureYes":
@@ -202,6 +210,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data1.sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data1";
+                                time = 0.05f;
                                 FadeIn = true;
                             }
                         }
@@ -220,6 +229,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data2.sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data2";
+                                time = 0.05f;
                                 FadeIn = true;
                             }
                         }
@@ -238,6 +248,7 @@ public class ButtonScript : MonoBehaviour
                             if (File.Exists(Application.persistentDataPath + @"\Save\" + "Data3.sav"))
                             {
                                 GameObject.Find("ChooseSaveData").GetComponent<ChooseSaveData>().SelectedData = "Data3";
+                                time = 0.05f;
                                 FadeIn = true;
                             }
                         } 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HPcontroller : MonoBehaviour
 {
     public Health Health;
-    private PlayerManager playerManager;
+    [SerializeField]private PlayerManager playerManager;
     public Image HpB, HpW, HpR;//腳色血條圖片
     public Image FaceB, FaceW, FaceR;//腳色臉圖片
     public float BlinkTime;
@@ -16,8 +16,6 @@ public class HPcontroller : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        playerManager = GetComponent<PlayerManager>();
-
         Blink = false;
       //  CharacterSwitch();
     }

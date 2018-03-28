@@ -80,6 +80,7 @@ public class CameraLocking : MonoBehaviour
                 for (int i = 0; i < PossessedSystem.RangeObject.Count; i++)
                 {
                     Animals.Add(PossessedSystem.RangeObject[i].transform);
+                    Debug.Log(PossessedSystem.RangeObject[i].name);
                     //Debug.Log(Vector3.Dot(Vector3.Normalize(Camera.main.transform.position), Vector3.Normalize(Animals[i].transform.position)));
                     //if (Distance < Vector3.Dot(Vector3.Normalize(Camera.main.transform.position), Vector3.Normalize(Animals[i].transform.position)))
                     //{
