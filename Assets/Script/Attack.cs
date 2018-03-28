@@ -8,7 +8,8 @@ public class Attack : MonoBehaviour
     private EnemyHealth enemyHealth;
     private TypeValue typeValue;
     private PossessedSystem possessedSystem;
-    
+    private CharacterController characterController;
+
     //Animator
     private Animator animator;
     public CapsuleCollider weaponCollider;
@@ -27,6 +28,7 @@ public class Attack : MonoBehaviour
 
     void Awake()
     {
+        characterController = GetComponent<CharacterController>();
         //set Animator
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -80,7 +82,6 @@ public class Attack : MonoBehaviour
                             }
                         }
                     }
-                    
                 }
 
                 break;
@@ -124,6 +125,6 @@ public class Attack : MonoBehaviour
     
     void WolfAddForce()
     {
-        //rigidbody.AddForce(Vector3.forward * 100);
+        characterController.SimpleMove(transform.forward * 20);
     }
 }

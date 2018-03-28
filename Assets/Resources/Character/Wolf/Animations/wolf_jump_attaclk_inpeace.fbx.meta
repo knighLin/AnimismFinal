@@ -146,15 +146,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.75735295
-        functionName: WeaponColliderClose
+      - time: 0.29779413
+        functionName: WeaponSound
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.29779413
-        functionName: WeaponSound
+      - time: 0.42696628
+        functionName: WolfAddForce
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.75735295
+        functionName: WeaponColliderClose
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

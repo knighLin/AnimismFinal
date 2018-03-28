@@ -9,16 +9,18 @@ public class Health : MonoBehaviour
     private TypeValue value;
     private HurtBlood HurtBlood;
     private HPcontroller HPcontroller;
-    private PlayerMovement playerMovement;//角色的移動
+    //private PlayerMovement playerMovement;
+    private Move move;//角色的移動
     private RagdollBehavior ragdollBehavior;
     private PossessedSystem possessedSystem;
     private FullBodyBipedIK ik;
     private GrounderFBBIK GroundIk;
     private WolfGuardsAi wolfGuardsAi;
 
+    private CharacterController charactercontroller;
     public float MaxHealth = 100; //最大HP
     public float currentHealth; //當前HP
-    private Rigidbody m_rigidbody;
+    //private Rigidbody m_rigidbody;
     private Animator animator;
     public static bool isDead;//是否死亡
     //audio
@@ -38,23 +40,24 @@ public class Health : MonoBehaviour
         value = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
         HurtBlood = GameObject.Find("PlayerManager").GetComponent<HurtBlood>();
         possessedSystem = GetComponent<PossessedSystem>();
-        playerMovement = GetComponent<PlayerMovement>();
+        //playerMovement = GetComponent<PlayerMovement>();
+        move = GetComponent<Move>();
         ik = GetComponent<FullBodyBipedIK>();
         GroundIk = GetComponent<GrounderFBBIK>();
-        m_rigidbody = GetComponent<Rigidbody>();
+        //m_rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
         possessedSystem = GetComponent<PossessedSystem>();
         if (this.gameObject.tag != "WolfGuard")
-            currentHealth = MaxHealth;//開始時，當前ＨＰ回最大ＨＰ
+            currentHealth = MaxHealth;//開始時，當前ＨＰ為最大ＨＰ
         else
         {
             wolfGuardsAi = GetComponent<WolfGuardsAi>();
             Nav = GetComponent<NavMeshAgent>();
             currentHealth = MaxHealth * 0.6f;
         }
-            
+
         if (this.gameObject.tag != "WolfGuard" && this.gameObject == possessedSystem.Possessor)
         {
             ragdollBehavior = GetComponent<RagdollBehavior>();
@@ -67,6 +70,7 @@ public class Health : MonoBehaviour
         {
             StoreHumanHealth = possessedSystem.Possessor.GetComponent<Health>().currentHealth;
         }
+        charactercontroller = GetComponent<CharacterController>();
     }
 
     public void Hurt(float Amount, float HitPoint)
@@ -93,20 +97,21 @@ public class Health : MonoBehaviour
             {
                 if (isDead)// ... no need to take damage so exit the function.
                     return;
-                if (m_rigidbody.isKinematic == false)
+                //if (m_rigidbody.isKinematic == false)
+                //{
+                if (currentHealth > 0)
                 {
-                    if (currentHealth > 0)
-                    {
-                        currentHealth -= Amount;//扣血
-                        m_rigidbody.isKinematic = true;
-                        animator.SetFloat("Speed", 0);
-                        // PlayerMovement._Speed = 0;
-                        animator.SetTrigger("Hurt");
-                        audioSource.PlayOneShot(hurt);
-                        Invoke("ResetRigidbodyFlag", 0.8f);
-                        //StartCoroutine("HurtAnimation");
-                    }
+                    currentHealth -= Amount;//扣血
+                                            //m_rigidbody.isKinematic = true;
+                    animator.SetFloat("Speed", 0);
+                    charactercontroller.Move(Vector3.zero);
+                    // PlayerMovement._Speed = 0;
+                    animator.SetTrigger("Hurt");
+                    audioSource.PlayOneShot(hurt);
+                    //Invoke("ResetRigidbodyFlag", 0.8f);
+                    //StartCoroutine("HurtAnimation");
                 }
+                //}
                 if (currentHealth <= 0.5)
                 {
                     StopCoroutine("HurtAnimation");
@@ -133,7 +138,7 @@ public class Health : MonoBehaviour
             HPcontroller.CharacterHpControll();
             HPcontroller.Blink = true;
         }
-        else
+        else//召喚狼的生命
         {
             if (currentHealth > 0)
             {
@@ -143,7 +148,7 @@ public class Health : MonoBehaviour
             {
                 Nav.enabled = false;
                 wolfGuardsAi.enabled = false;
-                animator.SetBool("Dead", true);
+                animator.SetBool("Die", true);
                 Destroy(gameObject, 5f);
             }
             HPcontroller.WolfGuardHpControll();
@@ -197,7 +202,7 @@ public class Health : MonoBehaviour
 
     void ResetRigidbodyFlag()
     {
-        m_rigidbody.isKinematic = false;
+        //m_rigidbody.isKinematic = false;
         //PlayerMovement._Speed = value.MoveSpeed;
     }
 
@@ -208,7 +213,8 @@ public class Health : MonoBehaviour
         GroundIk.enabled = false;
         animator.enabled = false;
         ragdollBehavior.ToggleRagdoll(true);
-        playerMovement.enabled = false;
+        //playerMovement.enabled = false;
+        move.enabled = false;
         Invoke("DelayGameOver", 3f);
     }
     void DelayGameOver()
