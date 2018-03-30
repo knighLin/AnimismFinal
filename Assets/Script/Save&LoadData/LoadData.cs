@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadData : MonoBehaviour {
     public GameObject LoadingCanvas;
-    public GameObject PlayerPrefab, WolfPrefab, EnemyPrefab;
-    public GameObject Wolf;
+    [SerializeField] private GameObject Pine, WolfPrefab, EnemyPrefab;
     public List<int> WolfState;
     public List<Vector3> WolfVector3;
     public List<Quaternion> WolfQuaternion;
@@ -18,11 +17,11 @@ public class LoadData : MonoBehaviour {
     public string PlayerState;
     public Vector3 PlayerVector3;
     public Quaternion PlayerQuaternion;
-    public float SaveRotx, SaveRoty;
-    public Slider LoadingSlider;
+    private float SaveRotx, SaveRoty;
+    private Slider LoadingSlider;
     private AsyncOperation _async;
-    public string LoadSelectedData;
-    private CameraScript CameraScript;
+    private string LoadSelectedData;
+    [SerializeField] private CameraScript CameraScript;
 
     // Use this for initialization
     void Awake () {
@@ -30,15 +29,10 @@ public class LoadData : MonoBehaviour {
     }
     private void Start()
     {
-        CameraScript = GameObject.Find("Main Camera").GetComponent<CameraScript>();
         CameraScript.rotX = SaveRotx;
         CameraScript.rotY = SaveRoty;
     }
 
-    // Update is called once per frame
-    void Update () {
-
-    }
 
     public void LoadSence()
     {
@@ -74,11 +68,9 @@ public class LoadData : MonoBehaviour {
         PlayerQuaternion = Load.PlayerQuaternion;
         SaveRotx = Load.SaveRotx;
         SaveRoty = Load.SaveRoty;
-
-
-
-
-        Instantiate(PlayerPrefab, PlayerVector3, PlayerQuaternion).name = "Pine";
+        Pine.transform.position = PlayerVector3;
+        Pine.transform.rotation = Load.PlayerQuaternion;
+        //Instantiate(PlayerPrefab, PlayerVector3, PlayerQuaternion).name = "Pine";
         if (Load.WolfState.Count > 0)
         {
             for (int A = 0; A < Load.WolfState.Count; A++)     //讀取動物數據
@@ -93,9 +85,10 @@ public class LoadData : MonoBehaviour {
                 }
                 if (WolfState[A] == 2)                        //如果動物被附身(WolfState=2)生成後把主角掛在狼身上
                 {
-                    Wolf = Instantiate(WolfPrefab, WolfVector3[A], WolfQuaternion[A]);
-                    GameObject.Find("Pine").GetComponent<PossessedSystem>().Target = Wolf.transform.GetChild(3).GetComponent<Collider>();
-                    GameObject.Find("Pine").GetComponent<PossessedSystem>().EnterPossessed();
+                    GameObject Wolf = Instantiate(WolfPrefab, WolfVector3[A], WolfQuaternion[A]);
+                    Pine.GetComponent<PossessedSystem>().HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
+                    Pine.GetComponent<PossessedSystem>().Target = Wolf.transform.GetChild(3).GetComponent<Collider>();
+                    Pine.GetComponent<PossessedSystem>().EnterPossessed();
                     //Debug.Log("讀取了第" + (A + 1) + "隻狼," + "狀態為" + WolfState[A] + ",座標為" + WolfVector3[A]);
                 }
                 //Debug.Log(D1.WolfVector3[A]);

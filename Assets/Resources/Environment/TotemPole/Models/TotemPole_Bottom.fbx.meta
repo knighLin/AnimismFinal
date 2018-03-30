@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 5cccf38e12f1eed44acbf66cef38ff1a
-timeCreated: 1517282794
+guid: 35d977ebcace75949b7bdbb277520d94
+timeCreated: 1522339068
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,16 +9,10 @@ ModelImporter:
     100002: Bottom_LOD1
     100004: Bottom_LOD2
     100006: //RootNode
-    100008: TotemPole_LOD0
-    100010: TotemPole_LOD1
-    100012: TotemPole_LOD2
     400000: Bottom_LOD0
     400002: Bottom_LOD1
     400004: Bottom_LOD2
     400006: //RootNode
-    400008: TotemPole_LOD0
-    400010: TotemPole_LOD1
-    400012: TotemPole_LOD2
     2300000: Bottom_LOD0
     2300002: Bottom_LOD1
     2300004: Bottom_LOD2
@@ -75,7 +69,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Move : MonoBehaviour
 {
     private TypeValue value;
-
+    private PossessedSystem possessedSystem;
     private CharacterController characterController;
     private Animator animator;
     private Transform m_Cam;//參考場景中地主相機位置
@@ -21,12 +21,14 @@ public class Move : MonoBehaviour
     void Awake()
     {
         value = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<TypeValue>();
+        possessedSystem = GetComponent<PossessedSystem>();
     }
 
     void OnEnable()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        
     }
 
     private void Start()

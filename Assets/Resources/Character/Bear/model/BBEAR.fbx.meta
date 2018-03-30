@@ -1,0 +1,194 @@
+fileFormatVersion: 2
+guid: df5b8418b2afc9c4f989352bb1a29557
+timeCreated: 1522322591
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: ' Foot'
+    100002: ' L Finger0'
+    100004: ' R Finger0'
+    100006: //RootNode
+    100008: Bear
+    100010: BearBody
+    100012: CG
+    100014: Cheek L
+    100016: Cheek R
+    100018: EarL
+    100020: EarR
+    100022: Eye L
+    100024: Eye R
+    100026: Eyes
+    100028: Head
+    100030: Jaw
+    100032: L Calf
+    100034: L Clavicle
+    100036: L Forearm
+    100038: L Hand
+    100040: L Thigh
+    100042: L UpperArm
+    100044: Neck
+    100046: Pelvis
+    100048: R Calf
+    100050: R Clavicle
+    100052: R Foot
+    100054: R Forearm
+    100056: R Hand
+    100058: R Thigh
+    100060: R UpperArm
+    100062: Spine
+    100064: Spine1
+    100066: Spine2
+    100068: Tail
+    100070: TeethBottom
+    100072: TeethTop
+    100074: Tongue
+    100076: Tongue 1
+    400000: ' Foot'
+    400002: ' L Finger0'
+    400004: ' R Finger0'
+    400006: //RootNode
+    400008: Bear
+    400010: BearBody
+    400012: CG
+    400014: Cheek L
+    400016: Cheek R
+    400018: EarL
+    400020: EarR
+    400022: Eye L
+    400024: Eye R
+    400026: Eyes
+    400028: Head
+    400030: Jaw
+    400032: L Calf
+    400034: L Clavicle
+    400036: L Forearm
+    400038: L Hand
+    400040: L Thigh
+    400042: L UpperArm
+    400044: Neck
+    400046: Pelvis
+    400048: R Calf
+    400050: R Clavicle
+    400052: R Foot
+    400054: R Forearm
+    400056: R Hand
+    400058: R Thigh
+    400060: R UpperArm
+    400062: Spine
+    400064: Spine1
+    400066: Spine2
+    400068: Tail
+    400070: TeethBottom
+    400072: TeethTop
+    400074: Tongue
+    400076: Tongue 1
+    4300000: BearBody
+    4300002: TeethBottom
+    4300004: TeethTop
+    4300006: Eyes
+    4300008: Tongue
+    9500000: //RootNode
+    13700000: BearBody
+    13700002: Eyes
+    13700004: TeethBottom
+    13700006: TeethTop
+    13700008: Tongue
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BearBody1
+    second: {fileID: 2100000, guid: 4384ca9dbff0ef64faa9ba7967af2e38, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes1
+    second: {fileID: 2100000, guid: 551adf6d115c56843bcf660db2e06b6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TeethBottom1
+    second: {fileID: 2100000, guid: 7d5dac4608702af47aca3b56368c32a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TeethTop1
+    second: {fileID: 2100000, guid: 49484d4a1727a1749868f7739d4c6034, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

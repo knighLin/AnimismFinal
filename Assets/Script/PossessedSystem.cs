@@ -6,9 +6,10 @@ using UnityEngine;
 public class PossessedSystem : MonoBehaviour
 {
     private Attack attack;
-    private PlayerMovement playerMovement;
+    //private PlayerMovement playerMovement;
+    private Move move;
     private PlayerManager playerManager;
-    private HPcontroller HPcontroller;
+    public HPcontroller HPcontroller;
     private CameraScript CameraScript;
     private pillar1 pillar1;
 
@@ -34,35 +35,34 @@ public class PossessedSystem : MonoBehaviour
     int i;
     private void Awake()
     {
-        if (!Possessor)
-            Possessor = GameObject.Find("Pine");
-        attack = GetComponent<Attack>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         CameraScript = GameObject.Find("Main Camera").GetComponent<CameraScript>();
         HPcontroller = GameObject.Find("PlayerManager").GetComponent<HPcontroller>();
-        animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
-
-        // Possessor = GameObject.Find("Pine");
-    }
-    private void Start()
-    {
         if (!Possessor)
             Possessor = GameObject.Find("Pine");
+        attack = GetComponent<Attack>();
+        //playerMovement = GetComponent<PlayerMovement>();
+        move = GetComponent<Move>();
+        PossessedCol = GetComponent<SphereCollider>();
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        attack = GetComponent<Attack>();
+
     }
+
     private void OnEnable()//當打開程式，呼叫當前正開啟的物件的附身範圍和移動
     {
         if (!Possessor)
             Possessor = GameObject.Find("Pine");
         attack = GetComponent<Attack>();
-        playerMovement = GetComponent<PlayerMovement>();
+        //playerMovement = GetComponent<PlayerMovement>();
+        move = GetComponent<Move>();
         PossessedCol = GetComponent<SphereCollider>();
         animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-       
         if (CameraScript.CantLeftPossess)//打開附身系統
         {
             if (clear)//開啟附身系統只清一次，播放一次動畫
@@ -70,7 +70,8 @@ public class PossessedSystem : MonoBehaviour
                 animator.SetFloat("Speed", 0);
                 animator.SetTrigger("Surgery");//播放附身動畫
 
-                playerMovement.enabled = false;
+                //playerMovement.enabled = false;
+                move.enabled = false;
                 attack.enabled = false;
                 //animator.Play("OnGrounded",-1,-0f);
                 //animator.Update(0f);
@@ -95,7 +96,8 @@ public class PossessedSystem : MonoBehaviour
         {
             if (!CameraScript.IsPossessing)//附身不能動
             {
-                playerMovement.enabled = true;
+                //playerMovement.enabled = true;
+                move.enabled = true;
                 attack.enabled = true;
             }
             clear = true;//讓下次開啟附身清理範圍物件
@@ -115,7 +117,8 @@ public class PossessedSystem : MonoBehaviour
     {
         if (ChooseRightObject)//如果點到可附身物件
         {
-            playerMovement.enabled = false;//附身不能動
+            //playerMovement.enabled = false;//附身不能動
+            move.enabled = false;
             if (hit.collider.tag == "Bear" || hit.collider.tag == "Wolf" || hit.collider.tag == "Deer")
                 CameraScript.PossessTarget = hit.collider.gameObject.transform.parent.gameObject;
             else
@@ -131,17 +134,13 @@ public class PossessedSystem : MonoBehaviour
             // Debug.DrawLine(ray.origin, hit.transform.position, Color.red, 1f, true);
             for (int i = 0; i < RangeObject.Count; i++)
             {
-
-                //if (!hit.collider.CompareTag("Player"))//如果是自己本身不執行
-                //{
-                if (hit.collider == RangeObject[i])//當點擊的物件是附身範圍裡的物件時
+                if (hit.collider.gameObject.transform.parent.tag == RangeObject[i].tag)//當點擊的物件是附身範圍裡的物件時
                 {
                     ChooseRightObject = true;
                     break;
                 }
                 else
                     ChooseRightObject = false;
-                //}
             }
         }
     }
@@ -164,8 +163,10 @@ public class PossessedSystem : MonoBehaviour
                 {
                     Debug.Log("OldPossessTag:" + AttachedBody.tag + i++);
                     AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
+                    //AttachedBody.tag = Possessor.tag;
                     Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
-                    AttachedBody.GetComponent<PlayerMovement>().enabled = false;
+                    //AttachedBody.GetComponent<PlayerMovement>().enabled = false;
+                    AttachedBody.GetComponent<Move>().enabled = false;
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
                     AttachedBody.GetComponent<Attack>().enabled = false;//攻擊
                     AttachedBody.GetComponent<Health>().enabled = false;
@@ -174,6 +175,7 @@ public class PossessedSystem : MonoBehaviour
                 PreviousTag = Possessor.tag;//附身後將先前附身的tag存起來
                 Possessor.tag = Target.tag;//將目前人的tag轉為附身後動物的
                 AttachedBody = Target.gameObject.transform.parent.gameObject;//讓新的附身物等於AttachedBody
+                //AttachedBody = Target.gameObject;
                 playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
                 playerManager.NowCharacter = AttachedBody;
                 playerManager.PossessType = AttachedBody.tag;
@@ -193,7 +195,8 @@ public class PossessedSystem : MonoBehaviour
                 PossessedCol.enabled = false;//關掉當前附身範圍
                 Possessor.transform.parent = AttachedBody.transform;//將附身者變為被附身物的子物件
                 Possessor.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                AttachedBody.GetComponent<PlayerMovement>().enabled = true;//打開動物的移動和附身
+                // AttachedBody.GetComponent<PlayerMovement>().enabled = true;
+                AttachedBody.GetComponent<Move>().enabled = true;//打開動物的移動和附身
                 AttachedBody.GetComponent<PossessedSystem>().enabled = true;//打開動物的附身系統
                 AttachedBody.GetComponent<Attack>().enabled = true;//攻擊
                 AttachedBody.GetComponent<Health>().enabled = true;
@@ -222,7 +225,7 @@ public class PossessedSystem : MonoBehaviour
                     AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
                     Possessor.transform.parent = null;//將玩家物件分離出現在的被附身物
                     Debug.Log(AttachedBody);
-                    AttachedBody.GetComponent<PlayerMovement>().enabled = false;
+                    AttachedBody.GetComponent<Move>().enabled = false;
                     AttachedBody.GetComponent<PossessedSystem>().enabled = false;
                     Possessor.SetActive(true);
                 }
@@ -246,7 +249,7 @@ public class PossessedSystem : MonoBehaviour
                 OnPossessed = true;//已附身
                 pillar1 = AttachedBody.GetComponent<pillar1>();
                 pillar1.changLevel();
-                Possessor.GetComponent<PlayerMovement>().enabled = false;
+                AttachedBody.GetComponent<Move>().enabled = false;
                 Possessor.transform.position = GameObject.Find("TotemPole_Bottom").transform.position + new Vector3(0, 0, -3);
                 Possessor.transform.rotation = Quaternion.Euler(0, 0, 0);
                 Possessor.tag = "Pillar";//設為不是Player敵人才抓不到
@@ -256,7 +259,7 @@ public class PossessedSystem : MonoBehaviour
 
     void OnTriggerEnter(Collider Object)//送出訊息
     {
-        switch (Object.tag)
+        switch (Object.name)
         {//判斷是不是可以附身的物件
          //case "Human":
             case "Bear":
@@ -278,13 +281,13 @@ public class PossessedSystem : MonoBehaviour
             Possessor.transform.position = new Vector3(AttachedBody.transform.position.x + 1.5f, transform.position.y + 0.5f, AttachedBody.transform.position.z + 1.5f);
             //將被附身物與人的位置分離
             //關閉動物所有程式
-            AttachedBody.GetComponent<PlayerMovement>().enabled = false;
+            AttachedBody.GetComponent<Move>().enabled = false;
             AttachedBody.GetComponent<PossessedSystem>().enabled = false;
             AttachedBody.GetComponent<Attack>().enabled = false;
             AttachedBody.GetComponent<Health>().enabled = false;
             AttachedBody.tag = Possessor.tag + "Master";//將TAG換回原本的
 
-            Possessor.GetComponent<PlayerMovement>().enabled = true;
+            Possessor.GetComponent<Move>().enabled = true;
             Possessor.tag = "Player";//將型態變回Human
             Possessor.SetActive(true);//打開人型態的任何事
             playerManager.TurnType("Human", AttachedBody.tag);//將標籤傳至管理者，變換數值
@@ -308,7 +311,7 @@ public class PossessedSystem : MonoBehaviour
             Possessor.tag = "Player";
             CameraScript.rotX = 0;
             CameraScript.rotY = 0;
-            Possessor.GetComponent<PlayerMovement>().enabled = true;
+            Possessor.GetComponent<Move>().enabled = true;
             AttachedBody = null;//解除附身後清除附身物，防止解除附身後按Ｑ還有反應
             OnPossessed = false;//取消附身
             playerManager.NowCharacter = Possessor;

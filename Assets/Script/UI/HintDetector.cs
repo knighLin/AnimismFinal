@@ -6,18 +6,24 @@ using UnityEngine.UI;
 
 public class HintDetector : MonoBehaviour
 {
-    private PlayerMovement PlayerMovement;
+    //private PlayerMovement PlayerMovement;
+    private CharacterController characterController;
     private PossessedSystem PossessedSystem;
     [SerializeField] private PlayerManager PlayerManager;
     [SerializeField] private CameraScript CameraScript;
-    [SerializeField] private GameObject Canvas, Triangle, Square, Circle, Cross, R1, R2, L1, L2, Spin, DeerPillar, WolfPillar, BearPillar;
+    [SerializeField] private GameObject Canvas, Triangle, Square, Circle, Cross, R1, R2, L1, L2, Spin, DeerHint, WolfHint, BearHint;
     private List<GameObject> HintRange = new List<GameObject>();
     private RaycastHit hit;//點擊的物件
     private GameObject HitObj;
     private bool CanPossess, SoulVision, IsPillar;
 
+    private void Start()
+    {
+        CameraScript = GameObject.Find("Main Camera").GetComponent<CameraScript>();
+    }
     private void Update()
     {
+
         if (GameObject.FindWithTag("Player"))
             transform.position = GameObject.FindWithTag("Player").transform.position;
         else
@@ -33,9 +39,9 @@ public class HintDetector : MonoBehaviour
             {
                 if (PlayerManager.PossessType == "Pillar")
                 {
-                    DeerPillar.SetActive(false);
-                    WolfPillar.SetActive(false);
-                    BearPillar.SetActive(false);
+                    DeerHint.SetActive(false);
+                    WolfHint.SetActive(false);
+                    BearHint.SetActive(false);
                     IsPillar = true;
                     R1.SetActive(false);
                     Spin.SetActive(true);
@@ -57,12 +63,17 @@ public class HintDetector : MonoBehaviour
                         Triangle.GetComponent<Image>().sprite = Resources.Load("UI/Hint/T_skill", typeof(Sprite)) as Sprite;
                     }
                     IsPillar = false;
-                    Cross.SetActive(true);
                     Cross.GetComponent<Image>().sprite = Resources.Load("UI/Hint/X_jump", typeof(Sprite)) as Sprite;
                     if (SoulVision)
+                    {
                         Circle.SetActive(false);
+                        Cross.SetActive(false);
+                    }
                     else
+                    {
                         Circle.SetActive(true);
+                        Cross.SetActive(true);
+                    }
                 }
             }
             else
@@ -81,6 +92,10 @@ public class HintDetector : MonoBehaviour
                 Cross.GetComponent<Image>().sprite = Resources.Load("UI/Hint/X_jump", typeof(Sprite)) as Sprite;
                 Circle.SetActive(false);
                 Spin.SetActive(false);
+                if (SoulVision)
+                    Cross.SetActive(false);
+                else
+                    Cross.SetActive(true);
             }
             if (CameraScript.CameraState == "SoulVision" || CameraScript.CameraState == "SoulVisionLocking")//靈視
             {
@@ -88,6 +103,7 @@ public class HintDetector : MonoBehaviour
                 SoulVision = true;
                 L1.SetActive(false);
                 L2.SetActive(false);
+                Cross.SetActive(false);
                 if (PossessedSystem.RangeObject.Count > 0)//有動物才能鎖定
                     R1.SetActive(true);
                 else
@@ -106,8 +122,9 @@ public class HintDetector : MonoBehaviour
                 R2.SetActive(true);
             if (GameObject.FindWithTag("Player") && !SoulVision)
             {
-                PlayerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
-                if (PlayerMovement.m_IsGrounded)
+                // PlayerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
+                characterController = GameObject.FindWithTag("Player").GetComponent<CharacterController>();
+                if (characterController.isGrounded)
                     Cross.SetActive(true);
                 else
                     Cross.SetActive(false);
@@ -116,7 +133,7 @@ public class HintDetector : MonoBehaviour
             Physics.Raycast(ray, out hit, 12);
             if (Physics.Raycast(ray, out hit))//準心碰到物件
             {
-                Debug.DrawLine(Camera.main.transform.position, hit.transform.position, Color.red, 0.1f, true);
+                Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red, 0.1f, true);
                 if (hit.transform.gameObject != HitObj)
                 {
                     HitObj = hit.transform.gameObject;
@@ -175,42 +192,29 @@ public class HintDetector : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(other.tag);
         switch (other.tag)
         {
-            case "Wolf":
-                if (SoulVision)
-                    other.transform.parent.GetChild(2).gameObject.SetActive(false);
+            case "WolfMaster":
+                if (SoulVision|| PlayerManager.PossessType == other.tag)
+                    other.transform.GetChild(2).gameObject.SetActive(false);
                 else
-                {
-                    if (other==GameObject.FindWithTag("Player").transform.GetChild(3)&& other.transform.parent.tag=="WolfMaster")
-                        other.transform.parent.GetChild(2).gameObject.SetActive(false);
-                    else
-                        other.transform.parent.GetChild(2).gameObject.SetActive(true);
-                }
+                    other.transform.GetChild(2).gameObject.SetActive(true);
                 break;
-            case "Bear":
+            case "BearMaster":
                 break;
             case "Pillar":
-                if (PlayerManager.PossessType != "Pillar")
+                if (SoulVision || PlayerManager.PossessType == other.tag)
                 {
-                    if (SoulVision)
-                    {
-                        DeerPillar.SetActive(false);
-                        WolfPillar.SetActive(false);
-                        BearPillar.SetActive(false);
-                    }
-                    else
-                    {
-                        DeerPillar.SetActive(true);
-                        WolfPillar.SetActive(true);
-                        BearPillar.SetActive(true);
-                    }
+                    DeerHint.SetActive(false);
+                    WolfHint.SetActive(false);
+                    BearHint.SetActive(false);
                 }
                 else
                 {
-                    DeerPillar.SetActive(false);
-                    WolfPillar.SetActive(false);
-                    BearPillar.SetActive(false);
+                    DeerHint.SetActive(true);
+                    WolfHint.SetActive(true);
+                    BearHint.SetActive(true);
                 }
                 break;
             case "Enemy":
@@ -224,15 +228,15 @@ public class HintDetector : MonoBehaviour
     {
         switch (other.tag)
         {
-            case "Wolf":
-                other.transform.parent.GetChild(2).gameObject.SetActive(false);
+            case "WolfMaster":
+                other.transform.GetChild(2).gameObject.SetActive(false);
                 break;
-            case "Bear":
+            case "BearMaster":
                 break;
             case "Pillar":
-                DeerPillar.SetActive(false);
-                WolfPillar.SetActive(false);
-                BearPillar.SetActive(false);
+                DeerHint.SetActive(false);
+                WolfHint.SetActive(false);
+                BearHint.SetActive(false);
                 break;
             case "Enemy":
                 Square.SetActive(false);
